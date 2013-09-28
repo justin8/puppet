@@ -2,7 +2,7 @@ class sudo {
   package { 'sudo':
     ensure => installed,
   }
-  file { 'sudoers':
+  file { 'wheel.sudo':
     path    => '/etc/sudoers.d/wheel.sudo',
     ensure  => file,
     owner   => 'root',
