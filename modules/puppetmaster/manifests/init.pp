@@ -10,6 +10,6 @@ class puppetmaster {
     owner  => 'root',
     group  => 'root',
     mode   => '0775',
-    source => 'puppet:///modules/os_default/puppet.cron',
+    source => 'puppet:///modules/puppetmaster/puppet.cron',
   }
 }
