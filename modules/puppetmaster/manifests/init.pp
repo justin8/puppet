@@ -13,10 +13,7 @@ class puppetmaster {
     source => 'puppet:///modules/puppetmaster/puppet.cron',
   }
 
-  vcsrepo { '/etc/puppet':
-    ensure => latest,
-    provider => git,
-    source => 'git://github.com/justin8/puppet',
-    revision => 'master'
+  exec { "update_puppet":
+    command => "cd /etc/puppet; git pull",
   }
 }
