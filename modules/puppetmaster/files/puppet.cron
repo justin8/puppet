@@ -1,0 +1,1 @@
+*/5 * * * * cd /etc/puppet;git pull
