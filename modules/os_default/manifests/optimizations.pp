@@ -3,7 +3,7 @@ class optimizations {
     ensure => installed,
   }
   file { 'prelink.cron':
-    path    => '/etc/cron.daily/prelink',
+    path    => '/etc/cron.daily/prelink.cron',
     ensure  => file,
     owner   => 'root',
     group   => 'root',
