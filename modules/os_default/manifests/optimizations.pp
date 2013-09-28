@@ -5,10 +5,11 @@ class optimizations {
   file { 'prelink.cron':
     path    => '/etc/cron.daily/prelink',
     ensure  => file,
-    require => Package['prelink'],
-    require => Package['cronie'],
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0664',
+    require => Package['prelink', 'cron'],
     source  => 'puppet:///modules/os_default/prelink.cron',
-
   }
 
   package { 'preload':
