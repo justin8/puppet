@@ -16,7 +16,6 @@ class optimizations {
     ensure => installed,
   }
   service { 'preload':
-    name      => preload,
     ensure    => running,
     enable    => true,
   }

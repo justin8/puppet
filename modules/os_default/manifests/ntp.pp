@@ -9,7 +9,6 @@ class ntp {
     target  => '/usr/share/zoneinfo/Australia/Brisbane',
   }
   service { 'openntpd':
-    name      => openntpd,
     ensure    => running,
     enable    => true,
     subscribe => File['localtime'],
