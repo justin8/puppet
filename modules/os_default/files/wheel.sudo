@@ -1,1 +1,1 @@
-Defaults\tenv_keep += "IHAVEPATCHEDFONTS"
+%wheel ALL=(ALL) NOPASSWD: ALL
