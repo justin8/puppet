@@ -14,8 +14,9 @@ class puppetmaster {
   }
 
   vcsrepo { '/etc/puppet':
-    ensure => present,
+    ensure => latest,
     provider => git,
-    source => 'git://github.com/justin8/puppet'
+    source => 'git://github.com/justin8/puppet',
+    revision => 'master'
   }
 }
