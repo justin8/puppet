@@ -8,7 +8,7 @@ class optimizations {
     owner   => 'root',
     group   => 'root',
     mode    => '0664',
-    require => Package['prelink', 'cron'],
+    require => Package['prelink', 'cronie'],
     source  => 'puppet:///modules/os_default/prelink.cron',
   }
 
