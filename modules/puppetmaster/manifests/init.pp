@@ -12,4 +12,10 @@ class puppetmaster {
     mode   => '0775',
     source => 'puppet:///modules/puppetmaster/puppet.cron',
   }
+
+  vcsrepo { '/etc/puppet':
+    ensure => present,
+    provider => git,
+    source => 'git://github.com/justin8/puppet'
+  }
 }
