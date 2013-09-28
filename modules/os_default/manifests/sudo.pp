@@ -3,7 +3,7 @@ class sudo {
     ensure => installed,
   }
   file { 'wheel.sudo':
-    path    => '/etc/sudoers.d/wheel.sudo',
+    path    => '/etc/sudoers.d/wheel',
     ensure  => file,
     owner   => 'root',
     group   => 'root',
