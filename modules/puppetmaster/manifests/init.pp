@@ -13,7 +13,16 @@ class puppetmaster {
     source => 'puppet:///modules/puppetmaster/puppet.cron',
   }
 
+  file { 'update_puppet':
+    path   => '/usr/local/bin/update_puppet',
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0775',
+    source => 'puppet:///modules/puppetmaster/update_puppet',
+  }
+
   exec { "update_puppet":
-    command => "cd /etc/puppet; git pull",
+    command => '/usr/local/bin/update_puppet',
   }
 }
