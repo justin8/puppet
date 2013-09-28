@@ -1,0 +1,22 @@
+class optimizations {
+  package { 'prelink':
+    ensure => installed,
+  }
+  file { 'prelink.cron':
+    path    => '/etc/cron.daily/prelink',
+    ensure  => file,
+    require => Package['prelink'],
+    require => Package['cronie'],
+    source  => 'puppet:///modules/os_default/prelink.cron',
+
+  }
+
+  package { 'preload':
+    ensure => installed,
+  }
+  service { 'preload':
+    name      => preload,
+    ensure    => running,
+    enable    => true,
+  }
+}
