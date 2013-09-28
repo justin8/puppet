@@ -1,1 +1,1 @@
-*/5 * * * * cd /etc/puppet;git pull
+*/5 * * * * /usr/local/bin/update_puppet
