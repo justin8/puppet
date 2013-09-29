@@ -17,9 +17,9 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     device  => '//abachi/XBMC',
     fstype  => 'cifs',
     options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
-    require => File['/mnt/xbmctest']
     ensure  => mounted,
     atboot  => true,
+    require => File['/mnt/xbmctest'],
   }
 
   file { "/mnt/xbmctest/settings/$fqdn":
