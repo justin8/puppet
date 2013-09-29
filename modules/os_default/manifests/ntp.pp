@@ -1,7 +1,5 @@
 class ntp {
-  package { 'openntpd':
-    ensure => installed,
-  }
+  package { 'openntpd': ensure => installed }
   file { 'localtime':
     path    => '/etc/localtime',
     ensure  => link,
