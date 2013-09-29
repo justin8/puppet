@@ -13,12 +13,10 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     mode   => '775',
   }
 
-  fstab { '/mnt/xbmc':
-    source => '//abachi/XBMC',
-    dest   => '/mnt/xbmctest',
-    type   => 'cifs',
-    opts   => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
-    dump   => 0,
-    passno => 0,
+  mount { '/mnt/xbmc':
+    device  => '//abachi/XBMC',
+    fstype  => 'cifs',
+    options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
+    require => File['/mnt/xbmctest']
   }
 }
