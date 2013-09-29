@@ -1,5 +1,5 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
-  $packages = [ 'eth-tool', 'git', 'polkit', 'sudo', 'udisks', 'xbmc-git' ]
+  $packages = [ 'eth-tool', 'git', 'polkit', 'udisks', 'xbmc-git' ]
   $standalone_packages = [ 'slim' ]
   package { $packages: ensure => installed }
   if $standalone == 'true' {
