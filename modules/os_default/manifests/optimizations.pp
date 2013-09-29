@@ -7,7 +7,7 @@ class optimizations {
     ensure  => file,
     owner   => 'root',
     group   => 'root',
-    mode    => '0775',
+    mode    => '0664',
     require => Package['prelink', 'cronie'],
     source  => 'puppet:///modules/os_default/prelink.cron',
   }

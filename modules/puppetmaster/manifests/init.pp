@@ -13,7 +13,7 @@ class puppetmaster {
     ensure => file,
     owner  => 'root',
     group  => 'root',
-    mode   => '0775',
+    mode   => '0664',
     source => 'puppet:///modules/puppetmaster/puppet.cron',
   }
 
