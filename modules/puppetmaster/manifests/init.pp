@@ -1,4 +1,8 @@
 class puppetmaster {
+  package { 'puppet':
+    ensure => installed,
+  }
+
   service { 'puppetmaster':
     ensure => running,
     enable => true,
