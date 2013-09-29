@@ -1,5 +1,6 @@
 class optimizations {
   package { 'prelink': ensure => installed }
+
   file { 'prelink.cron':
     path    => '/etc/cron.daily/prelink.cron',
     ensure  => file,
@@ -11,6 +12,7 @@ class optimizations {
   }
 
   package { 'preload': ensure => installed }
+
   service { 'preload':
     ensure    => running,
     enable    => true,

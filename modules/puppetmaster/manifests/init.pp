@@ -1,7 +1,5 @@
 class puppetmaster {
-  package { 'puppet':
-    ensure => installed,
-  }
+  package { 'puppet': ensure => installed }
 
   service { 'puppetmaster':
     ensure => running,
@@ -26,7 +24,5 @@ class puppetmaster {
     source => 'puppet:///modules/puppetmaster/update_puppet',
   }
 
-  exec { "update_puppet":
-    command => '/usr/local/bin/update_puppet',
-  }
+  exec { "update_puppet": command => '/usr/local/bin/update_puppet' }
 }
