@@ -13,7 +13,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     mode   => '775',
   }
 
-  mount { '/mnt/xbmc':
+  mount { '/mnt/xbmctest':
     device  => '//abachi/XBMC',
     fstype  => 'cifs',
     options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
