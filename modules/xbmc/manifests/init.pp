@@ -21,4 +21,12 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     ensure  => mounted,
     atboot  => true,
   }
+
+  file { "/mnt/xbmctest/settings/$fqdn":
+    ensure  => directory,
+    owner   => $user,
+    group   => $user,
+    mode    => '775',
+    require => Mount['/mnt/xbmctest'],
+  }
 }
