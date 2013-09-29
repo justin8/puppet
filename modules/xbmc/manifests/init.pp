@@ -18,5 +18,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     fstype  => 'cifs',
     options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
     require => File['/mnt/xbmctest']
+    ensure  => mounted,
+    atboot  => true,
   }
 }
