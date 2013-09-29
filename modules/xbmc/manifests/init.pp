@@ -17,7 +17,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source => '//abachi/XBMC',
     dest   => '/mnt/xbmctest',
     type   => 'cifs',
-    opts   => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user"
+    opts   => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
     dump   => 0,
     passno => 0,
   }
