@@ -1,5 +1,5 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
-  $packages = [ 'ethtool', 'git', 'polkit', 'udisks', 'xbmc-git' ]
+  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc-git' ]
   package { $packages: ensure => installed }
 
   file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
@@ -79,8 +79,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     service { 'slim':
       ensure  => running,
       enable  => true,
-      require => [ File['/var/lib/xbmc'],
-                   File['/etc/slim.conf'] ],
+      require => File['/etc/slim.conf']
     }
     
     file { "/usr/local/bin/xbmc-wrapper":
@@ -88,7 +87,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       owner   => 'root',
       group   => 'root',
       mode    => '0775',
-      source  => 'puppet:///modules/xbmc/xbmc-wrapper',
+      source  => 'puppet:///modules/xbmc/standalone/xbmc-wrapper',
     }
 
     file { '/var/lib/xbmc':
@@ -96,7 +95,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       recurse => true,
       owner   => $user,
       group   => $user,
-      source  => 'puppet:///modules/xbmc/dotfiles',
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles',
     }
 
     file { '/etc/slim.conf':
@@ -104,7 +103,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       owner   => 'root',
       group   => 'root',
       mode    => '0664',
-      source  => 'puppet:///modules/xbmc/slim.conf',
+      source  => 'puppet:///modules/xbmc/standalone/slim.conf',
     }
   }
 }
