@@ -36,7 +36,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     owner   => $user,
     group   => $user,
     mode    => '0775',
-    require => File["/mnt/xbmc/settings/$fqdn"],
+    require => Exec["/mnt/xbmc/settings/$fqdn"],
   }
 
   if $user == 'xbmc' {
