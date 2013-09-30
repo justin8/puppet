@@ -6,7 +6,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     ensure => directory,
     owner  => $user,
     group  => $user,
-    mode   => '0775',
   }
 
   mount { '/mnt/xbmc':
@@ -17,14 +16,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     atboot  => true,
     require => File['/mnt/xbmc'],
   }
-
-#  file { "/mnt/xbmc/settings/$fqdn":
-#    ensure  => directory,
-#    owner   => $user,
-#    group   => $user,
-#    mode    => '0775',
-#    require => Mount['/mnt/xbmc'],
-#  }
 
   exec { "/mnt/xbmc/settings/$fqdn":
     command => "/bin/mkdir -p /mnt/xbmc/settings/$fqdn;rsync -rltv --exclude='Thumbnails' /mnt/xbmc/template/* /mnt/xbmc/settings/$fqdn",
@@ -44,7 +35,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       ensure => directory,
       owner  => $user,
       group  => $user,
-      mode   => '0775'
     }
 
     mount { '/var/lib/xbmc/.xbmc':
@@ -61,7 +51,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       ensure => directory,
       owner  => $user,
       group  => $user,
-      mode   => '0775'
     }
 
     mount { "/home/$user/.xbmc":
@@ -116,8 +105,8 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     
     file { "/usr/local/bin/xbmc-wrapper":
       ensure  => file,
-      owner   => root,
-      group   => root,
+      owner   => 'root',
+      group   => 'root',
       mode    => '0775',
       source  => 'puppet:///modules/xbmc/xbmc-wrapper',
     }

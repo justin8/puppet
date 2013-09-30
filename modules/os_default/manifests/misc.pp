@@ -26,8 +26,6 @@ class misc {
   file { '/etc':
     ensure  => directory,
     recurse => true,
-    owner   => 'root',
-    group   => 'root',
     source  => 'puppet:///modules/os_default/etc',
   }
 }
