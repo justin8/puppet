@@ -12,7 +12,7 @@ class os_default {
     owner   => 'root',
     group   => 'root',
     mode    => '0775',
-    source  => 'puppet:///modules/os_default/cdiff',
+    source  => 'puppet:///modules/os_default/colourdiff',
   }
 
   file { '/etc/puppet/puppet.conf':
