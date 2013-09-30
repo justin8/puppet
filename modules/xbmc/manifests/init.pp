@@ -132,13 +132,5 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       mode    => '0664',
       source  => 'puppet:///modules/xbmc/slim.conf',
     }
-
-    file { '/etc/udev/rules.d/50-wol.rules':
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0664',
-      source  => 'puppet:///modules/xbmc/udev_50-wol.rules',
-    }
   }
 }
