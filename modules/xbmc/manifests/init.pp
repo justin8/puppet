@@ -17,16 +17,11 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     require => File['/mnt/xbmc'],
   }
 
-  exec { "/mnt/xbmc/settings/$fqdn":
-    command => "/bin/mkdir -p /mnt/xbmc/settings/$fqdn;rsync -rltv --exclude='Thumbnails' /mnt/xbmc/template/* /mnt/xbmc/settings/$fqdn",
-    creates => "/mnt/xbmc/settings/$fqdn",
-  }
-
-  file { "/mnt/xbmc/settings/$fqdn/userdata":
+  file { "/mnt/xbmc/$fqdn":
     ensure  => directory,
-    owner   => $user,
-    group   => $user,
-    require => Exec["/mnt/xbmc/settings/$fqdn"],
+    recurse => true,
+    force   => true,
+    source  => 'puppet:///modules/xbmc/template',
   }
 
   if $user == 'xbmc' {
@@ -37,7 +32,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     mount { '/var/lib/xbmc/.xbmc':
-      device  => "/mnt/xbmc/settings/$fqdn",
+      device  => "/mnt/xbmc/$fqdn",
       fstype  => 'none',
       options => 'bind,noauto,x-systemd.automount',
       ensure  => mounted,
@@ -53,7 +48,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     mount { "/home/$user/.xbmc":
-      device  => "/mnt/xbmc/settings/$fqdn",
+      device  => "/mnt/xbmc/$fqdn",
       fstype  => 'none',
       options => 'bind,noauto,x-systemd.automount',
       ensure  => mounted,
@@ -62,16 +57,9 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
   }
 
-  file { "/mnt/xbmc/settings/$fqdn/userdata/advancedsettings.xml":
-    ensure  => link,
-    target  => '/mnt/xbmc/template/userdata/advancedsettings.xml',
-    require => File["/mnt/xbmc/settings/$fqdn/userdata"],
-  }
-
-  file { "/mnt/xbmc/settings/$fqdn/userdata/Thumbnails":
-    ensure  => link,
-    target  => '/mnt/xbmc/template/userdata/Thumbnails',
-    require => File["/mnt/xbmc/settings/$fqdn/userdata"],
+  file { "/mnt/xbmc/$fqdn/userdata/Thumbnails":
+    ensure  => '/mnt/xbmc/template/userdata/Thumbnails',
+    require => File["/mnt/xbmc/$fqdn"],
   }
 
   file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
