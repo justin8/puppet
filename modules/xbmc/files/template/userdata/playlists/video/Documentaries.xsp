@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<smartplaylist type="tvshows">
+    <name>Documentaries</name>
+    <match>one</match>
+    <rule field="path" operator="startswith">smb://abachi/Documentaries/Series/</rule>
+    <order direction="ascending">tvshow</order>
+</smartplaylist>

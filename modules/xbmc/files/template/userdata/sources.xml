@@ -1,0 +1,65 @@
+<sources>
+    <programs>
+        <default pathversion="1"></default>
+    </programs>
+    <video>
+        <default pathversion="1"></default>
+        <source>
+            <name>Public</name>
+            <path pathversion="1">smb://ABACHI/Public/</path>
+        </source>
+        <source>
+            <name>Anime</name>
+            <path pathversion="1">smb://ABACHI/Anime/</path>
+        </source>
+        <source>
+            <name>Movies</name>
+            <path pathversion="1">smb://ABACHI/Movies/</path>
+        </source>
+        <source>
+            <name>Documentary Movies</name>
+            <path pathversion="1">smb://ABACHI/Documentaries/Movies/</path>
+        </source>
+        <source>
+            <name>Documentary Series</name>
+            <path pathversion="1">smb://ABACHI/Documentaries/Series/</path>
+        </source>
+        <source>
+            <name>complete</name>
+            <path pathversion="1">smb://ABACHI/Downloads/complete/</path>
+        </source>
+        <source>
+            <name>TV</name>
+            <path pathversion="1">smb://ABACHI/TV/</path>
+        </source>
+        <source>
+            <name>Music Videos</name>
+            <path pathversion="1">smb://ABACHI/Music Videos/</path>
+        </source>
+    </video>
+    <music>
+        <default pathversion="1"></default>
+        <source>
+            <name>Public</name>
+            <path pathversion="1">smb://ABACHI/Public/</path>
+        </source>
+        <source>
+            <name>Music</name>
+            <path pathversion="1">smb://ABACHI/Music/</path>
+        </source>
+    </music>
+    <pictures>
+        <default pathversion="1">Pictures</default>
+        <source>
+            <name>Pictures</name>
+            <path pathversion="1">smb://ABACHI/Pictures/</path>
+        </source>
+        <source>
+            <name>Public</name>
+            <path pathversion="1">smb://ABACHI/Public/</path>
+        </source>
+    </pictures>
+    <files>
+        <default pathversion="1"></default>
+    </files>
+</sources>
