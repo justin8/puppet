@@ -10,6 +10,6 @@ class ntp {
   service { 'openntpd':
     ensure    => running,
     enable    => true,
-    subscribe => File['localtime'],
+    subscribe => File['/etc/localtime'],
   }
 }
