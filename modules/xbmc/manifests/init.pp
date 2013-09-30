@@ -26,7 +26,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     ensure  => directory,
     owner   => $user,
     group   => $user,
-    mode    => '0775',
     require => Exec["/mnt/xbmc/settings/$fqdn"],
   }
 
