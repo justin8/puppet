@@ -1,4 +1,5 @@
 #!/bin/bash
 
 cd /etc/puppet
+git reset --hard
 git pull
