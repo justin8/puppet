@@ -2,36 +2,41 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
   $packages = [ 'ethtool', 'git', 'polkit', 'udisks', 'xbmc-git' ]
   package { $packages: ensure => installed }
 
-  file { '/mnt/xbmctest':
+  file { '/mnt/xbmc':
     ensure => directory,
     owner  => $user,
     group  => $user,
     mode   => '0775',
   }
 
-  mount { '/mnt/xbmctest':
+  mount { '/mnt/xbmc':
     device  => '//abachi/XBMC',
     fstype  => 'cifs',
     options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
     ensure  => mounted,
     atboot  => true,
-    require => File['/mnt/xbmctest'],
+    require => File['/mnt/xbmc'],
   }
 
-  file { "/mnt/xbmctest/settings/$fqdn":
+#  file { "/mnt/xbmc/settings/$fqdn":
+#    ensure  => directory,
+#    owner   => $user,
+#    group   => $user,
+#    mode    => '0775',
+#    require => Mount['/mnt/xbmc'],
+#  }
+
+  exec { "/mnt/xbmc/settings/$fqdn":
+    command => "/bin/mkdir -p /mnt/xbmc/settings/$fqdn;rsync -rltv --exclude='Thumbnails' /mnt/xbmc/template/* /mnt/xbmc/settings/$fqdn",
+    creates => "/mnt/xbmc/settings/$fqdn",
+  }
+
+  file { "/mnt/xbmc/settings/$fqdn/userdata":
     ensure  => directory,
     owner   => $user,
     group   => $user,
     mode    => '0775',
-    require => Mount['/mnt/xbmctest'],
-  }
-
-  file { "/mnt/xbmctest/settings/$fqdn/userdata":
-    ensure  => directory,
-    owner   => $user,
-    group   => $user,
-    mode    => '0775',
-    require => File["/mnt/xbmctest/settings/$fqdn"],
+    require => File["/mnt/xbmc/settings/$fqdn"],
   }
 
   if $user == 'xbmc' {
@@ -43,12 +48,12 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     mount { '/var/lib/xbmc/.xbmc':
-      device  => "/mnt/xbmctest/settings/$fqdn",
+      device  => "/mnt/xbmc/settings/$fqdn",
       fstype  => 'none',
       options => 'bind,noauto,x-systemd.automount',
       ensure  => mounted,
       atboot  => true,
-      require => Mount['/mnt/xbmctest'],
+      require => Mount['/mnt/xbmc'],
     }
   }
   else {
@@ -60,25 +65,25 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     mount { "/home/$user/.xbmc":
-      device  => "/mnt/xbmctest/settings/$fqdn",
+      device  => "/mnt/xbmc/settings/$fqdn",
       fstype  => 'none',
       options => 'bind,noauto,x-systemd.automount',
       ensure  => mounted,
       atboot  => true,
-      require => Mount['/mnt/xbmctest'],
+      require => Mount['/mnt/xbmc'],
     }
   }
 
-  file { "/mnt/xbmctest/settings/$fqdn/userdata/advancedsettings.xml":
+  file { "/mnt/xbmc/settings/$fqdn/userdata/advancedsettings.xml":
     ensure  => link,
-    target  => '/mnt/xbmctest/template/userdata/advancedsettings.xml',
-    require => File["/mnt/xbmctest/settings/$fqdn/userdata"],
+    target  => '/mnt/xbmc/template/userdata/advancedsettings.xml',
+    require => File["/mnt/xbmc/settings/$fqdn/userdata"],
   }
 
-  file { "/mnt/xbmctest/settings/$fqdn/userdata/Thumbnails":
+  file { "/mnt/xbmc/settings/$fqdn/userdata/Thumbnails":
     ensure  => link,
-    target  => '/mnt/xbmctest/template/userdata/Thumbnails',
-    require => File["/mnt/xbmctest/settings/$fqdn/userdata"],
+    target  => '/mnt/xbmc/template/userdata/Thumbnails',
+    require => File["/mnt/xbmc/settings/$fqdn/userdata"],
   }
 
   file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
