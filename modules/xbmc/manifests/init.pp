@@ -76,12 +76,27 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       source  => 'puppet:///modules/xbmc/standalone/xbmc-wrapper',
     }
 
-    file { '/var/lib/xbmc':
-      ensure  => directory,
-      recurse => true,
+    file { "$home_path/.xinitrc":
+      ensure  => file,
       owner   => $user,
       group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles',
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.xinitrc',
+    }
+
+    file { "$home_path/background.jpg":
+      ensure  => file,
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
+    }
+
+    file { "$home_path/.config":
+      ensure  => directory,
+      recurse => true,
+      force   => true,
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
     }
 
     file { '/etc/slim.conf':
