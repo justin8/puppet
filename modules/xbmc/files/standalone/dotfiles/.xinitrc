@@ -1,5 +1,5 @@
 pulseaudio -D &
-.xinitrc-addon
+~/.xinitrc-addon
 case $1 in
 kde)
 	exec startkdi
