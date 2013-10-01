@@ -1,5 +1,6 @@
 class os_default {
   include cron
+  include facter
   include misc
   include ntp
   include optimizations
