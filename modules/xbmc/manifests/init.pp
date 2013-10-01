@@ -35,7 +35,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     exec { 'settings-sync':
-      command     => 'rsync -rlto /tmp/.xbmc/* /var/lib/xbmc/.xbmc/;rm -rf /tmp/.xbmc',
+      command     => '/usr/bin/rsync -rlto /tmp/.xbmc/* /var/lib/xbmc/.xbmc/;/usr/bin/rm -rf /tmp/.xbmc',
       subscribe   => File['/tmp/.xbmc'],
       refreshonly => true,
     }
@@ -64,7 +64,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
 
     exec { 'settings-sync':
-      command     => "rsync -rlto /tmp/.xbmc/* /home/$user/.xbmc/xbmc/;rm -rf /tmp/.xbmc",
+      command     => "/usr/bin/rsync -rlto /tmp/.xbmc/* /home/$user/.xbmc/xbmc/;/usr/bin/rm -rf /tmp/.xbmc",
       subscribe   => File['/tmp/.xbmc'],
       refreshonly => true,
     }
