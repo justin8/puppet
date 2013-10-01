@@ -41,7 +41,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user',
       ensure  => mounted,
       atboot  => true,
-      require => File['/var/lib/xbmc/.xbmc/userdata/Thumbnails"],
+      require => File['/var/lib/xbmc/.xbmc/userdata/Thumbnails'],
     }
   }
   else {
