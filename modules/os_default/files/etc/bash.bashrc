@@ -105,4 +105,4 @@ unset safe_term match_lhs
 alias vi=vim
 export EDITOR=vim
 
-source ~/.bashrc
+[[ -f ~/.bashrc ]] && source ~/.bashrc
