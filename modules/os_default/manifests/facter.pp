@@ -10,6 +10,7 @@ class facter {
 
   file { '/etc/facter/facts.d':
     ensure  => directory,
+    recurse => true,
     owner   => 'root',
     group   => 'root',
     mode    => '0775',
