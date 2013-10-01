@@ -1,6 +1,8 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
   $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc-git' ]
   package { $packages: ensure => installed }
+  $home = "home_$user"
+  $home_path = inline_template("<%= scope.lokupvar('::$home') %>")
 
   file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
     ensure  => file,
@@ -27,63 +29,32 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source  => 'puppet:///modules/xbmc/shared-settings',
   }
 
-  if $user == 'xbmc' {
-    file { [ '/var/lib/xbmc/.xbmc', '/var/lib/xbmc/.xbmc/userdata' ]:
-      ensure  => directory,
-      owner   => $user,
-      group   => $user,
-    }
-
-    exec { 'settings-sync':
-      command     => '/usr/bin/rsync -rlto /tmp/.xbmc/* /var/lib/xbmc/.xbmc/;/usr/bin/rm -rf /tmp/.xbmc',
-      subscribe   => File['/tmp/.xbmc'],
-      refreshonly => true,
-    }
-
-    file { '/var/lib/xbmc/.xbmc/userdata/Thumbnails':
-      ensure  => directory,
-      owner   => $user,
-      group   => $user,
-      require => File['/var/lib/xbmc/.xbmc'],
-    }
-
-    mount { '/var/lib/xbmc/.xbmc/userdata/Thumbnails':
-      device  => '//abachi/XBMC-Thumbnails',
-      fstype  => 'cifs',
-      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
-      ensure  => mounted,
-      atboot  => true,
-      require => File['/var/lib/xbmc/.xbmc/userdata/Thumbnails'],
-    }
+  file { [ "$home_path/.xbmc", "$home_path/.xbmc/userdata" ]:
+    ensure  => directory,
+    owner   => $user,
+    group   => $user,
   }
-  else {
-    file { [ "/home/$user/.xbmc", "/home/$user/.xbmc/userdata" ]:
-      ensure   => directory,
-      owner    => $user,
-      group    => $user,
-    }
 
-    exec { 'settings-sync':
-      command     => "/usr/bin/rsync -rlto /tmp/.xbmc/* /home/$user/.xbmc/xbmc/;/usr/bin/rm -rf /tmp/.xbmc",
-      subscribe   => File['/tmp/.xbmc'],
-      refreshonly => true,
-    }
+  exec { 'settings-sync':
+    command     => "/usr/bin/rsync -rlto /tmp/.xbmc/* $home_path/.xbmc/;/usr/bin/rm -rf /tmp/.xbmc",
+    subscribe   => File['/tmp/.xbmc'],
+    refreshonly => true,
+  }
 
-    file { "/home/$user/.xbmc/userdata/Thumbnails":
-      ensure  => directory,
-      owner   => $user,
-      group   => $user,
-      require => File["/home/$user/.xbmc"],
-    }
+  file { "$home_path/.xbmc/userdata/Thumbnails":
+    ensure  => directory,
+    owner   => $user,
+    group   => $user,
+    require => File["$home_path/.xbmc"],
+  }
 
-    mount { "/home/$user/.xbmc/userdata/Thumbnails":
-      device  => '//abachi/XBMC-Thumbnails',
-      fstype  => 'cifs',
-      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
-      ensure  => mounted,
-      atboot  => true,
-      require => File["/home/$user/.xbmc/userdata/Thumbnails"],
-    }
+  mount { "$home_path/.xbmc/userdata/Thumbnails":
+    device  => '//abachi/XBMC-Thumbnails',
+    fstype  => 'cifs',
+    options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
+    ensure  => mounted,
+    atboot  => true,
+    require => File["$home_path/.xbmc/userdata/Thumbnails"],
   }
 
   # Config purely for standalone setups
