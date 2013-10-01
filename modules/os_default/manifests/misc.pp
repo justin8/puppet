@@ -11,7 +11,7 @@ class misc {
     ensure  => file,
     owner   => 'root',
     group   => 'root',
-    mode    => '0775',
+    mode    => '0664',
     source  => 'puppet:///modules/os_default/puppet.conf',
   }
 

@@ -1,0 +1,5 @@
+<mediasources>
+    <network>
+        <location id="0">smb://ABACHI/Public/</location>
+    </network>
+</mediasources>

@@ -1,0 +1,39 @@
+<advancedsettings>
+	<videodatabase>
+		<type>mysql</type>
+		<host>192.168.0.15</host>
+		<port>3306</port>
+		<user>xbmc</user>
+		<pass>xbmc</pass>
+	</videodatabase> 
+
+	<musicdatabase>
+		<type>mysql</type>
+		<host>192.168.0.15</host>
+		<port>3306</port>
+		<user>xbmc</user>
+		<pass>xbmc</pass>
+	</musicdatabase>
+
+	<gui>
+		<algorithmdirtyregions>1</algorithmdirtyregions>
+		<nofliptimeout>1000</nofliptimeout>
+	</gui>
+
+	<pathsubstitution>
+		<substitute>
+			<from>special://masterprofile/sources.xml</from>
+			<to>SMB://abachi/xbmc/template/userdata/sources.xml</to>
+		</substitute>
+
+		<substitute>
+			<from>special://masterprofile/mediasources.xml</from>
+			<to>SMB://abachi/xbmc/template/userdata/mediasources.xml</to>
+		</substitute>
+
+		<substitute>
+			<from>special://masterprofile/playlists/</from>
+			<to>SMB://abachi/xbmc/template/userdata/playlists/</to>
+		</substitute>
+	</pathsubstitution>
+</advancedsettings>
