@@ -18,14 +18,26 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source  => 'puppet:///modules/xbmc/polkit_10-xbmc.rules',
   }
 
+  file { '/tmp/.xbmc':
+    ensure  => directory,
+    recurse => true,
+    force   => true,
+    owner   => $user,
+    group   => $user,
+    source  => 'puppet:///modules/xbmc/shared-settings',
+  }
+
   if $user == 'xbmc' {
-    file { '/var/lib/xbmc/.xbmc':
+    file { [ '/var/lib/xbmc/.xbmc', '/var/lib/xbmc/.xbmc/userdata' ]:
       ensure  => directory,
-      recurse => true,
-      force   => true,
       owner   => $user,
       group   => $user,
-      source  => 'puppet:///modules/xbmc/shared-settings',
+    }
+
+    exec { 'settings-sync':
+      command     => 'rsync -rlto /tmp/.xbmc/* /var/lib/xbmc/.xbmc/;rm -rf /tmp/.xbmc',
+      subscribe   => File['/tmp/.xbmc'],
+      refreshonly => true,
     }
 
     file { '/var/lib/xbmc/.xbmc/userdata/Thumbnails':
@@ -45,13 +57,16 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     }
   }
   else {
-    file { "/home/$user/.xbmc":
+    file { [ "/home/$user/.xbmc", "/home/$user/.xbmc/userdata" ]:
       ensure   => directory,
-      recurse  => true,
-      force    => true,
       owner    => $user,
       group    => $user,
-      source   => "puppet:///modules/xbmc/shared-settings",
+    }
+
+    exec { 'settings-sync':
+      command     => "rsync -rlto /tmp/.xbmc/* /home/$user/.xbmc/xbmc/;rm -rf /tmp/.xbmc",
+      subscribe   => File['/tmp/.xbmc'],
+      refreshonly => true,
     }
 
     file { "/home/$user/.xbmc/userdata/Thumbnails":
