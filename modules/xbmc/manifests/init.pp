@@ -38,7 +38,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     mount { '/var/lib/xbmc/.xbmc/userdata/Thumbnails':
       device  => '//abachi/XBMC-Thumbnails',
       fstype  => 'cifs',
-      options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user',
+      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
       ensure  => mounted,
       atboot  => true,
       require => File['/var/lib/xbmc/.xbmc/userdata/Thumbnails'],
@@ -64,7 +64,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     mount { "/home/$user/.xbmc/userdata/Thumbnails":
       device  => '//abachi/XBMC-Thumbnails',
       fstype  => 'cifs',
-      options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user',
+      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=$user,gid=$user",
       ensure  => mounted,
       atboot  => true,
       require => File["/home/$user/.xbmc/userdata/Thumbnails"],
