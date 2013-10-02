@@ -20,25 +20,14 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source  => 'puppet:///modules/xbmc/polkit_10-xbmc.rules',
   }
 
-  file { '/tmp/.xbmc':
+  file { "$home_path/.xbmc":
     ensure  => directory,
     recurse => true,
     force   => true,
+    ignore  => "Thumbnails",
     owner   => $user,
     group   => $user,
     source  => 'puppet:///modules/xbmc/shared-settings',
-  }
-
-  file { [ "$home_path/.xbmc", "$home_path/.xbmc/userdata" ]:
-    ensure  => directory,
-    owner   => $user,
-    group   => $user,
-  }
-
-  exec { 'settings-sync':
-    command     => "/usr/bin/rsync -rlto /tmp/.xbmc/* $home_path/.xbmc/;/usr/bin/rm -rf /tmp/.xbmc",
-    subscribe   => File['/tmp/.xbmc'],
-    refreshonly => true,
   }
 
   file { "$home_path/.xbmc/userdata/Thumbnails":
@@ -94,6 +83,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       ensure  => directory,
       recurse => true,
       force   => true,
+      ignore  => 'google-chrome',
       owner   => $user,
       group   => $user,
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
