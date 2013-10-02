@@ -14,7 +14,8 @@ class optimizations {
   package { 'preload': ensure => installed }
 
   service { 'preload':
-    ensure    => running,
-    enable    => true,
+    ensure  => running,
+    enable  => true,
+    require => Package['preload'],
   }
 }
