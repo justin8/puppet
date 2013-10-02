@@ -1,12 +1,12 @@
 #!/bin/bash
 
 sudo mount -a
-ls $home/.xbmc/userdata/Thumbnails > /dev/null
+ls $HOME/.xbmc/userdata/Thumbnails > /dev/null
 while ! mount|grep //abachi/XBMC-Thumbnails > /dev/null
 do
 	echo "XBMC thumbnail cache does not appear to be mounted yet. Waiting..."
 	sleep 1
-	ls $home/.xbmc/userdata/Thumbnails > /dev/null
+	ls $HOME/.xbmc/userdata/Thumbnails > /dev/null
 	sudo mount -a
 done
 exec xbmc
