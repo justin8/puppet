@@ -57,14 +57,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       require => File['/etc/slim.conf']
     }
     
-    file { "/usr/local/bin/xbmc-wrapper":
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0775',
-      source  => 'puppet:///modules/xbmc/standalone/xbmc-wrapper',
-    }
-
     file { "$home_path/.xinitrc":
       ensure  => file,
       owner   => $user,
