@@ -6,6 +6,12 @@ node 'bloodwood.dray.be' inherits default {
   include puppetmaster
 }
 
+node 'mahogany.dray.be' inherits default {
+  class { 'xbmc':
+    standalone => 'false',
+  }
+}
+
 node 'ironwood.dray.be' inherits default {
   class { 'xbmc':
     user => 'justin',

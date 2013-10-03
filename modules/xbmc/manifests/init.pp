@@ -20,25 +20,14 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source  => 'puppet:///modules/xbmc/polkit_10-xbmc.rules',
   }
 
-  file { '/tmp/.xbmc':
+  file { "$home_path/.xbmc":
     ensure  => directory,
     recurse => true,
     force   => true,
+    ignore  => "Thumbnails",
     owner   => $user,
     group   => $user,
     source  => 'puppet:///modules/xbmc/shared-settings',
-  }
-
-  file { [ "$home_path/.xbmc", "$home_path/.xbmc/userdata" ]:
-    ensure  => directory,
-    owner   => $user,
-    group   => $user,
-  }
-
-  exec { 'settings-sync':
-    command     => "/usr/bin/rsync -rlto /tmp/.xbmc/* $home_path/.xbmc/;/usr/bin/rm -rf /tmp/.xbmc",
-    subscribe   => File['/tmp/.xbmc'],
-    refreshonly => true,
   }
 
   file { "$home_path/.xbmc/userdata/Thumbnails":
@@ -68,20 +57,28 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       require => File['/etc/slim.conf']
     }
     
-    file { "/usr/local/bin/xbmc-wrapper":
+    file { "$home_path/.xinitrc":
       ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0775',
-      source  => 'puppet:///modules/xbmc/standalone/xbmc-wrapper',
-    }
-
-    file { '/var/lib/xbmc':
-      ensure  => directory,
-      recurse => true,
       owner   => $user,
       group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles',
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.xinitrc',
+    }
+
+    file { "$home_path/background.jpg":
+      ensure  => file,
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
+    }
+
+    file { "$home_path/.config":
+      ensure  => directory,
+      recurse => true,
+      force   => true,
+      ignore  => 'google-chrome',
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
     }
 
     file { '/etc/slim.conf':
