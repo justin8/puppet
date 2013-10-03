@@ -7,5 +7,6 @@ class sudo {
     group   => 'root',
     mode    => '0440',
     source  => 'puppet:///modules/os_default/wheel.sudo',
+    require => Package["sudo"],
   }
 }
