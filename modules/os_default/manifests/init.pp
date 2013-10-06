@@ -7,5 +7,5 @@ class os_default {
   include sudo
 
   #$packages = [ 'foo', 'bar' ]
-  #packages { $packages: ensure => installed }
+  #package { $packages: ensure => installed }
 }
