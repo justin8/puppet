@@ -20,14 +20,11 @@ class collectd {
     ensure  => directory,
   }
 
-  @file { '/etc/collectd.d/network.conf':
+  file { '/etc/collectd.d/network.conf':
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/collectd/collectd.d/network.conf-client',
     require => [ Package['collectd'], File['/etc/collectd.d'] ],
     notify  => Service['collectd'],
   }
-
-  realize(File['/etc/collectd.d/network.conf'])
-
 }
