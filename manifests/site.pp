@@ -5,6 +5,7 @@ node default {
 
 node abachi {
   include collectd::server
+  include collectd::physical
 }
 
 node 'bloodwood.dray.be' inherits default {
