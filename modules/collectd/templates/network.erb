@@ -1,0 +1,10 @@
+LoadPlugin network
+
+<Plugin "network">
+<% if classes.include? "collectd::server" -%>
+    Listen "0.0.0.0"
+<% else -%>
+    Server "abachi.dray.be"
+<% end -%>
+</Plugin>
+

@@ -1,5 +1,10 @@
 node default {
   include os_default
+  include collectd
+}
+
+node abachi {
+  include collectd::server
 }
 
 node 'bloodwood.dray.be' inherits default {
