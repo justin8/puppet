@@ -18,6 +18,7 @@ node 'mahogany.dray.be' inherits default {
 }
 
 node 'ironwood.dray.be' inherits default {
+  include collectd::physical
   class { 'xbmc':
     user => 'justin',
     standalone => 'false',
@@ -25,9 +26,11 @@ node 'ironwood.dray.be' inherits default {
 }
 
 node 'poplar.dray.be' inherits default {
+  include collectd::physical
   class { 'xbmc': }
 }
 
 node 'maple.dray.be' inherits default {
+  include collectd::physical
   class { 'xbmc': }
 }
