@@ -1,4 +1,4 @@
-class optimizations {
+class os_default::optimizations {
   package { 'prelink': ensure => installed }
 
   file { 'prelink.cron':

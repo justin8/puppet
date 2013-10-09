@@ -1,4 +1,4 @@
-class misc {
+class os_default::misc {
   file { '/usr/local/bin/colourdiff':
     ensure  => file,
     mode    => '0775',

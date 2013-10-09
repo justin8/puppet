@@ -1,4 +1,4 @@
-class ntp {
+class os_default::ntp {
   package { 'openntpd': ensure => installed }
 
   file { '/etc/localtime':

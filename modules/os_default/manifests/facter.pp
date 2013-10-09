@@ -1,4 +1,4 @@
-class facter {
+class os_default::facter {
   package { 'ruby-facter': ensure => installed }
 
   file { '/etc/facter' :
