@@ -1,2 +1,0 @@
-#!/bin/bash
-getent passwd|awk -F: '{ print "home_"$1"="$6}'
