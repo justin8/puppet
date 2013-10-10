@@ -8,6 +8,7 @@ class os_default {
   # Temporary cleanup of old facts
   file { '/etc/facter':
     ensure => absent,
+    force  => true,
   }
 
   #$packages = [ 'foo', 'bar' ]
