@@ -35,3 +35,8 @@ node 'maple.dray.be' inherits default {
   include collectd::physical
   class { 'xbmc': }
 }
+
+node 'wkmil0393.wotifgroup.com' inherits default {
+  include collectd::physical
+  include collectd::server
+}
