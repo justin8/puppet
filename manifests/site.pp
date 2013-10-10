@@ -3,7 +3,7 @@ node default {
   include collectd
 }
 
-node abachi {
+node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
 }
