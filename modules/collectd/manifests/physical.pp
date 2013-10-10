@@ -1,4 +1,4 @@
-class collectd::physical {
+class collectd::physical inherits collectd {
 
   file { '/etc/collectd.d/physical.conf':
     ensure  => file,
