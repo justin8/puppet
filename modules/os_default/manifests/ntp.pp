@@ -1,5 +1,7 @@
 class os_default::ntp {
-  package { 'openntpd': ensure => installed }
+  package { 'ntp': ensure => absent }
+
+  package { 'openntpd': ensure => installed, require => Package['ntp'] }
 
   file { '/etc/localtime':
     ensure  => link,
