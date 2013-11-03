@@ -1,5 +1,5 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
-  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc-git' ]
+  $packages = [ 'ethtool', 'pasystray', 'polkit', 'udisks', 'xbmc-git' ]
   package { $packages: ensure => installed }
   $home = "home_$user"
   $home_path = inline_template("<%= scope.lookupvar('::$home') %>")
