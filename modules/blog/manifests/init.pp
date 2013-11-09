@@ -14,4 +14,24 @@ class blog {
     group   => 'http',
     require => [ Package['phpmyadmin'], Package['apache'] ],
   }
+
+  file { '/etc/httpd/conf/httpd.conf':
+    ensure  => present,
+    require => Package['apache'],
+    source  => 'puppet:///modules/blog/etc/httpd/conf/httpd.conf',
+  }
+
+  file { '/etc/httpd/conf/sites-available':
+    ensure  => directory,
+    require => Package['apache'],
+    recurse => true,
+    purge   => true,
+    force   => true,
+    source  => 'puppet:///modules/blog/etc/httpd/conf/sites-available',
+  }
+
+  file { '/etc/httpd/conf/sites-enabled':
+    ensure  => directory,
+    require => Package['apache'],
+  }
 }
