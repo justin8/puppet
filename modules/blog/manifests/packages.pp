@@ -1,4 +1,4 @@
 class blog::packages {
-  $packages = [ 'apache', 'mariadb', 'php', 'php-apache', 'php-mcrypt', 'phpmyadmin' ]
+  $packages = [ 'apache', 'mariadb', 'php', 'php-apache' ]
   package { $packages: ensure => installed }
 }

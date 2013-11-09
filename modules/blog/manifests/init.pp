@@ -9,15 +9,6 @@ class blog {
     source  => 'puppet:///modules/blog/etc/php/php.ini',
   }
 
-  file { '/usr/share/webapps/phpMyAdmin/config':
-    ensure  => directory,
-    mode    => '0775',
-    owner   => 'http',
-    group   => 'http',
-    notify  => Service['httpd'],
-    require => [ Package['phpmyadmin'], Package['apache'] ],
-  }
-
   file { '/etc/httpd/conf/httpd.conf':
     ensure  => present,
     require => Package['apache'],
