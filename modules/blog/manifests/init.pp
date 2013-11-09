@@ -1,5 +1,6 @@
 class blog {
   include blog::packages
+  include blog::services
 
   file { '/etc/php/php.ini':
     ensure  => present,
