@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+        ServerName abachi.dray.be
+        ServerAlias abachi.dray.be
+        ServerAdmin justin@dray.be
+        Redirect / https://www.dray.be/
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerName www.dray.be
+        ServerAlias www.dray.be
+        ServerAdmin justin@dray.be
+        Redirect / https://www.dray.be/
+</VirtualHost>
