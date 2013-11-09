@@ -12,6 +12,6 @@ class blog {
     mode    => '0775',
     owner   => 'http',
     group   => 'http',
-    require => [ Package['phpmyadmin'], Package['apache'],
+    require => [ Package['phpmyadmin'], Package['apache'] ],
   }
 }
