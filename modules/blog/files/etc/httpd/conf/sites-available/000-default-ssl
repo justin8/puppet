@@ -46,10 +46,7 @@ SSLMutex  "file:/var/run/httpd/ssl_mutex"
 		AllowOverride All
 		Order allow,deny
 		Allow from all
-		AuthType Basic
-		AuthName "www.dray.be"
-		AuthUserFile /srv/http/.htpasswd
-		Require valid-user
+		php_admin_value open_basedir "/srv/:/tmp/:/usr/share/webapps/:/etc/webapps:$"
 	</Directory>
 
 	#   SSL Engine Switch:

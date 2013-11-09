@@ -1,6 +1,6 @@
 <VirtualHost *:80>
-        ServerName abachi.dray.be
-        ServerAlias abachi.dray.be
+        ServerName zingana.dray.be
+        ServerAlias zingana.dray.be
         ServerAdmin justin@dray.be
         Redirect / https://www.dray.be/
 </VirtualHost>
