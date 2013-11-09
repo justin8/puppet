@@ -43,11 +43,11 @@ class blog {
     source  => 'puppet:///modules/blog/etc/httpd/conf/sites-enabled',
   }
 
-  file { '/etc/httpd/conf/extras':
+  file { '/etc/httpd/conf/extra':
     ensure  => directory,
     require => Package['apache'],
     recurse => true,
     force   => true,
-    source  => 'puppet:///modules/blog/etc/httpd/conf/extras'
+    source  => 'puppet:///modules/blog/etc/httpd/conf/extra'
   }
 }
