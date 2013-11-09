@@ -9,15 +9,6 @@ class blog {
     source  => 'puppet:///modules/blog/etc/php/php.ini',
   }
 
-  file { '/usr/share/webapps/phpMyAdmin/config':
-    ensure  => directory,
-    mode    => '0775',
-    owner   => 'http',
-    group   => 'http',
-    notify  => Service['httpd'],
-    require => [ Package['phpmyadmin'], Package['apache'] ],
-  }
-
   file { '/etc/httpd/conf/httpd.conf':
     ensure  => present,
     require => Package['apache'],
@@ -43,11 +34,11 @@ class blog {
     source  => 'puppet:///modules/blog/etc/httpd/conf/sites-enabled',
   }
 
-  file { '/etc/httpd/conf/extras':
+  file { '/etc/httpd/conf/extra':
     ensure  => directory,
     require => Package['apache'],
     recurse => true,
     force   => true,
-    source  => 'puppet:///modules/blog/etc/httpd/conf/extras'
+    source  => 'puppet:///modules/blog/etc/httpd/conf/extra'
   }
 }
