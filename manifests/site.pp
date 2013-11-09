@@ -40,3 +40,7 @@ node 'wkmil0393.wotifgroup.com' inherits default {
   include collectd::physical
   include collectd::server
 }
+
+node 'zingana.dray.be' inherits default {
+  include blog
+}
