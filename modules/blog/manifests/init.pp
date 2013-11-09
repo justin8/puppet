@@ -4,6 +4,7 @@ class blog {
   file { '/etc/php/php.ini':
     ensure  => present,
     require => Package['php'],
+    notify  => Service['httpd'],
     source  => 'puppet:///modules/blog/etc/php/php.ini',
   }
 
@@ -12,6 +13,7 @@ class blog {
     mode    => '0775',
     owner   => 'http',
     group   => 'http',
+    notify  => Service['httpd'],
     require => [ Package['phpmyadmin'], Package['apache'] ],
   }
 
@@ -19,6 +21,7 @@ class blog {
     ensure  => present,
     require => Package['apache'],
     source  => 'puppet:///modules/blog/etc/httpd/conf/httpd.conf',
+    notify  => Service['httpd'],
   }
 
   file { '/etc/httpd/conf/sites-available':
