@@ -1,5 +1,5 @@
 class httpd::blog inherits httpd {
-  $packages = [ 'apache', 'mariadb', 'php', 'php-apache' ]
+  $packages = [ 'mariadb' ]
   package { $packages: ensure => installed }
 
   service { 'mysqld':
