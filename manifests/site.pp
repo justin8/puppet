@@ -42,5 +42,5 @@ node 'wkmil0393.wotifgroup.com' inherits default {
 }
 
 node 'zingana.dray.be' inherits default {
-  include blog
+  include httpd::blog
 }
