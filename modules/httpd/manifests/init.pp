@@ -27,13 +27,23 @@ class httpd {
   }
 
   file {
+    '/etc/ssl/private':
+      ensure   => directory,
+      recurse => true,
+      mode    => '0640';
+
+    '/etc/ssl/certs':
+      ensure  => directory,
+      recurse => true,
+      mode    => '0644';
+
     '/etc/ssl/certs/sub.class1.server.ca.pem':
-    ensure => present,
-    source => 'puppet:///modules/httpd/etc/ssl/certs/sub.class1.server.ca.pem';
+      ensure => present,
+      source => 'puppet:///modules/httpd/etc/ssl/certs/sub.class1.server.ca.pem';
 
     '/etc/ssl/certs/ca.pem':
-    ensure => present,
-    source => 'puppet:///modules/httpd/etc/ssl/certs/ca.pem';
+      ensure => present,
+      source => 'puppet:///modules/httpd/etc/ssl/certs/ca.pem';
   }
 
   file { '/etc/httpd/conf/extra':
