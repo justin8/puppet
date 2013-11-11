@@ -10,5 +10,9 @@ define httpd:vproxy ($name, $destination) {
       target  => "../sites-available/${name}",
       require => File["/etc/httpd/conf/sites-available/${name}"],
       notify  => Service['httpd'];
+
+    "/etc/ssl/certs/${name}.crt":
+      ensure => file,
+      source => "puppet:///modules/httpd/etc/ssl/certs/${name}.crt";
   }
 }
