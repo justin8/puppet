@@ -18,7 +18,7 @@ class httpd {
     ensure  => present,
     require => Package['apache'],
     source  => 'puppet:///modules/httpd/etc/httpd/conf/httpd.conf',
-    notify  => Service['httpd'],
+    notify  => Service['httpd'];
   }
 
   file { [ '/etc/httpd/conf/sites-available', '/etc/httpd/conf/sites-enabled' ]:
@@ -44,13 +44,5 @@ class httpd {
     '/etc/ssl/certs/ca.pem':
       ensure => present,
       source => 'puppet:///modules/httpd/etc/ssl/certs/ca.pem';
-  }
-
-  file { '/etc/httpd/conf/extra':
-    ensure  => directory,
-    require => Package['apache'],
-    recurse => true,
-    force   => true,
-    source  => 'puppet:///modules/httpd/etc/httpd/conf/extra'
   }
 }
