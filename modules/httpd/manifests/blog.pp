@@ -10,7 +10,7 @@ class httpd::blog inherits httpd {
   file { '/etc/httpd/conf/sites-available/www.dray.be':
     ensure  => file,
     require => Package['apache'],
-    source  => 'puppet:///modules/httpd/etc/httpd/conf/sites-enabled/www.dray.be',
+    source  => 'puppet:///modules/httpd/etc/httpd/conf/sites-available/www.dray.be',
   }
 
   file { '/etc/httpd/conf/sites-enabled/www.dray.be':
