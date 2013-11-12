@@ -1,4 +1,5 @@
 class httpd {
+  include httpd::proxy-definitions
   $packages = [ 'apache', 'php', 'php-apache' ]
   package { $packages: ensure => installed }
 
