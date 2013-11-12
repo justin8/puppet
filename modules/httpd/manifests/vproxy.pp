@@ -1,4 +1,4 @@
-define httpd:vproxy ($destination) {
+define httpd::vproxy ($destination) {
 
   file {
     "/etc/httpd/conf/sites-available/${title}":
