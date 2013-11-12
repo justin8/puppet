@@ -6,6 +6,10 @@ node default {
 node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
+
+  @httpd::virtual {
+    'sab.dray.be':
+      destination => 'http://abachi:8080';
 }
 
 node 'bloodwood.dray.be' inherits default {

@@ -1,17 +1,17 @@
 <VirtualHost *:80>
 	ServerAdmin justin@dray.be
-	ServerName <%= @name %>
-	ServerAlias <%= @name %>
-	Redirect / https://<%= @name %>
+	ServerName <%= @title %>
+	ServerAlias <%= @title %>
+	Redirect / https://<%= @title %>
 </VirtualHost>
 
 <VirtualHost *:443>
 	ServerAdmin justin@dray.be
-	ServerName <%= @name %>
-	ServerAlias <%= @name %>
+	ServerName <%= @title %>
+	ServerAlias <%= @title %>
         SSLEngine On
-	SSLCertificateFile    /etc/ssl/certs/<%= @name %>.crt
-	SSLCertificateKeyFile /etc/ssl/private/<%= @name %>.pem
+	SSLCertificateFile    /etc/ssl/certs/<%= @title %>.crt
+	SSLCertificateKeyFile /etc/ssl/private/<%= @title %>.pem
 	ProxyPass / <%= @destination %> retry=0
 	ProxyPassReverse / <%= @destination %>
 </VirtualHost>

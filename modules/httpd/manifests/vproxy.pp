@@ -1,18 +1,18 @@
-define httpd:vproxy ($name, $destination) {
+define httpd:vproxy ($destination) {
 
   file {
-    "/etc/httpd/conf/sites-available/${name}":
+    "/etc/httpd/conf/sites-available/${title}":
       ensure  => file,
       content => template("httpd/vproxy.erb");
 
-    "/etc/httpd/conf/sites-enabled/${name}":
+    "/etc/httpd/conf/sites-enabled/${title}":
       ensure  => link,
-      target  => "../sites-available/${name}",
-      require => File["/etc/httpd/conf/sites-available/${name}"],
+      target  => "../sites-available/${title}",
+      require => File["/etc/httpd/conf/sites-available/${title}"],
       notify  => Service['httpd'];
 
-    "/etc/ssl/certs/${name}.crt":
+    "/etc/ssl/certs/${title}.crt":
       ensure => file,
-      source => "puppet:///modules/httpd/etc/ssl/certs/${name}.crt";
+      source => "puppet:///modules/httpd/etc/ssl/certs/${title}.crt";
   }
 }
