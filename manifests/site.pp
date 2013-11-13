@@ -6,7 +6,7 @@ node default {
 node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
-  include httpd
+  include httpd::abachi
   realize (
     Httpd::Vproxy['sab.dray.be'],
     Httpd::Vproxy['sickbeard.dray.be'],
