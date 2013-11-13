@@ -1,5 +1,8 @@
 class httpd::vhost-definitions {
   @httpd::vhost {
+    'abachi.dray.be':
+      proxy => false;
+
     'sab.dray.be':
       destination => 'http://sab.dray.be:8080',
       proxy => true;

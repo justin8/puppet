@@ -8,6 +8,7 @@ node 'abachi.dray.be' inherits default {
   include collectd::physical
   include httpd
   realize (
+    Httpd::Vhost['abachi.dray.be'],
     Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sickbeard.dray.be'],
   )
