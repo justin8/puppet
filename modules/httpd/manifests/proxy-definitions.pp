@@ -1,6 +1,6 @@
 class httpd::proxy-definitions {
-  @httpd::proxy {
+  @httpd::vproxy {
     'sab.dray.be':
-      destination => 'http://abachi:8080';
+      destination => 'http://sab.dray.be:8080';
   }
 }

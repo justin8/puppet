@@ -2,19 +2,18 @@
 	ServerAdmin justin@dray.be
 	ServerName <%= @title %>
 	ServerAlias <%= @title %>
-	Redirect / https://<%= @title %>
+	Redirect / https://<%= @title %>/
 </VirtualHost>
 
 <VirtualHost *:443>
 	ServerAdmin justin@dray.be
 	ServerName <%= @title %>
 	ServerAlias <%= @title %>
-        SSLEngine On
+	SSLEngine On
 	SSLCertificateFile    /etc/ssl/certs/<%= @title %>.crt
 	SSLCertificateKeyFile /etc/ssl/private/<%= @title %>.pem
 	SSLCertificateChainFile /etc/ssl/certs/sub.class1.server.ca.pem
 	SSLCACertificateFile /etc/ssl/certs/ca.pem
-
-	ProxyPass / <%= @destination %> retry=0
-	ProxyPassReverse / <%= @destination %>
+	ProxyPass / <%= @destination %>/ retry=0
+	ProxyPassReverse / <%= @destination %>/
 </VirtualHost>

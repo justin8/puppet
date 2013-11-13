@@ -1,5 +1,4 @@
 define httpd::vproxy ($destination) {
-
   file {
     "/etc/httpd/conf/sites-available/${title}":
       ensure  => file,

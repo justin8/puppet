@@ -15,9 +15,14 @@ class httpd {
     source  => 'puppet:///modules/httpd/etc/php/php.ini',
   }
 
+  file { '/etc/httpd/conf/extra/httpd-ssl.conf':
+    ensure => present,
+    source => 'puppet:///modules/httpd/etc/httpd/conf/extra/httpd-ssl.conf'
+  }
+
   file { '/etc/httpd/conf/httpd.conf':
     ensure  => present,
-    require => Package['apache'],
+    require => [ Package['apache'], File['/etc/httpd/conf/extra/httpd-ssl.conf'] ],
     source  => 'puppet:///modules/httpd/etc/httpd/conf/httpd.conf',
     notify  => Service['httpd'];
   }
