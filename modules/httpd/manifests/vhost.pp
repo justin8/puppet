@@ -1,6 +1,6 @@
 define httpd::vhost ($destination, $proxy) {
 
-  if $proxy == 'true' {
+  if $proxy == true {
     file { "/etc/httpd/conf/sites-available/${title}":
       ensure  => file,
       content => template("httpd/vproxy.erb"),
