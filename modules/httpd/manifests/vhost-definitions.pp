@@ -10,5 +10,8 @@ class httpd::vhost-definitions {
     'sickbeard.dray.be':
       destination => 'http://sickbeard.dray.be:8081',
       proxy => true;
+
+    'www.dray.be':
+      proxy => false;
   }
 }
