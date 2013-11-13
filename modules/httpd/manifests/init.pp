@@ -29,6 +29,8 @@ class httpd {
 
   file { [ '/etc/httpd/conf/sites-available', '/etc/httpd/conf/sites-enabled' ]:
     ensure  => directory,
+    recurse => true,
+    purge   => true,
     require => Package['apache'],
   }
 
