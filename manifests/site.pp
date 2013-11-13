@@ -6,6 +6,15 @@ node default {
 node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
+  include httpd
+  realize (
+    Httpd::Vhost['abachi.dray.be'],
+    Httpd::Vhost['couchpotato.dray.be'],
+    Httpd::Vhost['deluge.dray.be'],
+    Httpd::Vhost['repo.dray.be'],
+    Httpd::Vhost['sab.dray.be'],
+    Httpd::Vhost['sickbeard.dray.be'],
+  )
 }
 
 node 'bloodwood.dray.be' inherits default {
