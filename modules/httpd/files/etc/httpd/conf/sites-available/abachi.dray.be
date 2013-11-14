@@ -45,4 +45,8 @@
 		Satisfy Any
 	</Directory>
 
+	<Directory /srv/http/arch>
+		Satisfy Any
+	</Directory>
+
 </VirtualHost>
