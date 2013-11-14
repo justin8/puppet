@@ -1,5 +1,7 @@
 class os_default::optimizations {
-  package { 'prelink': ensure => installed }
+  $packages = [ 'prelink', 'preload' ]
+  package { $packages: ensure => installed }
+
 
   file { 'prelink.cron':
     path    => '/etc/cron.daily/prelink.cron',
@@ -10,8 +12,6 @@ class os_default::optimizations {
     require => Package['prelink', 'cronie'],
     source  => 'puppet:///modules/os_default/prelink.cron',
   }
-
-  package { 'preload': ensure => installed }
 
   service { 'preload':
     ensure  => running,
