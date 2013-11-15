@@ -9,9 +9,27 @@ class os_default::ntp {
     target  => '/usr/share/zoneinfo/Australia/Brisbane',
   }
 
-  service { 'openntpd':
-    ensure    => running,
-    enable    => true,
-    subscribe => File['/etc/localtime'],
+  if $networkmanager == 'true' {
+    file { '/etc/NetworkManager/dispatcher.d/restart-openntpd':
+      ensure  => present,
+      source  => 'puppet:///modules/os_default/nmd-restart-openntpd';
+    }
+
+    service { 'NetworkManager-dispatcher':
+      ensure => running,
+      enable => true;
+    }
+
+    service { 'openntpd':
+      ensure    => running,
+      enable    => false,
+    }
+  }
+  else {
+    service { 'openntpd':
+      ensure    => running,
+      enable    => true,
+      subscribe => File['/etc/localtime'],
+    }
   }
 }
