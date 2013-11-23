@@ -1,7 +1,7 @@
 require 'puppet'
 
 local="false"
-if Facter::Util::Resolution.exec("smbclient -t 2 -NL abachi.dray.be > /dev/null 2>&1")
+if Facter::Util::Resolution.exec("smbclient -t 2 -NL abachi.dray.be 2>/dev/null")
 	local="true"
 end
 Facter.add("local") do
