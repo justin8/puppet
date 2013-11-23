@@ -7,5 +7,6 @@ class os_default::pacman {
       options => "credentials=/root/.smbcreds,noauto,x-systemd.automount",
       ensure  => mounted,
       atboot  => true;
+    }
   }
 }
