@@ -16,7 +16,6 @@ class os_default::ntp {
     }
 
     service { 'NetworkManager-dispatcher':
-      ensure => running,
       enable => true;
     }
 
