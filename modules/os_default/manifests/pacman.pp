@@ -1,6 +1,6 @@
 class os_default::pacman {
 
-  if str2bool("$local") {
+  if "$local" == "true" {
     mount { "/var/cache/pacman/pkg":
       device  => "//abachi.dray.be/pacman-pkg-$architecture",
       fstype  => 'cifs',
