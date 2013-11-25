@@ -1,7 +1,7 @@
 <advancedsettings>
 	<videodatabase>
 		<type>mysql</type>
-		<host>192.168.0.15</host>
+		<host>192.168.1.15</host>
 		<port>3306</port>
 		<user>xbmc</user>
 		<pass>xbmc</pass>
@@ -9,7 +9,7 @@
 
 	<musicdatabase>
 		<type>mysql</type>
-		<host>192.168.0.15</host>
+		<host>192.168.1.15</host>
 		<port>3306</port>
 		<user>xbmc</user>
 		<pass>xbmc</pass>
