@@ -6,6 +6,6 @@ class os_default {
   include os_default::pacman
   include os_default::sudo
 
-  #$packages = [ 'foo', 'bar' ]
-  #package { $packages: ensure => installed }
+  $packages = [ 'pkgfile' ]
+  package { $packages: ensure => installed }
 }
