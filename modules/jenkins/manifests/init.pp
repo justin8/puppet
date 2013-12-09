@@ -12,7 +12,7 @@ class jenkins {
   file {
     '/etc/conf.d/jenkins':
       ensure => file,
-      source => 'puppet:///modules/jenkins/conf.d-jenkins'
+      source => 'puppet:///modules/jenkins/conf.d-jenkins',
       notify => Service['jenkins'];
   }
 }
