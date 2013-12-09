@@ -14,6 +14,7 @@ node 'abachi.dray.be' inherits default {
     Httpd::Vhost['abachi.dray.be'],
     Httpd::Vhost['couchpotato.dray.be'],
     Httpd::Vhost['deluge.dray.be'],
+    Httpd::Vhost['repo.dray.be'],
     Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sickbeard.dray.be'],
   )

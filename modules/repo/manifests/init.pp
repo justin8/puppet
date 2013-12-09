@@ -1,11 +1,5 @@
 class repo {
 
-  include httpd
-
-  realize(
-    Httpd::Vhost['repo.dray.be'],
-  )
-
   file {
     '/srv/repo':
       ensure => link,
