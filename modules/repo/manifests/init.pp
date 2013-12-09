@@ -8,7 +8,8 @@ class repo {
 
   file {
     '/srv/repo':
-      ensure => directory;
+      ensure => link,
+      target => '/raid/server-files/system/srv/repo/';
 
     '/etc/incron.allow':
       ensure  => file,
