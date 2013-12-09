@@ -1,4 +1,5 @@
 define httpd::vhost ($destination = '*', $proxy) {
+  include httpd
 
   if $proxy == true {
     file { "/etc/httpd/conf/sites-available/${title}":
