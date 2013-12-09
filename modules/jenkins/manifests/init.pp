@@ -3,6 +3,11 @@ class jenkins {
   $packages = [ 'jenkins-ci' ]
   package { $packages: ensure => installed }
 
+  include httpd
+  realize(
+    Httpd::Vhost['jenkins.dray.be'],
+  )
+
   service {
     'jenkins':
       ensure => running,
