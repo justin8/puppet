@@ -6,8 +6,10 @@ node default {
 node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
+  include httpd
   include puppetmaster
   include repo
+
   realize (
     Httpd::Vhost['abachi.dray.be'],
     Httpd::Vhost['couchpotato.dray.be'],

@@ -1,5 +1,7 @@
 class repo {
 
+  include httpd
+
   realize(
     Httpd::Vhost['repo.dray.be'],
   )
