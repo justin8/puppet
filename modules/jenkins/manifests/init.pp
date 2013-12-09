@@ -14,5 +14,9 @@ class jenkins {
       ensure => file,
       source => 'puppet:///modules/jenkins/conf.d-jenkins',
       notify => Service['jenkins'];
+
+    '/etc/sudoers.d/jenkins':
+      ensure => file,
+      source => 'puppet:///modules/jenkins/sudoers.d-jenkins';
   }
 }
