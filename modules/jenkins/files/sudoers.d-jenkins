@@ -1,1 +1,2 @@
 jenkins ALL = (root) NOPASSWD: /usr/bin/abs
+jenkins ALL = (root) NOPASSWD: /usr/bin/pacman
