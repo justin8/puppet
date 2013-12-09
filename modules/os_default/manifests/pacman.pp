@@ -1,5 +1,8 @@
 class os_default::pacman {
 
+  $packages = [ 'cifs-utils', 'smbclient' ]
+  package { $packages: ensure => installed }
+
   if "$local" == "true" {
     if "$hostname" != "abachi" {
       mount { "/var/cache/pacman/pkg":
