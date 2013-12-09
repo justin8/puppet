@@ -23,6 +23,7 @@ define httpd::vhost ($destination = '*', $proxy) {
 
     "/etc/ssl/certs/${title}.crt":
       ensure => file,
-      source => "puppet:///modules/httpd/etc/ssl/certs/${title}.crt";
+      source => "puppet:///modules/httpd/etc/ssl/certs/${title}.crt",
+      notify => Service['httpd'];
   }
 }
