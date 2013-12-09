@@ -1,0 +1,116 @@
+#!/bin/bash
+LOCK="/run/lock/$(basename "$0")"
+ARCHS="any $(uname -m)"
+REPO=/srv/repo
+PACKAGES='build/packages.list'
+
+# Initial checks
+if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root" 1>&2
+	exit 1
+fi
+
+usage()
+{
+	cat <<-EOF
+	usage: $(basename $0) options
+
+	DETAILS SHOULD BE HERE!
+
+	OPTIONS:
+	-h      Show help
+	-a      Specify a specific architecture to build for. (Defaults to: $ARCHS)
+	-f      Perform a full recompile of all specified architectures
+	EOF
+}
+
+
+while getopts ":a:fh" OPTION
+do
+	case $OPTION in
+		a)
+			ARCHS=$OPTARG
+			;;
+		f)
+			full_update=true
+			;;
+		h)
+			usage
+			exit 0
+			;;
+	esac
+done
+
+build()
+{
+	tmp=$1
+	curarch=$2
+	package=$3
+	if [[ -d "$tmp/$curarch/$package" ]]; then
+		cd $tmp/$curarch
+		unset pkgname
+		grep -E "^\s*(pkgver|pkgrel|epoch|pkgname|_pkgname|_gitname|_gemname|_srcname)=" $tmp/$curarch/$package/PKGBUILD >> $tmp/$curarch/$package/temp
+		. $tmp/$curarch/$package/temp
+		if [[ $? != 0 ]] || [[ -z "$pkgname" ]]
+		then
+			echo "An error has occurred while parsing $package. Aborting..."
+		else
+			[[ ! -z "$epoch" ]] && pkgver="$epoch:$pkgver"
+			packageversion="$pkgname-$pkgver-$pkgrel"
+			unset pkgver pkgrel arch epoch
+			if find $REPO/$curarch -maxdepth 1 | grep -q "$packageversion" && [[ -z $full_update ]]
+			then
+				echo "$curarch/$package is already up-to-date. Skipping..." > /dev/null
+			else
+				if [[ -z $full_update ]]
+				then
+					echo "${curarch}/${package} is out of date. Building..."
+				else
+					echo "Building ${curarch}/${package}..."
+				fi
+				cd $tmp/$curarch/$package
+				sed -i '/PKGEXT/d' PKGBUILD
+				yes ""|makepkg -rcfsA --asroot > $tmp/$curarch/$package/makepkg.log 2>&1
+				if [[ $? != 0 ]]; then
+					echo "An error occurred during build... makepkg output will display in 3 seconds"
+					sleep 3
+					cat $tmp/$curarch/$package/makepkg.log
+				else
+					cp $tmp/$curarch/$package/${pkgname}*.pkg* $REPO/$curarch
+				fi
+			fi
+		fi
+	else
+		echo "Unable to find package $package. Skipping..."
+	fi
+
+}
+
+exec 200>$LOCK
+if flock -xn 200; then
+	echo "Updating package lists..."
+	pacman -Sy
+	[[ $? != 0 ]] && echo "An error has occurred while updating the package lists. Aborting..." && exit 1
+
+	tmp=$(mktemp -d)
+	trap "rm -rf $tmp" SIGINT SIGTERM
+	for curarch in $ARCHS
+	do
+		mkdir "$tmp/$curarch"
+		cd $tmp/$curarch
+		list=""
+		while read package
+		do
+			list="$list $package"
+		done < $REPO/$curarch/$PACKAGES
+		echo "Downloading pkgbuilds for $curarch repo..."
+		dlaur $list > /dev/null
+		while read package
+		do
+			build $tmp $curarch $package
+		done < $REPO/$curarch/$PACKAGES
+	done
+	[[ -d "$tmp" ]] && rm -rf "$tmp"
+else
+	echo "Lock file $LOCK present. Aborting"
+fi

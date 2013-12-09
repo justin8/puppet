@@ -1,0 +1,79 @@
+#!/bin/bash
+REPO_NAME='dray.be'
+REPO_PATH='/srv/repo'
+CACHE_PATH='/raid/server-files/system/pacman-cache'
+LOG=/var/log/$(basename $0).log
+
+if [[ $EUID -ne 0 ]]; then
+	echo "This script must be run as root" 1>&2
+	exit 1
+fi
+
+exec > >(tee -a ${LOG}) 2>&1
+
+(
+flock -xw 30 200
+[[ $? != 0 ]] && echo "Unable to obtain lock. Exiting" && exit 1
+
+if [ $# == 1 ];then
+	echo > /dev/null
+elif [ $# != 2 ]; then
+	echo "USAGE: $(basename $0) path [file]"
+	echo "e.g. $(basename $0) /srv/repo/x86_64 google-chrome-28.0-x86_64.pkg.tar.xz"
+	echo "e.g. $(basename $0) x86_64"
+	exit 1
+fi
+
+function link-repo {
+if echo $repo|grep -q games; then
+	for file in $REPO_PATH/$repo/*x86_64.pkg.tar*
+	do
+		echo "Linking file $file..." >> $LOG
+		ln -Pf "$file" "$CACHE_PATH/x86_64/$(basename "$file")"
+	done
+elif echo $repo|grep -q any; then
+	for file in $REPO_PATH/$repo/*.pkg.tar*
+	do
+		for cache in $CACHE_PATH/*
+		do
+			echo "Linking file $file..." >> $LOG
+			ln -Pf "$file" "$cache/$(basename "$file")"
+		done
+	done
+else
+	for file in $(ls $REPO_PATH/$repo/*.pkg.tar*)
+	do 
+		echo "Linking file $file..." >> $LOG
+		ln -Pf "$file" "$CACHE_PATH/$repo/$(basename "$file")"
+	done
+fi
+}
+
+repo=$(basename $(echo $1|sed 's/"//g'))
+file=$(echo $2|sed 's/"//g')
+if echo $repo|grep -q any; then
+	REPO_NAME='dray.be-any'
+elif echo $repo|grep -q games; then
+	REPO_NAME='dray.be-games'
+fi
+
+if echo $file|grep -q '.pkg.tar'
+then
+	echo "Adding file $file to repo $repo"
+	repo-add "$REPO_PATH/$repo/$REPO_NAME.db.tar.gz" $REPO_PATH/$repo/$file
+	repo-add -f "$REPO_PATH/$repo/$REPO_NAME.files.tar.gz" $REPO_PATH/$repo/$file
+	link-repo
+elif [[ "z$file" == "z" ]]
+then
+	echo "Performing full update on repo: $repo"
+	rm -rf $REPO_PATH/$repo/$REPO_NAME*
+	repo-add "$REPO_PATH/$repo/$REPO_NAME.db.tar.gz" $REPO_PATH/$repo/*.pkg.tar* >> $LOG
+	repo-add -f "$REPO_PATH/$repo/$REPO_NAME.files.tar.gz" $REPO_PATH/$repo/*.pkg.tar* >> $LOG
+	link-repo
+else
+	echo "Updated file ($file) was not a package; ignoring..." 
+	exit 0
+fi
+chown -R downloads. /srv/repo
+chmod -R g+rw /srv/repo
+) 200>/run/lock/$(basename $0)
