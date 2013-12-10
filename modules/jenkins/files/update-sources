@@ -1,0 +1,10 @@
+#!/bin/bash
+if [[ -d /var/lib/jenkins/aur-mirror ]]
+then
+	cd /var/lib/jenkins/aur-mirror
+	git reset --hard origin/master
+	git pull
+else
+	git clone git://pkgbuild.com/aur-mirror.git /var/lib/jenkins/aur-mirror
+fi
+sudo abs
