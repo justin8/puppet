@@ -14,7 +14,8 @@ class jenkins::slave {
     '/usr/local/bin/update-sources':
       path    => '/usr/bin',
       unless  => 'test -d /var/lib/jenkins/aur-mirror',
-      require => File['/usr/local/bin/update-sources'];
+      require => File['/usr/local/bin/update-sources'],
+      timeout => 0;
   }
 
   file {
