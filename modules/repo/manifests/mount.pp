@@ -13,7 +13,8 @@ class repo::mount( $remote = true ) {
         fstype  => 'cifs',
         options => "credentials=/root/.smbcreds,noauto,x-systemd.automount",
         ensure  => mounted,
-        atboot  => true;
+        atboot  => true,
+        require => File['/srv/repo'];
     }
   } else {
     file {
