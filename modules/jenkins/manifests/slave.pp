@@ -16,6 +16,15 @@ class jenkins::slave {
       require => File['/usr/local/bin/update-sources'];
   }
 
+  mount {
+    "/srv/repo":
+      device  => "//abachi.dray.be/repo",
+      fstype  => 'cifs',
+      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount",
+      ensure  => mounted,
+      atboot  => true;
+  }
+
   file {
     '/etc/sudoers.d/jenkins':
       ensure  => file,
