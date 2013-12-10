@@ -26,6 +26,9 @@ class jenkins::slave {
   }
 
   file {
+    '/srv/repo':
+      ensure => directory;
+
     '/etc/sudoers.d/jenkins':
       ensure  => file,
       source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
