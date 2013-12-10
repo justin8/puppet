@@ -1,10 +1,7 @@
 class repo {
+  class { 'repo::mount': remote => false; }
 
   file {
-    '/srv/repo':
-      ensure => link,
-      target => '/raid/server-files/system/srv/repo/';
-
     '/etc/incron.allow':
       ensure  => file,
       content => "root\n";

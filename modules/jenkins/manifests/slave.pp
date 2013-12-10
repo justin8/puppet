@@ -1,4 +1,5 @@
 class jenkins::slave {
+  include repo::mount
 
   $packages = [ 'jre7-openjdk-headless', 'abs', 'git' ]
   package { $packages: ensure => installed }
@@ -16,19 +17,7 @@ class jenkins::slave {
       require => File['/usr/local/bin/update-sources'];
   }
 
-  mount {
-    "/srv/repo":
-      device  => "//abachi.dray.be/repo",
-      fstype  => 'cifs',
-      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount",
-      ensure  => mounted,
-      atboot  => true;
-  }
-
   file {
-    '/srv/repo':
-      ensure => directory;
-
     '/etc/sudoers.d/jenkins':
       ensure  => file,
       source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
