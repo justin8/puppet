@@ -31,6 +31,11 @@ class jenkins::slave {
       ensure  => file,
       source  => 'puppet:///modules/jenkins/cron.d-update-sources';
 
+    '/var/lib/jenkins':
+      ensure  => directory,
+      owner   => 'jenkins',
+      group   => 'jenkins';
+
     '/var/lib/jenkins/.ssh':
       ensure  => directory,
       mode    => '0700',
