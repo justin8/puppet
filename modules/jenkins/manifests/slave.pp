@@ -34,7 +34,7 @@ class jenkins::slave {
       ensure  => file,
       source  => 'puppet:///modules/jenkins/update-sources';
 
-    '/etc/cron.d/jenkins.cron':
+    '/etc/cron.d/update-sources.cron':
       ensure  => file,
       source  => 'puppet:///modules/jenkins/cron.d-update-sources';
 
