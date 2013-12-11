@@ -1,7 +1,7 @@
 class jenkins::slave {
   class { 'repo::mount': user => 'jenkins'; }
 
-  $packages = [ 'jre7-openjdk-headless', 'abs', 'git' ]
+  $packages = [ 'jre7-openjdk-headless', 'abs', 'git', 'devtools' ]
   package { $packages: ensure => installed }
 
   user {
@@ -16,9 +16,27 @@ class jenkins::slave {
       unless  => 'test -d /var/lib/jenkins/aur-mirror',
       require => File['/usr/local/bin/update-sources'],
       timeout => 0;
+
+    'create-chroot':
+      path    => '/usr/bin',
+      command => 'mkarchroot -C /etc/pacman.conf /chroot/root base-devel',
+      unless  => 'test -d /chroot/root';
+
+    'update-chroot-makepkg':
+      path    => '/usr/bin',
+      command => 'cp /etc/makepkg.conf /chroot/root/etc/makepkg.conf',
+      onlyif  => 'diff /etc/makepkg.conf /chroot/root/etc/makepkg.conf > /dev/null; [ $? -eq 1 ]';
+
+    'update-chroot-pacman':
+      path    => '/usr/bin',
+      command => 'cp /etc/pacman.conf /chroot/root/etc/pacman.conf',
+      onlyif  => 'diff /etc/pacman.conf /chroot/root/etc/pacman.conf > /dev/null; [ $? -eq 1 ]';
   }
 
   file {
+    '/chroot':
+      ensure  => directory;
+
     '/etc/sudoers.d/jenkins':
       ensure  => file,
       source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
