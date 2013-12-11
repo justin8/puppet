@@ -26,6 +26,10 @@ node 'bloodwood.dray.be' inherits default {
   include puppetmaster
 }
 
+node 'huon.dray.be' inherits default {
+  include jenkins::slave
+}
+
 node 'butternut.dray.be' inherits default {
   include jenkins::slave
 }
