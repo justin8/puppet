@@ -20,17 +20,22 @@ class jenkins::slave {
     'create-chroot':
       path    => '/usr/bin',
       command => 'mkarchroot -C /etc/pacman.conf /chroot/root base-devel',
-      unless  => 'test -d /chroot/root';
+      unless  => 'test -d /chroot/root',
+      timeout => 0,
+      require => File['/chroot'],
+      notify  => Exec['update-chroot-makepkg', 'update-chroot-pacman'];
 
     'update-chroot-makepkg':
       path    => '/usr/bin',
       command => 'cp /etc/makepkg.conf /chroot/root/etc/makepkg.conf',
-      onlyif  => 'diff /etc/makepkg.conf /chroot/root/etc/makepkg.conf > /dev/null; [ $? -eq 1 ]';
+      onlyif  => 'diff /etc/makepkg.conf /chroot/root/etc/makepkg.conf > /dev/null; [ $? -eq 1 ]',
+      require => Exec['create-chroot'];
 
     'update-chroot-pacman':
       path    => '/usr/bin',
       command => 'cp /etc/pacman.conf /chroot/root/etc/pacman.conf',
-      onlyif  => 'diff /etc/pacman.conf /chroot/root/etc/pacman.conf > /dev/null; [ $? -eq 1 ]';
+      onlyif  => 'diff /etc/pacman.conf /chroot/root/etc/pacman.conf > /dev/null; [ $? -eq 1 ]',
+      require => Exec['create-chroot'];
   }
 
   file {
