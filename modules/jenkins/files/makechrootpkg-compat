@@ -25,9 +25,6 @@ then
 		rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
 		arch-chroot "$copydir" pacman -Syu --noconfirm
 		mkdir -p "$copydir/build"
-		if ! grep -q 'BUILDDIR="/build"' "$copydir/etc/makepkg.conf"; then
-			echo 'BUILDDIR="/build"' >> "$copydir/etc/makepkg.conf"
-		fi
 
 		if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
 			cat > "$copydir/etc/sudoers.d/nobody-pacman" <<-EOF
@@ -45,7 +42,7 @@ then
 
 		mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
 		arch-chroot $copydir /chrootbuild || rm "$LOCK"; exit $?
-		cp "$copydir/build/*.pkg.tar*" $startdir/
+		cp "$copydir/startdir/*.pkg.tar*" $startdir/
 		rm -rf --one-file-system "$copydir"
 	fi
 	rm "$LOCK"
