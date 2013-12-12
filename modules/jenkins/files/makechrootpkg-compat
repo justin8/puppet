@@ -21,7 +21,9 @@ then
 		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
 		makechrootpkg -c -r /chroot -A
 	else
+		echo "Updating original chroot..."
 		arch-chroot "/chroot/root" pacman -Syu --noconfirm
+		echo "Cloning to new chroot $copydir"
 		mkdir -p "$copydir"
 		rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
 		mkdir -p "$copydir/build"
