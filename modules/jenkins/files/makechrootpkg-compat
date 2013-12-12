@@ -7,7 +7,7 @@ LOCK="${copydir}.lock"
 
 _chrootbuild() {
 	cd /startdir
-	sudo -u nobody makepkg -s --noconfirm -L --holdver -A || exit 1
+	sudo -u nobody makepkg -s --noconfirm -L --holdver -A -f || exit 1
 	exit 0
 }
 
@@ -19,7 +19,7 @@ then
 	if [[ $arch == "x86_64" ]]
 	then
 		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
-		makechrootpkg -c -r /chroot -A
+		makechrootpkg -c -r /chroot -A -f
 	else
 		echo "Updating original chroot..."
 		arch-chroot "/chroot/root" pacman -Syu --noconfirm
