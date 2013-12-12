@@ -19,11 +19,11 @@ then
 	if [[ $arch == "x86_64" ]]
 	then
 		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
-		makechrootpkg -c -u -r /chroot -A
+		makechrootpkg -c -r /chroot -A
 	else
+		arch-chroot "/chroot/root" pacman -Syu --noconfirm
 		mkdir -p "$copydir"
 		rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
-		arch-chroot "$copydir" pacman -Syu --noconfirm
 		mkdir -p "$copydir/build"
 
 		if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
