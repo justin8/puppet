@@ -7,6 +7,7 @@ node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
+  include jenkins
   include puppetmaster
   include repo
 
@@ -14,6 +15,7 @@ node 'abachi.dray.be' inherits default {
     Httpd::Vhost['abachi.dray.be'],
     Httpd::Vhost['couchpotato.dray.be'],
     Httpd::Vhost['deluge.dray.be'],
+    Httpd::Vhost['jenkins.dray.be'],
     Httpd::Vhost['repo.dray.be'],
     Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sickbeard.dray.be'],
@@ -22,6 +24,14 @@ node 'abachi.dray.be' inherits default {
 
 node 'bloodwood.dray.be' inherits default {
   include puppetmaster
+}
+
+node 'huon.dray.be' inherits default {
+  include jenkins::slave
+}
+
+node 'butternut.dray.be' inherits default {
+  include jenkins::slave
 }
 
 node 'mahogany.dray.be' inherits default {

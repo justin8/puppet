@@ -1,0 +1,55 @@
+#!/bin/bash
+arch=$(uname -m)
+startdir=$PWD
+[[ $USER == "root" ]] && copy=copy || copy=$USER
+copydir="/chroot/$copy"
+LOCK="${copydir}.lock"
+
+_chrootbuild() {
+	cd /startdir
+	sudo -u nobody makepkg -s --noconfirm -L --holdver -A -f || exit 1
+	exit 0
+}
+
+[[ $EUID != 0 ]] && echo "You must run this as root!" && exit 1
+
+exec 200>$LOCK
+if flock -xn 200
+then
+	if [[ $arch == "x86_64" ]]
+	then
+		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
+		makechrootpkg -c -r /chroot -A -f
+	else
+		echo "Updating original chroot..."
+		arch-chroot "/chroot/root" pacman -Syu --noconfirm
+		echo "Cloning to new chroot $copydir"
+		mkdir -p "$copydir"
+		rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
+		mkdir -p "$copydir/build"
+
+		if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
+			cat > "$copydir/etc/sudoers.d/nobody-pacman" <<-EOF
+			Defaults env_keep += "HOME"
+			nobody ALL = NOPASSWD: /usr/bin/pacman
+			EOF
+			chmod 440 "$copydir/etc/sudoers.d/nobody-pacman"
+		fi
+
+		rsync -a "$startdir/" "$copydir/startdir"
+	        chown -R nobody "$copydir"/{build,startdir}
+
+		printf $'#!/bin/bash\n%s\n_chrootbuild' "$(declare -f _chrootbuild)" > "$copydir/chrootbuild"
+		chmod +x "$copydir/chrootbuild"
+
+		mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
+		arch-chroot $copydir /chrootbuild
+		rc=$?
+		cp "$copydir/startdir/"*.pkg.tar* $startdir/
+		umount -l "$copydir/var/cache/pacman/pkg"
+		rm -rf --one-file-system "$copydir"
+		rm "$LOCK"
+		exit $rc
+	fi
+	rm "$LOCK"
+fi
