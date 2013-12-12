@@ -39,6 +39,10 @@ class jenkins::slave {
   }
 
   file {
+    '/usr/bin/makechrootpkg-compat':
+      ensure  => file,
+      source  => 'puppet:///modules/jenkins/makechrootpkg-compat';
+
     '/chroot':
       ensure  => directory;
 

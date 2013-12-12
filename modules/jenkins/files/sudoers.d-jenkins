@@ -1,1 +1,1 @@
-jenkins ALL = (root) NOPASSWD: /usr/bin/abs, /usr/bin/pacman, /usr/bin/makechrootpkg, /usr/bin/arch-nspawn
+jenkins ALL = (root) NOPASSWD: /usr/bin/makechrootpkg-compat
