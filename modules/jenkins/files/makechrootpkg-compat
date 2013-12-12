@@ -41,7 +41,7 @@ then
 		chmod +x "$copydir/chrootbuild"
 
 		mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
-		arch-chroot $copydir /chrootbuild || rm "$LOCK"; exit $?
+		arch-chroot $copydir /chrootbuild
 		cp "$copydir/startdir/*.pkg.tar*" $startdir/
 		rm -rf --one-file-system "$copydir"
 	fi
