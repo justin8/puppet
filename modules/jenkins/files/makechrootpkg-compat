@@ -43,6 +43,7 @@ then
 		mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
 		arch-chroot $copydir /chrootbuild
 		cp "$copydir/startdir/*.pkg.tar*" $startdir/
+		umount -l "$copydir/var/cache/pacman/pkg"
 		rm -rf --one-file-system "$copydir"
 	fi
 	rm "$LOCK"
