@@ -7,7 +7,7 @@ class os_default::pacman {
     path    => '/usr/bin',
     unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
     command => 'curl -s "https://repo.dray.be/any/dray-repo-0.5-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz \
-                && pacman -U /tmp/dray-repo.pkg.tar.xz';
+                && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
   }
 
   if "$local" == "true" {
