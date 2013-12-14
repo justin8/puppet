@@ -4,8 +4,9 @@ class os_default {
   include os_default::ntp
   include os_default::optimizations
   include os_default::pacman
+  include os_default::ssh
   include os_default::sudo
 
-  $packages = [ 'git', 'pkgfile' ]
+  $packages = [ 'git', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 }
