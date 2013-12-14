@@ -6,6 +6,6 @@ class os_default {
   include os_default::pacman
   include os_default::sudo
 
-  $packages = [ 'pkgfile' ]
+  $packages = [ 'git', 'pkgfile' ]
   package { $packages: ensure => installed }
 }
