@@ -1,9 +1,14 @@
 #!/bin/bash
+set -e
+set -x
 arch=$(uname -m)
 startdir=$PWD
-[[ $USER == "root" ]] && copy=copy || copy=$USER
+[[ "$USER" == "root" ]] && copy=copy || copy=$USER
+[[ -n "$SUDO_USER" ]] && copy=$SUDO_USER
+[[ -n "$1" ]] && copy=${copy}-${1}
 copydir="/chroot/$copy"
-LOCK="${copydir}.lock"
+ROOTLOCK="/chroot/root.lock"
+LOCK="${copydir}.lock.compat"
 
 _chrootbuild() {
 	cd /startdir
@@ -11,45 +16,90 @@ _chrootbuild() {
 	exit 0
 }
 
+api_fs_mount() {
+	track_mount proc "$1/proc" -t proc -o nosuid,noexec,nodev &&
+	track_mount sys "$1/sys" -t sysfs -o nosuid,noexec,nodev,ro &&
+	track_mount udev "$1/dev" -t devtmpfs -o mode=0755,nosuid &&
+	track_mount devpts "$1/dev/pts" -t devpts -o mode=0620,gid=5,nosuid,noexec &&
+	track_mount shm "$1/dev/shm" -t tmpfs -o mode=1777,nosuid,nodev &&
+	track_mount run "$1/run" -t tmpfs -o nosuid,nodev,mode=0755 &&
+	track_mount tmp "$1/tmp" -t tmpfs -o mode=1777,strictatime,nodev,nosuid
+}
+
+track_mount() {
+	if [[ -z $CHROOT_ACTIVE_MOUNTS ]]; then
+		CHROOT_ACTIVE_MOUNTS=()
+		trap 'chroot_umount' EXIT
+	fi
+
+	mount "$@" && CHROOT_ACTIVE_MOUNTS=("$2" "${CHROOT_ACTIVE_MOUNTS[@]}")
+}
+
+chroot_umount() {
+	umount "${CHROOT_ACTIVE_MOUNTS[@]}"
+}
+
+
+cleanup() {
+	[[ -n "$bindmountcomplete" ]] && umount -l "$copydir/var/cache/pacman/pkg"
+	#	rm -rf --one-file-system "$copydir"
+	rm "$LOCK"
+}
+
 [[ $EUID != 0 ]] && echo "You must run this as root!" && exit 1
 
 exec 200>$LOCK
-if flock -xn 200
+if ! flock -xn 200
 then
-	if [[ $arch == "x86_64" ]]
-	then
-		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
-		makechrootpkg -c -r /chroot -A -f
-	else
-		echo "Updating original chroot..."
-		arch-chroot "/chroot/root" pacman -Syu --noconfirm
-		echo "Cloning to new chroot $copydir"
-		mkdir -p "$copydir"
-		rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
-		mkdir -p "$copydir/build"
-
-		if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
-			cat > "$copydir/etc/sudoers.d/nobody-pacman" <<-EOF
-			Defaults env_keep += "HOME"
-			nobody ALL = NOPASSWD: /usr/bin/pacman
-			EOF
-			chmod 440 "$copydir/etc/sudoers.d/nobody-pacman"
-		fi
-
-		rsync -a "$startdir/" "$copydir/startdir"
-	        chown -R nobody "$copydir"/{build,startdir}
-
-		printf $'#!/bin/bash\n%s\n_chrootbuild' "$(declare -f _chrootbuild)" > "$copydir/chrootbuild"
-		chmod +x "$copydir/chrootbuild"
-
-		mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
-		arch-chroot $copydir /chrootbuild
-		rc=$?
-		cp "$copydir/startdir/"*.pkg.tar* $startdir/
-		umount -l "$copydir/var/cache/pacman/pkg"
-		rm -rf --one-file-system "$copydir"
-		rm "$LOCK"
-		exit $rc
-	fi
-	rm "$LOCK"
+	echo "Failed to obtain lock $LOCK. Aborting..."
+	exit 1
 fi
+
+if [[ $arch == "x86_64" ]]
+then
+	echo "Updating original chroot..."
+	while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
+	echo "Beginning build..."
+	makechrootpkg -c -r /chroot -l $copy -A -f
+else
+	trap cleanup EXIT
+	exec 201>$ROOTLOCK
+	if ! flock -xw 300 201
+	then
+		echo "Failed to obtain lock $ROOTLOCK. Aborting..."
+		exit 1
+	fi
+
+	echo "Updating original chroot..."
+	arch-chroot "/chroot/root" pacman -Syu --noconfirm
+	echo "Cloning to new chroot $copydir"
+	mkdir -p "$copydir"
+	rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
+	flock -u 201
+	mkdir -p "$copydir/build"
+
+	if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
+		cat > "$copydir/etc/sudoers.d/nobody-pacman" <<-EOF
+		Defaults env_keep += "HOME"
+		nobody ALL = NOPASSWD: /usr/bin/pacman
+		EOF
+		chmod 440 "$copydir/etc/sudoers.d/nobody-pacman"
+	fi
+
+	rsync -a "$startdir/" "$copydir/startdir"
+	chown -R nobody "$copydir"/{build,startdir}
+
+	printf $'#!/bin/bash\n%s\n_chrootbuild' "$(declare -f _chrootbuild)" > "$copydir/chrootbuild"
+	chmod +x "$copydir/chrootbuild"
+
+	echo "Beginning build..."
+	mount -o bind "/var/cache/pacman/pkg" "$copydir/var/cache/pacman/pkg"
+	bindmountcomplete=1
+
+	api_fs_mount "$copydir" || die "failed to setup API filesystems in chroot %s" "$copydir"
+	track_mount /etc/resolv.conf "$copydir/etc/resolv.conf" --bind
+	SHELL=/bin/sh chroot "$copydir" "/chrootbuild"
+	cp "$copydir/startdir/"*.pkg.tar* $startdir/
+	cleanup
+fi
+flock -u 200
