@@ -48,22 +48,32 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
 
   # Config purely for standalone setups
   if $standalone == 'true' {
-    $standalone_packages = [ 'slim' ]
+    $standalone_packages = [ 'lxdm', 'archlinux-lxdm-theme-top' ]
     package { $standalone_packages: ensure => installed }
 
-    service { 'slim':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/slim.conf']
-    }
-    
-    file { "$home_path/.xinitrc":
-      ensure  => file,
-      owner   => $user,
-      group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.xinitrc',
+# Remove later
+    package { 'slim':
+      ensure  => 'absent',
+      require => Service['slim'];
     }
 
+    service { 'slim':
+      ensure  => stopped,
+      enable  => false,
+    }
+
+    file { "$home_path/.xinitrc":
+      ensure  => absent,
+    }
+
+# End remove
+
+    service { 'lxdm':
+      ensure  => running,
+      enable  => true,
+      require => File['/etc/lxdm/lxdm.conf']
+    }
+    
     file { "$home_path/background.jpg":
       ensure  => file,
       owner   => $user,
@@ -81,12 +91,9 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
     }
 
-    file { '/etc/slim.conf':
+    file { '/etc/lxdm/lxdm.conf':
       ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0664',
-      source  => 'puppet:///modules/xbmc/standalone/slim.conf',
+      source  => 'puppet:///modules/xbmc/standalone/lxdm.conf',
     }
   }
 }
