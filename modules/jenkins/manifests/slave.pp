@@ -1,5 +1,7 @@
 class jenkins::slave {
-  class { 'repo::mount': user => 'jenkins'; }
+  class { 'repo::mount':
+    remote => true,
+    user   => 'jenkins'; }
 
   $packages = [ 'jre7-openjdk-headless', 'abs', 'devtools' ]
   package { $packages: ensure => installed }

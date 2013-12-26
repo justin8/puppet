@@ -1,4 +1,4 @@
-class repo::mount( $remote = true, $user = root ) {
+class repo::mount( $remote = false, $user = root ) {
 
   if $remote {
 
