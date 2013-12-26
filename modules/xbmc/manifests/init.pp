@@ -12,14 +12,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml',
   }
 
-  file { '/etc/polkit-1/rules.d/10-xbmc.rules':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0664',
-    source  => 'puppet:///modules/xbmc/polkit_10-xbmc.rules',
-  }
-
   file { "$home_path/.xbmc":
     ensure  => directory,
     recurse => true,
