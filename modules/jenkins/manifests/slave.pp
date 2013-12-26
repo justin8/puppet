@@ -1,5 +1,10 @@
 class jenkins::slave {
-  class { 'repo::mount': user => 'jenkins'; }
+
+  if defined("repo::mount") {
+    notify { "repo::mount already defined before jenkins::slave": }
+  } else {
+    class { 'repo::mount': remote => true, user => 'jenkins'; }
+  }
 
   $packages = [ 'jre7-openjdk-headless', 'abs', 'devtools' ]
   package { $packages: ensure => installed }

@@ -7,10 +7,10 @@ node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
+  include repo
   include jenkins
   include jenkins::slave
   include puppetmaster
-  include repo
 
   realize (
     Httpd::Vhost['abachi.dray.be'],
