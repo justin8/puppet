@@ -1,5 +1,5 @@
 class repo {
-  include repo::mount
+  class { 'repo::mount': remote => false; }
 
   file {
     '/etc/incron.allow':
