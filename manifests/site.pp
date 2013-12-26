@@ -8,6 +8,7 @@ node 'abachi.dray.be' inherits default {
   include collectd::physical
   include httpd
   include jenkins
+  include jenkins::slave
   include puppetmaster
   include repo
 
@@ -22,15 +23,7 @@ node 'abachi.dray.be' inherits default {
   )
 }
 
-node 'bloodwood.dray.be' inherits default {
-  include puppetmaster
-}
-
 node 'huon.dray.be' inherits default {
-  include jenkins::slave
-}
-
-node 'butternut.dray.be' inherits default {
   include jenkins::slave
 }
 
