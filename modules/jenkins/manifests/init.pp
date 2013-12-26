@@ -1,6 +1,6 @@
 class jenkins {
 
-  $packages = [ 'jenkins-ci' ]
+  $packages = [ 'jenkins' ]
   package { $packages: ensure => installed }
 
   service {
