@@ -1,4 +1,4 @@
-class repo::mount( $remote = true, $user = jenkins ) {
+class repo::mount( $remote = true, $user = root ) {
 
   if $remote {
 
