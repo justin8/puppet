@@ -10,9 +10,13 @@ class os_default::ntp {
   }
 
   if $networkmanager == 'true' {
+#This file directive can be removed in the future
     file { '/etc/NetworkManager/dispatcher.d/restart-openntpd':
-      ensure  => present,
-      source  => 'puppet:///modules/os_default/nmd-restart-openntpd';
+      ensure  => absent;
+    }
+
+    package { 'networkmanager-dispatcher-openntpd':
+      ensure => installed;
     }
 
     service { 'NetworkManager-dispatcher':
