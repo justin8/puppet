@@ -1,4 +1,5 @@
 *~
 *.swp
 *.swo
+autosign.conf
 puppet.conf
