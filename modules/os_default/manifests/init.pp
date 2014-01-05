@@ -12,10 +12,8 @@ class os_default {
 
   file {
     '/root/.smbcreds':
-      mode    => '600',
-      content => "username=vms
-                  password=nagicsusgemi
-                 ";
+      mode   => '600',
+      source => 'puppet:///modules/os_default/smbcreds';
   }
 
 }
