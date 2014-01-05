@@ -5,29 +5,26 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
   $home_path = inline_template("<%= scope.lookupvar('::$home') %>")
 
 
-  file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0664',
-    source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml',
-  }
+  file {
+    '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
+      ensure  => file,
+      mode    => '0664',
+      source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml';
 
-  file { "$home_path/.xbmc":
-    ensure  => directory,
-    recurse => true,
-    force   => true,
-    ignore  => "Thumbnails",
-    owner   => $user,
-    group   => $user,
-    source  => 'puppet:///modules/xbmc/shared-settings',
-  }
+    "$home_path/.xbmc":
+      ensure  => directory,
+      recurse => true,
+      force   => true,
+      ignore  => "Thumbnails",
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/xbmc/shared-settings';
 
-  file { "$home_path/.xbmc/userdata/Thumbnails":
-    ensure  => directory,
-    owner   => $user,
-    group   => $user,
-    require => File["$home_path/.xbmc"],
+    "$home_path/.xbmc/userdata/Thumbnails":
+      ensure  => directory,
+      owner   => $user,
+      group   => $user,
+      require => File["$home_path/.xbmc"],
   }
 
   mount { "$home_path/.xbmc/userdata/Thumbnails":
@@ -93,7 +90,8 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
         ensure  => file,
         owner   => $user,
         group   => $user,
-        source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg';
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
+        require => Package['xbmc-git'];
 
       "$home_path/.config":
         ensure  => directory,
@@ -102,13 +100,15 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
         ignore  => 'google-chrome',
         owner   => $user,
         group   => $user,
-        source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config';
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
+        require => Package['xbmc-git'];
 
       "$home_path/.dmrc":
         ensure  => file,
         owner   => $user,
         group   => $user,
-        source  => 'puppet:///modules/xbmc/standalone/dotfiles/dmrc';
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/dmrc',
+        require => Package['xbmc-git'];
 
       '/etc/lxdm/lxdm.conf':
         ensure  => file,
