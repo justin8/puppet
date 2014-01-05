@@ -9,4 +9,13 @@ class os_default {
 
   $packages = [ 'git', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
+
+  file {
+    '/root/.smbcreds':
+      mode    => '600',
+      content => "username=vms
+                  password=nagicsusgemi
+                 ";
+  }
+
 }
