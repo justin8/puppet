@@ -12,15 +12,13 @@ class puppetmaster {
       mode   => '0664',
       source => 'puppet:///modules/puppetmaster/puppet.cron';
 
-    '/usr/local/bin/update_puppet':
+    '/usr/local/bin/update-puppet':
       ensure => file,
       mode   => '0775',
-      source => 'puppet:///modules/puppetmaster/update_puppet';
+      source => 'puppet:///modules/puppetmaster/update-puppet';
 
     '/etc/puppet/autosign.conf':
       ensure => file,
       source => 'puppet:///modules/puppetmaster/autosign.conf';
   }
-
-  exec { "update_puppet": command => '/usr/local/bin/update_puppet' }
 }
