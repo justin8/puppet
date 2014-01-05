@@ -1,8 +1,9 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
-  $packages = [ 'ethtool', 'pasystray', 'polkit', 'udisks', 'xbmc-git' ]
+  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc-git' ]
   package { $packages: ensure => installed }
   $home = "home_$user"
   $home_path = inline_template("<%= scope.lookupvar('::$home') %>")
+
 
   file { '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
     ensure  => file,
@@ -40,25 +41,46 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
 
   # Config purely for standalone setups
   if $standalone == 'true' {
-    $standalone_packages = [ 'lxdm', 'archlinux-lxdm-theme-top' ]
+  $standalone_packages = [ 'clipit',
+                           'conky',
+                           'compton',
+                           'evince',
+                           'faenza-icon-theme',
+                           'file-roller',
+                           'gnome-system-monitor',
+                           'gnome-themes-standard',
+                           'google-chrome',
+                           'gvfs',
+                           'gvfs-smb',
+                           'gvfs-mtp',
+                           'i3-wm',
+                           'i3lock',
+                           'i3status',
+                           'j4-dmenu-desktop',
+                           'lxdm',
+                           'archlinux-lxdm-theme-top',
+                           'meditterraneannight-theme',
+                           'nitrogen',
+                           'pamixer',
+                           'pasystray',
+                           'pavucontrol',
+                           'pulseaudio',
+                           'pulseaudio-alsa',
+                           'rsync',
+                           'scrot',
+                           'terminator',
+                           'thunar',
+                           'thunar-archive-plugin',
+                           'thunar-media-tags-plugin',
+                           'thunar-volman',
+                           'ttf-dejavu',
+                           'thunar',
+                           'tumbler',
+                           'xfce4-notifyd',
+                           'xorg-server',
+                           'xorg-xinit',
+                           'zenity' ]
     package { $standalone_packages: ensure => installed }
-
-# Remove later
-    package { 'slim':
-      ensure  => 'absent',
-      require => Service['slim'];
-    }
-
-    service { 'slim':
-      ensure  => stopped,
-      enable  => false,
-    }
-
-    file { "$home_path/.xinitrc":
-      ensure  => absent,
-    }
-
-# End remove
 
     service { 'lxdm':
       ensure  => running,
@@ -66,26 +88,31 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       require => File['/etc/lxdm/lxdm.conf']
     }
     
-    file { "$home_path/background.jpg":
-      ensure  => file,
-      owner   => $user,
-      group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
-    }
+    file {
+      "$home_path/background.jpg":
+        ensure  => file,
+        owner   => $user,
+        group   => $user,
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg';
 
-    file { "$home_path/.config":
-      ensure  => directory,
-      recurse => true,
-      force   => true,
-      ignore  => 'google-chrome',
-      owner   => $user,
-      group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
-    }
+      "$home_path/.config":
+        ensure  => directory,
+        recurse => true,
+        force   => true,
+        ignore  => 'google-chrome',
+        owner   => $user,
+        group   => $user,
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config';
 
-    file { '/etc/lxdm/lxdm.conf':
-      ensure  => file,
-      source  => 'puppet:///modules/xbmc/standalone/lxdm.conf',
+      "$home_path/.dmrc":
+        ensure  => file,
+        owner   => $user,
+        group   => $user,
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/dmrc';
+
+      '/etc/lxdm/lxdm.conf':
+        ensure  => file,
+        source  => 'puppet:///modules/xbmc/standalone/lxdm.conf';
     }
   }
 }
