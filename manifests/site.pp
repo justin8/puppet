@@ -41,14 +41,19 @@ node 'ironwood.dray.be' inherits default {
   }
 }
 
+node 'maple.dray.be' inherits default {
+  include collectd::physical
+  class { 'xbmc': }
+}
+
 node 'poplar.dray.be' inherits default {
   include collectd::physical
   class { 'xbmc': }
 }
 
-node 'maple.dray.be' inherits default {
+node 'sugi.dray.be' inherits default {
   include collectd::physical
-  class { 'xbmc': }
+  include jenkins::slave
 }
 
 node 'wkmil0393.wotifgroup.com' inherits default {
