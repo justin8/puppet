@@ -56,7 +56,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
                            'j4-dmenu-desktop',
                            'lxdm',
                            'archlinux-lxdm-theme-top',
-                           'meditterraneannight-theme',
+                           'mediterraneannight-theme',
                            'nitrogen',
                            'pamixer',
                            'pasystray',
