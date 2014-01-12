@@ -70,7 +70,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
                            'thunar-media-tags-plugin',
                            'thunar-volman',
                            'ttf-dejavu',
-                           'thunar',
                            'tumbler',
                            'xfce4-notifyd',
                            'xorg-server',
