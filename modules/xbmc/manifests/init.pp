@@ -113,7 +113,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
         ensure  => file,
         owner   => $user,
         group   => $user,
-        source  => 'puppet:///modules/xbmc/standalone/dotfiles/dmrc',
+        source  => 'puppet:///modules/xbmc/standalone/dotfiles/.dmrc',
         require => Package['xbmc-git'];
 
       '/etc/lxdm/lxdm.conf':
