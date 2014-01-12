@@ -63,7 +63,6 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
                            'pavucontrol',
                            'pulseaudio',
                            'pulseaudio-alsa',
-                           'rsync',
                            'scrot',
                            'terminator',
                            'thunar',
