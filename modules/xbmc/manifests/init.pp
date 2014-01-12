@@ -77,10 +77,18 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
                            'zenity' ]
     package { $standalone_packages: ensure => installed }
 
-    service { 'lxdm':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/lxdm/lxdm.conf']
+    package { 'slim': ensure => absent }
+
+    service {
+      'lxdm':
+        ensure  => running,
+        enable  => true,
+        require => File['/etc/lxdm/lxdm.conf'];
+
+      'slim':
+        ensure  => stopped,
+        enable  => false,
+        notify  => Service['lxdm'];
     }
     
     file {
