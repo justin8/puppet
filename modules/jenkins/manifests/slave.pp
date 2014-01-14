@@ -59,9 +59,9 @@ class jenkins::slave {
       ensure  => file,
       source  => 'puppet:///modules/jenkins/update-sources';
 
-    '/etc/cron.d/update-sources.cron':
-      ensure  => file,
-      source  => 'puppet:///modules/jenkins/cron.d-update-sources';
+    '/etc/cron.daily/update-sources':
+      ensure  => link,
+      target  => '/usr/local/bin/update-sources';
 
     '/var/lib/jenkins':
       ensure  => directory,
