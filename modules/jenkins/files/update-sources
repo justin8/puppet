@@ -1,4 +1,5 @@
 #!/bin/bash
+exec > /dev/null
 chown -R jenkins. /srv/repo
 if [[ -d /var/lib/jenkins/aur-mirror ]]
 then
