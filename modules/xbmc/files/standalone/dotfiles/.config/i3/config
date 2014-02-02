@@ -173,7 +173,7 @@ assign [class="Google-chrome"] "2: Browser"
 
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
-	exec --no-startup-id clipit
+	exec --no-startup-id copyq
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id pasystray
  	exec --no-startup-id nm-applet
