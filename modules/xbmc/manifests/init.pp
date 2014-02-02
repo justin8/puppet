@@ -38,7 +38,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
 
   # Config purely for standalone setups
   if $standalone == 'true' {
-  $standalone_packages = [ 'clipit',
+  $standalone_packages = [ 'copyq',
                            'conky',
                            'compton',
                            'evince',
