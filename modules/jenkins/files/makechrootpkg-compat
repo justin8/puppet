@@ -97,7 +97,7 @@ else
 	bindmountcomplete=1
 
 	api_fs_mount "$copydir" || die "failed to setup API filesystems in chroot %s" "$copydir"
-	track_mount /etc/resolv.conf "$copydir/etc/resolv.conf" --bind
+	cp /etc/resolv.conf "$copydir/etc/resolv.conf"
 	SHELL=/bin/sh chroot "$copydir" "/chrootbuild"
 	cp "$copydir/startdir/"*.pkg.tar* $startdir/
 	cleanup
