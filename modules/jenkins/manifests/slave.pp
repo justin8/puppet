@@ -1,8 +1,6 @@
-class jenkins::slave {
+class jenkins::slave( $remote = true ) {
 
-  if defined("repo::mount") {
-    notify { "repo::mount already defined before jenkins::slave": }
-  } else {
+  if $remote {
     class { 'repo::mount': remote => true, user => 'jenkins'; }
   }
 

@@ -9,8 +9,9 @@ node 'abachi.dray.be' inherits default {
   include httpd
   include repo
   include jenkins
-  include jenkins::slave
   include puppetmaster
+
+  class { 'jenkins::slave': remote => false; }
 
   realize (
     Httpd::Vhost['abachi.dray.be'],
