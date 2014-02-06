@@ -40,6 +40,7 @@ class os_default::misc {
   # Fix for slow drives causing hangs
   # See: http://lwn.net/Articles/572911/
   sysctl {
-    'vm.dirty_background_bytes': value => '16777216',
-    'vm.dirt_bytes': value => '50331648';
+    'vm.dirty_background_bytes': value => '16777216';
+    'vm.dirty_bytes': value => '50331648';
+  }
 }
