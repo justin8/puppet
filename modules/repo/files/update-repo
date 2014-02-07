@@ -4,6 +4,45 @@ REPO_PATH='/srv/repo'
 CACHE_PATH='/raid/server-files/system/pacman-cache'
 LOG=/var/log/$(basename $0).log
 
+function link-repo {
+if echo $repo|grep -q any; then
+	for file in $REPO_PATH/$repo/*.pkg.tar*
+	do
+		for cache in $CACHE_PATH/*
+		do
+			echo "Linking file $file..." >> $LOG
+			ln -Pf "$file" "$cache/$(basename "$file")"
+		done
+	done
+else
+	for file in $(ls $REPO_PATH/$repo/*.pkg.tar*)
+	do
+		echo "Linking file $file..." >> $LOG
+		ln -Pf "$file" "$CACHE_PATH/$repo/$(basename "$file")"
+	done
+fi
+}
+
+function read-package-name {
+if [[ -z $1 ]]
+then
+	echo "read-package-name called without argument. Aborting"
+	exit 1
+fi
+
+tar xf $1 .PKGINFO -O 2>/dev/null | grep pkgname | cut -d' ' -f3
+}
+
+function clean-old-versions {
+if [[ -z $1 ]] || [[ -z $2 ]]
+then
+	echo "clean-old-versions called without enough arguments. Aborting"
+	exit 1
+fi
+
+ls -t ${1}/${2}-[0-9]* | tail -n +2 | xargs rm -rf
+}
+
 if [[ $EUID -ne 0 ]]; then
 	echo "This script must be run as root" 1>&2
 	exit 1
@@ -24,47 +63,35 @@ elif [ $# != 2 ]; then
 	exit 1
 fi
 
-function link-repo {
-if echo $repo|grep -q games; then
-	for file in $REPO_PATH/$repo/*x86_64.pkg.tar*
-	do
-		echo "Linking file $file..." >> $LOG
-		ln -Pf "$file" "$CACHE_PATH/x86_64/$(basename "$file")"
-	done
-elif echo $repo|grep -q any; then
-	for file in $REPO_PATH/$repo/*.pkg.tar*
-	do
-		for cache in $CACHE_PATH/*
-		do
-			echo "Linking file $file..." >> $LOG
-			ln -Pf "$file" "$cache/$(basename "$file")"
-		done
-	done
-else
-	for file in $(ls $REPO_PATH/$repo/*.pkg.tar*)
-	do 
-		echo "Linking file $file..." >> $LOG
-		ln -Pf "$file" "$CACHE_PATH/$repo/$(basename "$file")"
-	done
-fi
-}
 
 repo=$(basename $(echo $1|sed 's/"//g'))
 file=$(echo $2|sed 's/"//g')
 if echo $repo|grep -q any; then
 	REPO_NAME='dray.be-any'
-elif echo $repo|grep -q games; then
-	REPO_NAME='dray.be-games'
 fi
 
 if echo $file|grep -q '.pkg.tar'
 then
+	name=$(read-package-name $REPO_PATH/$repo/$file)
+	echo "Cleaning old versions of $name from repo $repo"
+	clean-old-versions "$REPO_PATH/$repo" "$name"
 	echo "Adding file $file to repo $repo"
 	repo-add "$REPO_PATH/$repo/$REPO_NAME.db.tar.gz" $REPO_PATH/$repo/$file
 	repo-add -f "$REPO_PATH/$repo/$REPO_NAME.files.tar.gz" $REPO_PATH/$repo/$file
 	link-repo
-elif [[ "z$file" == "z" ]]
+elif [[ -z "$file" ]]
 then
+	echo "Cleaning old versions of packages from repo $repo"
+	packages=""
+	for i in "$REPO_PATH/$repo/"*.pkg.tar*
+	do
+		packages=$(echo -e "$packages\n$(read-package-name $i)")
+	done
+	for package in $(echo $packages | uniq)
+	do
+		clean-old-versions "$REPO_PATH/$repo" "$package"
+	done
+
 	echo "Performing full update on repo: $repo"
 	rm -rf $REPO_PATH/$repo/$REPO_NAME*
 	repo-add "$REPO_PATH/$repo/$REPO_NAME.db.tar.gz" $REPO_PATH/$repo/*.pkg.tar* >> $LOG
