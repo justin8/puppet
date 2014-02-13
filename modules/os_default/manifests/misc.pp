@@ -29,6 +29,10 @@ class os_default::misc {
     '/etc/locale.gen':
       ensure  => file,
       source  => 'puppet:///modules/os_default/etc/locale.gen';
+
+    '/etc/ssh/sshd_config':
+      ensure  => file,
+      source  => 'puppet:///modules/os_default/etc/ssh/sshd_config';
   }
 
   exec { 'locale-gen':
