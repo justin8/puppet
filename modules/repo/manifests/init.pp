@@ -6,7 +6,7 @@ class repo {
       ensure  => file,
       content => "root\n";
 
-    '/etc/incron.d/update-repo':
+    '/etc/incron.d/update-repo.incron':
       ensure  => file,
       source  => 'puppet:///modules/repo/update-repo.incron',
       require => File['/usr/local/bin/update-repo'];

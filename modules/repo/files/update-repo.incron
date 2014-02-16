@@ -2,4 +2,3 @@
 /srv/repo/armv7h/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo "$@" "$#"
 /srv/repo/armv6h/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo "$@" "$#"
 /srv/repo/any/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo "$@" "$#"
-/srv/repo/games/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo "$@" "$#"
