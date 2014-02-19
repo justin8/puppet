@@ -9,6 +9,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
       ensure  => file,
       mode    => '0664',
+      require => Package['xbmc-git'],
       source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml';
 
     "$home_path/.xbmc":
@@ -18,6 +19,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       ignore  => "Thumbnails",
       owner   => $user,
       group   => $user,
+      require => Package['xbmc-git'],
       source  => 'puppet:///modules/xbmc/shared-settings';
 
     "$home_path/.xbmc/userdata/Thumbnails":
@@ -118,6 +120,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
 
       '/etc/lxdm/lxdm.conf':
         ensure  => file,
+        require => Package['lxdm'],
         source  => 'puppet:///modules/xbmc/standalone/lxdm.conf';
     }
   }
