@@ -4,6 +4,7 @@ class os_default::misc {
       ensure  => file,
       mode    => '0775',
       source  => 'puppet:///modules/os_default/colourdiff';
+
     '/etc/puppet/puppet.conf':
       ensure  => file,
       mode    => '0664',
