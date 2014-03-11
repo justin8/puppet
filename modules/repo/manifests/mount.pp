@@ -16,11 +16,5 @@ class repo::mount( $remote = true, $user = root ) {
         atboot  => true,
         require => File['/srv/repo'];
     }
-  } else {
-    file {
-      '/srv/repo':
-        ensure => link,
-        target => '/raid/server-files/system/srv/repo/';
-    }
   }
 }
