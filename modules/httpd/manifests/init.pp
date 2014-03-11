@@ -22,9 +22,11 @@ class httpd {
 
   file { '/etc/httpd/conf/httpd.conf':
     ensure  => present,
-    require => [ Package['apache'], File['/etc/httpd/conf/extra/httpd-ssl.conf'] ],
     source  => 'puppet:///modules/httpd/etc/httpd/conf/httpd.conf',
-    notify  => Service['httpd'];
+    notify  => Service['httpd'],
+    require => [
+        Package['apache'],
+        File['/etc/httpd/conf/extra/httpd-ssl.conf'] ];
   }
 
   file { [ '/etc/httpd/conf/sites-available', '/etc/httpd/conf/sites-enabled' ]:
@@ -36,7 +38,7 @@ class httpd {
 
   file {
     '/etc/ssl/private':
-      ensure   => directory,
+      ensure  => directory,
       recurse => true,
       mode    => '0640';
 

@@ -7,7 +7,10 @@ class collectd::server inherits collectd {
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/collectd/collectd.d/network.conf-server',
-    require => [ Package['collectd'], Package['rrdtool'], File['/etc/collectd.d'] ],
+    require => [
+        Package['collectd'],
+        Package['rrdtool'],
+        File['/etc/collectd.d'] ],
     notify  => Service['collectd'],
   }
 

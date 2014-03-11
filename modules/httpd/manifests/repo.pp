@@ -7,9 +7,9 @@ class httpd::repo inherits httpd {
   }
 
   file { '/etc/httpd/conf/sites-enabled/repo.dray.be':
-    ensure => link,
+    ensure  => link,
     require => Package['apache'],
-    target => '../sites-available/repo.dray.be',
+    target  => '../sites-available/repo.dray.be',
   }
 
 }

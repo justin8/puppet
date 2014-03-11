@@ -12,7 +12,7 @@ class os_default {
 
   file {
     '/root/.smbcreds':
-      mode   => '600',
+      mode   => '0600',
       source => 'puppet:///modules/os_default/smbcreds';
   }
 

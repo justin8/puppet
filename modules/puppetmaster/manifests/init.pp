@@ -6,7 +6,7 @@ class puppetmaster {
     enable => true,
   }
 
-  file { 
+  file {
     '/etc/cron.d/puppet.cron':
       ensure => file,
       mode   => '0664',

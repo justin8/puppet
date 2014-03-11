@@ -30,15 +30,15 @@ node 'huon.dray.be' inherits default {
 
 node 'mahogany.dray.be' inherits default {
   class { 'xbmc':
-    standalone => 'false',
+    standalone => false,
   }
 }
 
 node 'ironwood.dray.be' inherits default {
   include collectd::physical
   class { 'xbmc':
-    user => 'justin',
-    standalone => 'false',
+    user       => 'justin',
+    standalone => false,
   }
 }
 

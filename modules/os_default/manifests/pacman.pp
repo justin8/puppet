@@ -11,12 +11,12 @@ class os_default::pacman {
   }
 
   if "$local" == "true" {
-    if "$hostname" != "abachi" {
-      mount { "/var/cache/pacman/pkg":
-        device  => "//abachi/pacman-pkg-$architecture",
-        fstype  => 'cifs',
-        options => "credentials=/root/.smbcreds,noauto,x-systemd.automount",
+    if $::hostname != 'abachi' {
+      mount { '/var/cache/pacman/pkg':
         ensure  => mounted,
+        device  => "//abachi/pacman-pkg-${::architecture}",
+        fstype  => 'cifs',
+        options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount',
         atboot  => true;
       }
     }

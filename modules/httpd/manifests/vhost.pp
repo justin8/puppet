@@ -4,13 +4,13 @@ define httpd::vhost ($destination = '*', $proxy) {
   if $proxy == true {
     file { "/etc/httpd/conf/sites-available/${title}":
       ensure  => file,
-      content => template("httpd/vproxy.erb"),
+      content => template('httpd/vproxy.erb'),
     }
   }
   else {
     file { "/etc/httpd/conf/sites-available/${title}":
       ensure  => file,
-      source => "puppet:///modules/httpd/etc/httpd/conf/sites-available/${title}",
+      source  => "puppet:///modules/httpd/etc/httpd/conf/sites-available/${title}",
     }
   }
 

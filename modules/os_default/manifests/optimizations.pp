@@ -4,8 +4,8 @@ class os_default::optimizations {
 
 
   file { 'prelink.cron':
-    path    => '/etc/cron.daily/prelink.cron',
     ensure  => file,
+    path    => '/etc/cron.daily/prelink.cron',
     owner   => 'root',
     group   => 'root',
     mode    => '0775',
