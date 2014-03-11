@@ -48,7 +48,7 @@ cleanup() {
 
 [[ $EUID != 0 ]] && echo "You must run this as root!" && exit 1
 
-exec 200>$LOCK
+(
 if ! flock -xn 200
 then
 	echo "Failed to obtain lock $LOCK. Aborting..."
@@ -57,13 +57,20 @@ fi
 
 if [[ $arch == "x86_64" ]]
 then
-	echo "Updating original chroot..."
+    echo "Updating original chroot..."
+    (
+    if ! flock -xw 300 201
+    then
+        echo "Failed to obtain lock $ROOTLOCK. Aborting..."
+        exit 1
+    fi
 	while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
+    ) 201>$ROOTLOCK
 	echo "Beginning build..."
 	makechrootpkg -c -r /chroot -l $copy -A -f
 else
 	trap cleanup EXIT
-	exec 201>$ROOTLOCK
+    (
 	if ! flock -xw 300 201
 	then
 		echo "Failed to obtain lock $ROOTLOCK. Aborting..."
@@ -75,7 +82,7 @@ else
 	echo "Cloning to new chroot $copydir"
 	mkdir -p "$copydir"
 	rsync -aqWxHAX --delete "/chroot/root/" "$copydir/"
-	flock -u 201
+    ) 201>$ROOTLOCK
 	mkdir -p "$copydir/build"
 
 	if [[ ! -f $copydir/etc/sudoers.d/nobody-pacman ]]; then
@@ -102,4 +109,4 @@ else
 	cp "$copydir/startdir/"*.pkg.tar* $startdir/
 	cleanup
 fi
-flock -u 200
+) 200>$LOCK
