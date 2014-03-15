@@ -1,26 +1,23 @@
 class doge {
 
-  $packages = [ 'cgminer-gpu', 'opencl-catalyst', 'ncurses' ]
+  $packages = [ 'amdapp-sdk', 'catalyst-hook', 'cgminer-gpu', 'ncurses' ]
   package { $packages: ensure => installed }
 
   file {
-    '/usr/local/bin/generate-cgminer-conf':
-      mode   => '774',
-      source => 'puppet:///modules/doge/generate-cgminer-conf'
-  }
-
-  exec {
-    '/usr/local/bin/generate-cgminer-conf':
-      path    => '/usr/bin',
-      creates => '/etc/cgminer.conf',
-      require => File['/usr/local/bin/generate-cgminer-conf']
+    '/etc/cgminer.conf':
+        mode    => '0664',
+        content => template('doge/cgminer.conf.erb'),
+        notify  => Service['cgminer']
   }
 
   service {
     'cgminer':
-      ensure  => running,
-      enable  => true,
-      require => Exec['/usr/bin/generate-cgminer-conf'],
+      ensure => running,
+      enable => true;
+
+    'catalyst-hook':
+      ensure => running,
+      enable => true;
   }
 
 }
