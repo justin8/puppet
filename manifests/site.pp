@@ -57,6 +57,10 @@ node 'sugi.dray.be' inherits default {
   include jenkins::slave
 }
 
+node 'doge1.dray.be' inherits default {
+  include doge
+}
+
 node 'wkmil0393.wotifgroup.com' inherits default {
   include collectd::physical
   include collectd::server
