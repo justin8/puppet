@@ -1,0 +1,10 @@
+[Unit]
+Description=Multi-threaded multi-pool CPU and GPU miner for bitcoin
+
+[Service]
+Environment="DISPLAY=:0"
+ExecStart=/usr/bin/cgminer -T --config /etc/cgminer.conf --syslog
+
+[Install]
+Wants=lxdm.service
+WantedBy=multi-user.target
