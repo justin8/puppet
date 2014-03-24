@@ -21,6 +21,7 @@ node 'abachi.dray.be' inherits default {
     Httpd::Vhost['repo.dray.be'],
     Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sickbeard.dray.be'],
+    Httpd::Vhost['transmission.dray.be'],
   )
 }
 
@@ -55,6 +56,10 @@ node 'poplar.dray.be' inherits default {
 node 'sugi.dray.be' inherits default {
   include collectd::physical
   include jenkins::slave
+}
+
+node 'doge1.dray.be' inherits default {
+  include doge
 }
 
 node 'wkmil0393.wotifgroup.com' inherits default {

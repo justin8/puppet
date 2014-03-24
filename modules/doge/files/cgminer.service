@@ -1,0 +1,10 @@
+[Unit]
+Description=Multi-threaded multi-pool CPU and GPU miner for bitcoin
+
+[Service]
+Environment="DISPLAY=:0" "GPU_MAX_ALLOC_PERCENT=100" "GPU_USE_SYNC_OBJECTS=1"
+ExecStart=/usr/bin/cgminer -T --config /etc/cgminer.conf --syslog
+
+[Install]
+Wants=lxdm.service
+WantedBy=multi-user.target

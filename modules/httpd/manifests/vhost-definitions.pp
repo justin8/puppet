@@ -26,6 +26,10 @@ class httpd::vhost-definitions {
       destination => 'http://sickbeard.dray.be:8081',
       proxy       => true;
 
+    'transmission.dray.be':
+      destination => 'http://transmission.dray.be:9091',
+      proxy       => true;
+
     'www.dray.be':
       proxy => false;
   }

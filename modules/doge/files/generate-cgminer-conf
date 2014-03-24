@@ -1,0 +1,25 @@
+#!/usr/bin/env python2
+
+import json
+
+
+def generate_pools():
+    with open('/.pools') as f:
+        i = json.load(f)
+        pools = []
+        for url in i['urls']:
+            pools.append({'url': url})
+        for pool in pools:
+            pool['user'] = i['user']
+            pool['pass'] = i['pass']
+        return pools
+    return None
+
+conf = {}
+
+conf['pools'] = generate_pools()
+conf['scrypt'] = True
+conf['intensity'] = 19
+
+with open('/etc/cgminer.conf', 'w') as f:
+    json.dump(conf, f, indent=2)
