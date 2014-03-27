@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Mostly taken from erikw/snp: https://gist.github.com/erikw/5229436
+# Runs a command wrapped with btrfs pre-post snapshots.
+LOG="/var/log/$(basename "$(readlink -f "$0")").log"
+cmd="$@"
+
+if [[ $EUID != 0 ]]
+then
+	echo -e '\e[31mThis script must be run as root\e[0m' 2>&1
+	exit 1
+fi
+
+exec >  >(tee -a "$LOG")
+exec 2> >(tee -a "$LOG" >&2)
+
+snapshot_number=$(snapper create --type=pre --cleanup-algorithm=number --print-number --description="${cmd}")
+echo -e "> New pre snapshot with number ${snapshot_number}."
+echo -e "> Running command \"${cmd}\"."
+
+eval "$cmd"
+
+snapshot_number=$(snapper create --type=post --cleanup-algorithm=number --print-number --pre-number="$snapshot_number")
+echo -e "\n> New post snapshot with number ${snapshot_number}."

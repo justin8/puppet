@@ -5,6 +5,11 @@ class os_default::misc {
       mode    => '0775',
       source  => 'puppet:///modules/os_default/colourdiff';
 
+    '/usr/local/bin/snap':
+      ensure  => file,
+      mode    => '0775',
+      source  => 'puppet:///modules/os_default/snap';
+
     '/etc/puppet/puppet.conf':
       ensure  => file,
       mode    => '0664',
