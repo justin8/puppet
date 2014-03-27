@@ -29,16 +29,13 @@
 	SSLCertificateKeyFile /etc/ssl/private/abachi.dray.be.pem
 	SSLCertificateChainFile /etc/ssl/certs/sub.class1.server.ca.pem
 	SSLCACertificateFile /etc/ssl/certs/ca.pem
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
 	
 	<FilesMatch "\.(cgi|shtml|phtml|php)$">
 		SSLOptions +StdEnvVars
 	</FilesMatch>
 	<Directory /usr/lib/cgi-bin>
 		SSLOptions +StdEnvVars
-	</Directory>
-
-	<Directory /srv/http/cgp>
-		php_admin_value open_basedir none
 	</Directory>
 
 	<Directory /srv/http/bonnie2gchart>

@@ -1,32 +1,33 @@
 class httpd {
   include httpd::vhost-definitions
-  $packages = [ 'apache', 'php', 'php-apache' ]
+  $packages = [ 'apache', 'php', 'php-fpm' ]
   package { $packages: ensure => installed }
 
-  service { 'httpd':
+  service { [ 'httpd', 'php-fpm' ]:
     ensure => running,
     enable => true,
   }
 
-  file { '/etc/php/php.ini':
-    ensure  => present,
-    require => Package['php'],
-    notify  => Service['httpd'],
-    source  => 'puppet:///modules/httpd/etc/php/php.ini',
-  }
+  file {
+    '/etc/php/php.ini':
+      ensure  => present,
+      require => Package['php'],
+      notify  => Service['php-fpm'],
+      source  => 'puppet:///modules/httpd/etc/php/php.ini';
 
-  file { '/etc/httpd/conf/extra/httpd-ssl.conf':
-    ensure => present,
-    source => 'puppet:///modules/httpd/etc/httpd/conf/extra/httpd-ssl.conf'
+    '/etc/php/php-fpm.conf':
+      ensure  => present,
+      require => Package['php-fpm'],
+      notify  => Service['php-fpm'],
+      source  => 'puppet:///modules/httpd/etc/php/php-fpm.conf';
+
   }
 
   file { '/etc/httpd/conf/httpd.conf':
     ensure  => present,
     source  => 'puppet:///modules/httpd/etc/httpd/conf/httpd.conf',
     notify  => Service['httpd'],
-    require => [
-        Package['apache'],
-        File['/etc/httpd/conf/extra/httpd-ssl.conf'] ];
+    require => Package['apache'];
   }
 
   file { [ '/etc/httpd/conf/sites-available', '/etc/httpd/conf/sites-enabled' ]:
