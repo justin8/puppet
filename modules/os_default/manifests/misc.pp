@@ -39,6 +39,10 @@ class os_default::misc {
     '/etc/ssh/sshd_config':
       ensure  => file,
       source  => 'puppet:///modules/os_default/etc/ssh/sshd_config';
+
+    '/etc/updatedb.conf':
+      ensure => file,
+      source => 'puppet:///modules/os_default/etc/updatedb.conf';
   }
 
   exec { 'locale-gen':
