@@ -12,7 +12,7 @@
 	ErrorLog "/var/log/httpd/abachi-error_log"
 	TransferLog "/var/log/httpd/abachi-access_log"
 
-	<Directory />
+	<Location />
 		Options Indexes FollowSymLinks
 		AllowOverride All
 		Order allow,deny
@@ -21,7 +21,19 @@
 		AuthName "abachi.dray.be"
 		AuthUserFile /srv/http/.htpasswd
 		Require valid-user
-	</Directory>
+	</Location>
+
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
+    ProxyPassMatch ^/CGP/?$ fcgi://127.0.0.1:9000/srv/http/CGP/index.php
+    <Location /CGP/>
+        AuthUserFile /srv/http/.htpasswd
+        AuthType Basic
+        AuthName "CollectD Graph Panel"
+        Require valid-user
+        Order allow,deny
+        Allow from 192.168.1.0/24
+        satisfy any
+    </Location>
 
 	SSLEngine on
 
@@ -29,21 +41,16 @@
 	SSLCertificateKeyFile /etc/ssl/private/abachi.dray.be.pem
 	SSLCertificateChainFile /etc/ssl/certs/sub.class1.server.ca.pem
 	SSLCACertificateFile /etc/ssl/certs/ca.pem
-    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
 	
 	<FilesMatch "\.(cgi|shtml|phtml|php)$">
 		SSLOptions +StdEnvVars
 	</FilesMatch>
+
 	<Directory /usr/lib/cgi-bin>
 		SSLOptions +StdEnvVars
 	</Directory>
 
-	<Directory /srv/http/bonnie2gchart>
+	<Location /bonnie2gchart>
 		Satisfy Any
-	</Directory>
-
-	<Directory /srv/http/arch>
-		Satisfy Any
-	</Directory>
-
+	</Location>
 </VirtualHost>
