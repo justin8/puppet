@@ -24,7 +24,7 @@
 	</Location>
 
     ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
-    ProxyPassMatch ^/CGP/?$ fcgi://127.0.0.1:9000/srv/http/CGP/index.php
+    ProxyPassMatch ^/CGP/$ fcgi://127.0.0.1:9000/srv/http/CGP/index.php
     <Location /CGP/>
         AuthUserFile /srv/http/.htpasswd
         AuthType Basic
