@@ -66,14 +66,14 @@ function link_repo {
 
 function read_package_name {
 	# Input: filename
-	if [[ -z $1 ]] || [[ ! -f $1 ]]
+	package=$1
+	if [[ -z $package ]] || [[ ! -f $package ]]
 	then
 		echo "read_package_name called without a valid argument. Aborting"
 		exit 1
 	fi
 
-	# Could grep from pacman -qp here; but it is possibly even slower
-	tar xf "$1" .PKGINFO -O 2>/dev/null | grep pkgname | cut -d' ' -f3
+	pacman -Qp "$package" | cut -d' ' -f3
 }
 
 function clean_old_versions {
