@@ -210,6 +210,10 @@ then
 	then
 		# Full path to package
 		single_package_repo_update "$1"
+	elif echo "${1##*/}" | grep -q '^\.tmp\.'
+	then
+		# Accidentally run with the temp file from updating the repo; skip
+		true
 	else
 		# Hopefully a repo name
 		named_update "$1"
