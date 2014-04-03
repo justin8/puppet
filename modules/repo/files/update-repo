@@ -168,6 +168,7 @@ function named_update {
 			;;
 		*)
 			echo -e '\e[31;1mNo valid input detected!\e[0m'
+			echo "Input was '$1'"
 			usage
 			exit 1
 			;;
