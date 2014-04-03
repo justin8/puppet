@@ -131,7 +131,7 @@ function full_repo_update {
 function single_package_repo_update {
 	# Input: path-to-package
 	package=$1
-	repo=$(echo "$package" |  grep -oE '/(x86_64|any|armv[67][lh]?)' | sed 's|/||g')
+	repo=$(echo "$package" |  grep -oE '/(x86_64|any|armv[67][lh]?)/' | sed 's|/||g')
 	echo "$(clock) Adding package '${package##*/}' to '$repo' repo"
 
 	package_name="$(read_package_name "$package")"
@@ -185,24 +185,27 @@ else
 	exec > "$LOG" 2>&1
 fi
 
-(
-flock -xw 30 200
-[[ $? != 0 ]] && echo "$(clock) Unable to obtain lock. Aborting" && exit 1
-# Check for either full repo path, repo name, or full package path
-if [[ -d $1 ]]
-then
-	# Full path to repo
-	named_update "$(echo "$1" | grep -oE '(x86_64|any|armv[67][lh]?)/?$' | sed 's|/||g')"
-elif [[ -f $1 ]] && echo "$1" | grep -q 'pkg.tar'
-then
-	# Full path to package
-	single_package_repo_update "$1"
-else
-	# Hopefully a repo name
-	named_update "$1"
-fi
+exec 200>"$LOCK"
 
-#Fix permissions
-chown -R downloads. /srv/repo
-chmod -R g+rw /srv/repo
-) 200>"$LOCK"
+if flock -xw 30 200
+then
+	# Check for either full repo path, repo name, or full package path
+	if [[ -d $1 ]]
+	then
+		# Full path to repo
+		named_update "$(echo "$1" | grep -oE '(x86_64|any|armv[67][lh]?)/?$' | sed 's|/||g')"
+	elif [[ -f $1 ]] && echo "$1" | grep -q 'pkg.tar'
+	then
+		# Full path to package
+		single_package_repo_update "$1"
+	else
+		# Hopefully a repo name
+		named_update "$1"
+	fi
+
+	#Fix permissions
+	chown -R downloads. /srv/repo
+	chmod -R g+rw /srv/repo
+else
+	echo "$(clock) Unable to obtain lock. Aborting" && exit 1
+fi
