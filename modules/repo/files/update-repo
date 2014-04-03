@@ -4,6 +4,7 @@ LOCK="/run/lock/$(basename "$(readlink -f "$0")")"
 LOG="/var/log/$(basename "$(readlink -f "$0")").log"
 REPO_NAME="dray.be"
 REPO_PATH="/srv/repo"
+LINK_CACHES="true"
 
 usage() {
 	cat <<-EOF
@@ -42,25 +43,29 @@ function link_repo {
 		echo "$(clock) link_repo called without valid input. Aborting"
 		exit 1
 	fi
-	if [[ $repo == "any" ]]; then
-		# Any repo: link to all caches
-		for package in "$REPO_PATH/$repo"/*.pkg.tar*
-		do
-			echo "$(clock) Linking package ${package##*/} all available caches..."
-			for cache in "$CACHE_PATH"/*
+
+	if [[ $LINK_CACHES == 'true' ]]
+	then
+		if [[ $repo == "any" ]]; then
+			# Any repo: link to all caches
+			for package in "$REPO_PATH/$repo"/*.pkg.tar*
 			do
-				#TODO: Change to cp --reflink=auto once RAID is btrfs
-				ln -Pf "$package" "$cache/$(basename "$package")"
+				echo "$(clock) Linking package ${package##*/} all available caches..."
+				for cache in "$CACHE_PATH"/*
+				do
+					#TODO: Change to cp --reflink=auto once RAID is btrfs
+					ln -Pf "$package" "$cache/$(basename "$package")"
+				done
 			done
-		done
-	else
-		# Not any repo: link to specific architecture
-		for package in "$REPO_PATH/$repo"/*.pkg.tar*
-		do
-			echo "$(clock) Linking package ${package}..."
-			#TODO: Change to cp --reflink=auto once RAID is btrfs
-			ln -Pf "$package" "$CACHE_PATH/$repo/$(basename "$package")"
-		done
+		else
+			# Not any repo: link to specific architecture
+			for package in "$REPO_PATH/$repo"/*.pkg.tar*
+			do
+				echo "$(clock) Linking package ${package}..."
+				#TODO: Change to cp --reflink=auto once RAID is btrfs
+				ln -Pf "$package" "$CACHE_PATH/$repo/$(basename "$package")"
+			done
+		fi
 	fi
 }
 
@@ -128,10 +133,16 @@ function full_repo_update {
 	link_repo "$repo"
 }
 
+function get_repo_from_path {
+	# Input: path-to-repo(or package)
+	path=$1
+	echo "$path" | grep -oE '/(x86_64|any|armv[67][lh]?)/' | sed 's|/||g'
+}
+
 function single_package_repo_update {
 	# Input: path-to-package
 	package=$1
-	repo=$(echo "$package" |  grep -oE '/(x86_64|any|armv[67][lh]?)/' | sed 's|/||g')
+	repo=$(get_repo_from_path "$package")
 	echo "$(clock) Adding package '${package##*/}' to '$repo' repo"
 
 	package_name="$(read_package_name "$package")"
@@ -193,7 +204,7 @@ then
 	if [[ -d $1 ]]
 	then
 		# Full path to repo
-		named_update "$(echo "$1" | grep -oE '(x86_64|any|armv[67][lh]?)/?$' | sed 's|/||g')"
+		named_update "$(get_repo_from_path "$1")"
 	elif [[ -f $1 ]] && echo "$1" | grep -q 'pkg.tar'
 	then
 		# Full path to package
