@@ -3,6 +3,10 @@ class os_default::pacman {
   $packages = [ 'cifs-utils', 'smbclient' ]
   package { $packages: ensure => installed }
 
+  file { '/etc/pacman.d/mirrorlist':
+    ensure => present,
+    source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
+
   exec { 'configure-repo':
     path    => '/usr/bin',
     unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
