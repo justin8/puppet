@@ -216,7 +216,7 @@ then
 			# Skip this as it is a file that is not a package
 			true
 		fi
-	elif echo "$1" | grep '/'
+	elif echo "$1" | grep -q '/'
 	then
 		# Probably a file (or path), which doesn't exist/ is not a pkg. ignore.
 		true
