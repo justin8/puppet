@@ -7,11 +7,16 @@ class os_default::pacman {
     ensure => present,
     source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
 
-  exec { 'configure-repo':
-    path    => '/usr/bin',
-    unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
-    command => 'curl -s "https://repo.dray.be/any/dray-repo-0.5-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz \
-                && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
+  exec {
+    'configure-repo':
+      path    => '/usr/bin',
+      unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
+      command => 'curl -s "https://repo.dray.be/any/dray-repo-0.5-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
+
+    'enable-multilib':
+      path    => '/usr/bin',
+      unless  => '! grep -q "^\[multilib\]" /etc/pacman.conf',
+      command => 'echo -e "[multilib]\nInclude = /etc/pacman.conf" >> /etc/pacman.conf';
   }
 
   if "$local" == "true" {
