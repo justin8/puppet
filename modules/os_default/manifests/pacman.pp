@@ -16,8 +16,8 @@ class os_default::pacman {
 
     'enable-multilib':
       path    => '/usr/bin',
-      unless  => '! grep -q "^\[multilib\]" /etc/pacman.conf',
-      command => 'echo -e "[multilib]\nInclude = /etc/pacman.conf" >> /etc/pacman.conf';
+      unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
+      command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.conf" >> /etc/pacman.conf';
   }
 
   if "$local" == "true" {
