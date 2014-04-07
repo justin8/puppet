@@ -93,22 +93,22 @@ function clean_old_versions {
 
 	echo "$(clock) Checking for old versions of package '$name'"
 	cleanlist=""
-	for package in "$REPO_PATH/$repo/$name"*
+	for clean_package in "$REPO_PATH/$repo/$name"*
 	do
-		curname=$(read_package_name "$package")
+		curname=$(read_package_name "$clean_package")
 		if [[ $curname == "$name" ]]
 		then
-			cleanlist="$cleanlist $package"
+			cleanlist="$cleanlist $clean_package"
 		fi
 	done
 
 	delete_list=$(echo "$cleanlist" | tr ' ' '\n' | xargs ls -l --time-style=+%s | sort -k 6 | awk '{ print $7 }' | head -n -1)
-	for package in $delete_list
+	for clean_package in $delete_list
 	do
-		if [[ -f $package ]]
+		if [[ -f $clean_package ]]
 		then
-			echo "$(clock) Deleting old version of ${name}: ${package}..."
-			rm -rf "$package"
+			echo "$(clock) Deleting old version of ${name}: ${clean_package}..."
+			rm -rf "$clean_package"
 		fi
 	done
 }
@@ -141,13 +141,13 @@ function get_repo_from_path {
 
 function single_package_repo_update {
 	# Input: path-to-package
-	package=$1
-	repo=$(get_repo_from_path "$package")
-	echo "$(clock) Adding package '${package##*/}' to '$repo' repo"
+	update_package=$1
+	repo=$(get_repo_from_path "$update_package")
+	echo "$(clock) Adding package '${update_package##*/}' to '$repo' repo"
 
-	package_name="$(read_package_name "$package")"
+	package_name="$(read_package_name "$update_package")"
 	clean_old_versions "$repo" "$package_name"
-	update_repo "$repo" "${package##*/}"
+	update_repo "$repo" "${update_package##*/}"
 	link_repo "$repo"
 }
 
