@@ -1,8 +1,8 @@
 #!/bin/bash
-exec > /dev/null 2>&1
 chown -R jenkins. /srv/repo
 if [[ -d /var/lib/jenkins/aur-mirror ]]
 then
+	exec > /dev/null 2>&1
 	cd /var/lib/jenkins/aur-mirror
 	git reset --hard origin/master
 	git clean -fd
