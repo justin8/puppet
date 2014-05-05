@@ -9,7 +9,7 @@ class puppetmaster {
   file {
     '/etc/cron.d/puppet.cron':
       ensure => file,
-      mode   => '0664',
+      mode   => '0644',
       source => 'puppet:///modules/puppetmaster/puppet.cron';
 
     '/usr/local/bin/update-puppet':
