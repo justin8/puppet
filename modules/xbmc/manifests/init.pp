@@ -8,7 +8,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
       ensure  => file,
       mode    => '0664',
-      require => Package['xbmc-git'],
+      require => Package['xbmc'],
       source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml';
 
     "${home_path}/.xbmc":
@@ -18,7 +18,7 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
       ignore  => 'Thumbnails',
       owner   => $user,
       group   => $user,
-      require => Package['xbmc-git'],
+      require => Package['xbmc'],
       source  => 'puppet:///modules/xbmc/shared-settings';
 
     "${home_path}/.xbmc/userdata/Thumbnails":
@@ -99,7 +99,7 @@ package { 'slim': ensure => absent }
             owner   => $user,
             group   => $user,
             source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
-            require => Package['xbmc-git'];
+            require => Package['xbmc'];
 
         "${home_path}/.config":
             ensure  => directory,
@@ -109,14 +109,14 @@ package { 'slim': ensure => absent }
             owner   => $user,
             group   => $user,
             source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
-            require => Package['xbmc-git'];
+            require => Package['xbmc'];
 
         "${home_path}/.dmrc":
             ensure  => file,
             owner   => $user,
             group   => $user,
             source  => 'puppet:///modules/xbmc/standalone/dotfiles/.dmrc',
-            require => Package['xbmc-git'];
+            require => Package['xbmc'];
 
         '/etc/lxdm/lxdm.conf':
             ensure  => file,
