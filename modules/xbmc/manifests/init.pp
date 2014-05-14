@@ -1,9 +1,8 @@
 class xbmc( $user = 'xbmc', $standalone = 'true') {
-  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc-git' ]
+  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc']
   package { $packages: ensure => installed }
   $home = "home_${user}"
   $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
-
 
   file {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
