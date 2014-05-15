@@ -10,12 +10,12 @@
 	ErrorLog "/var/log/httpd/www-error_log"
 	TransferLog "/var/log/httpd/www-access_log"
 
+	ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
 	<Directory />
 		Options Indexes FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
-		php_admin_value open_basedir "/srv/:/tmp/:/usr/share/webapps/:/etc/webapps:$"
 	</Directory>
 
 	SSLEngine on
