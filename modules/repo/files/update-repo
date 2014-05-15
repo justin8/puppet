@@ -202,11 +202,11 @@ exec 200>"$LOCK"
 if flock -xw 30 200
 then
 	# Check for either full repo path, repo name, or full package path
-	if [[ -d $1 ]]
+	if [[ -d /$1 ]]
 	then
 		# Full path to repo
 		named_update "$(get_repo_from_path "$1")"
-	elif [[ -f $1 ]]
+	elif [[ -f /$1 ]]
 	then
 	       if echo "$1" | grep -q 'pkg.tar'
 		then
