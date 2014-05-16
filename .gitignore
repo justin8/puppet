@@ -2,4 +2,4 @@
 *.swp
 *.swo
 autosign.conf
-puppet.conf
+/puppet.conf

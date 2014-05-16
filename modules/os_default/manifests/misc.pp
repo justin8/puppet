@@ -13,7 +13,7 @@ class os_default::misc {
     '/etc/puppet/puppet.conf':
       ensure  => file,
       mode    => '0664',
-      source  => 'puppet:///modules/os_default/puppet.conf';
+      source  => 'puppet:///modules/os_default/etc/puppet/puppet.conf';
 
     '/etc/udev/rules.d/50-wol.rules':
       ensure  => file,
