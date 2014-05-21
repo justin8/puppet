@@ -16,7 +16,7 @@ class os_default::pacman {
 
     'enable-multilib':
       path    => '/usr/bin',
-      unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
+      unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf && [[ $(uname -m) == x86_86 ]]',
       command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
   }
 
