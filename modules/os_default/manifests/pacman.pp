@@ -8,6 +8,11 @@ class os_default::pacman {
       path    => '/usr/bin',
       unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
       command => 'curl -s "https://repo.dray.be/any/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
+
+    'enable-multilib':
+      path    => '/usr/bin',
+      unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
+      command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
   }
 
   if $::architecture == 'x86_64' {
@@ -27,6 +32,7 @@ class os_default::pacman {
       ensure => present,
       source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist-armv7';
     }
+  }
 
   if "$local" == "true" {
     if $::hostname != 'abachi' {
