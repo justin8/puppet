@@ -49,6 +49,10 @@ class jenkins::slave( $remote = true ) {
     '/chroot':
       ensure  => directory;
 
+    '/etc/makepkg.conf':
+      ensure  => file,
+      source  => 'puppet:///modules/jenkins/makepkg.conf';
+
     '/etc/sudoers.d/jenkins':
       ensure  => file,
       source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
