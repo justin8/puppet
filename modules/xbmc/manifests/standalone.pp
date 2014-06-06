@@ -1,4 +1,6 @@
 class xbmc::standalone($user = 'xbmc') {
+  $home = "home_${user}"
+  $home_path = inline_template("<%= scope.lookupvar('${::home}') %>")
   class { 'xbmc':
     user => $user,
   }
@@ -34,9 +36,15 @@ class xbmc::standalone($user = 'xbmc') {
     ensure => absent
   }
 
+  user { $user:
+    shell   => '/usr/bin/zsh',
+    groups  => 'users',
+    require => Package['xbmc']
+  }
+
   service {
     'gdm':
-      ensure  => started,
+      ensure  => running,
       enable  => true,
       require => File['/etc/gdm/custom.conf'];
 
@@ -57,7 +65,7 @@ class xbmc::standalone($user = 'xbmc') {
       owner   => $user,
       group   => $user,
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
-      require => Package['xbmc'];
+      require => User[$user];
 
     "${home_path}/.config":
       ensure  => directory,
@@ -67,37 +75,11 @@ class xbmc::standalone($user = 'xbmc') {
       owner   => $user,
       group   => $user,
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
-      require => Package['xbmc'];
+      require => User[$user];
 
     '/etc/gdm/custom.conf':
       ensure  => file,
       require => Package['gdm'],
       source  => 'puppet:///modules/xbmc/standalone/gdm-custom.conf';
   }
-
-  dconf::set {
-    '/org/gnome/desktop/session/idle-delay':
-      value => 0,
-      user  => $user,
-      group => $user;
-
-    '/org/gnome/desktop/wm/preferences/theme':
-      value => "'Adwaita-X-dark'",
-      user  => $user,
-      group => $user;
-
-    '/org/gnome/desktop/interface/gtk-theme':
-      value => "'Adwaita'",
-      user  => $user,
-      group => $user;
-
-    '/org/gnome/desktop/interface/icon-theme':
-      value => "'Faenza'",
-      user  => $user,
-      group => $user;
-
-    '/org/gnome/settings-daemon/plugins/power/sleep-inactive-ac-type':
-      value => "'nothing'",
-      user  => $user,
-      group => $user;
 }

@@ -1,1 +1,8 @@
-/usr/share/applications/xbmc.desktop
+[Desktop Entry]
+Name=XBMC Media Center
+Comment=Manage and view your media
+Exec=xbmc -fs
+Icon=xbmc
+Terminal=false
+Type=Application
+Categories=AudioVideo;Video;Player;TV;
