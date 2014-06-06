@@ -1,4 +1,4 @@
-class xbmc( $user = 'xbmc', $standalone = 'true') {
+class xbmc( $user = 'xbmc') {
   $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc']
   package { $packages: ensure => installed }
   $home = "home_${user}"
@@ -37,91 +37,4 @@ class xbmc( $user = 'xbmc', $standalone = 'true') {
     require => File["${home_path}/.xbmc/userdata/Thumbnails"],
   }
 
-  # Config purely for standalone setups
-  if $standalone == 'true' {
-  $standalone_packages = [
-        'copyq',
-        'conky',
-        'compton',
-        'evince',
-        'faenza-icon-theme',
-        'file-roller',
-        'gnome-system-monitor',
-        'gnome-themes-standard',
-        'google-chrome',
-        'gvfs',
-        'gvfs-smb',
-        'gvfs-mtp',
-        'i3-wm',
-        'i3lock',
-        'i3status',
-        'j4-dmenu-desktop',
-        'lxdm',
-        'archlinux-lxdm-theme-top',
-        'mediterraneannight-theme',
-        'nitrogen',
-        'pamixer',
-        'pasystray',
-        'pavucontrol',
-        'pulseaudio',
-        'pulseaudio-alsa',
-        'scrot',
-        'terminator',
-        'thunar',
-        'thunar-archive-plugin',
-        'thunar-media-tags-plugin',
-        'thunar-volman',
-        'ttf-dejavu',
-        'tumbler',
-        'xfce4-notifyd',
-        'xorg-server',
-        'xorg-xinit',
-        'zenity' ]
-package { $standalone_packages: ensure => installed }
-
-package { 'slim': ensure => absent }
-
-    service {
-      'lxdm':
-        ensure  => running,
-        enable  => true,
-        require => File['/etc/lxdm/lxdm.conf'];
-
-      'slim':
-        ensure  => stopped,
-        enable  => false,
-        notify  => Service['lxdm'];
-    }
-
-    file {
-        "${home_path}/background.jpg":
-            ensure  => file,
-            owner   => $user,
-            group   => $user,
-            source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
-            require => Package['xbmc'];
-
-        "${home_path}/.config":
-            ensure  => directory,
-            recurse => true,
-            force   => true,
-            ignore  => 'google-chrome',
-            owner   => $user,
-            group   => $user,
-            source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
-            require => Package['xbmc'];
-
-        "${home_path}/.dmrc":
-            ensure  => file,
-            owner   => $user,
-            group   => $user,
-            source  => 'puppet:///modules/xbmc/standalone/dotfiles/.dmrc',
-            require => Package['xbmc'];
-
-        '/etc/lxdm/lxdm.conf':
-            ensure  => file,
-            require => Package['lxdm'],
-            source  => 'puppet:///modules/xbmc/standalone/lxdm.conf';
-    }
-  }
 }

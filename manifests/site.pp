@@ -31,27 +31,19 @@ node 'huon.dray.be' inherits default {
 }
 
 node 'mahogany.dray.be' inherits default {
-  class { 'xbmc':
-    standalone => false,
-  }
+  include xbmc
 }
 
 node 'ironwood.dray.be' inherits default {
   include collectd::physical
   class { 'xbmc':
-    user       => 'justin',
-    standalone => false,
+    user => 'justin',
   }
 }
 
-node 'maple.dray.be' inherits default {
+node /xbmc/ inherits default {
   include collectd::physical
-  class { 'xbmc': }
-}
-
-node 'poplar.dray.be' inherits default {
-  include collectd::physical
-  class { 'xbmc': }
+  include xbmc::standalone
 }
 
 node 'sugi.dray.be' inherits default {
