@@ -1,6 +1,6 @@
 class xbmc::standalone($user = 'xbmc') {
   $home = "home_${user}"
-  $home_path = inline_template("<%= scope.lookupvar('${::home}') %>")
+  $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
   class { 'xbmc':
     user => $user,
   }
@@ -60,7 +60,7 @@ class xbmc::standalone($user = 'xbmc') {
   }
 
   file {
-    "/usr/sahre/backgrounds/gnome/xbmc.jpg":
+    "/usr/share/backgrounds/gnome/xbmc.jpg":
       ensure  => file,
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg';
 
@@ -73,6 +73,13 @@ class xbmc::standalone($user = 'xbmc') {
       group   => $user,
       source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
       require => User[$user];
+
+    "${home_path}/.config/autostart/dconf-settings.desktop":
+      ensure  => file,
+      mode    => '0755',
+      owner   => $user,
+      group   => $user,
+      content => template('xbmc/dconf-settings.desktop.erb');
 
     '/etc/gdm/custom.conf':
       ensure  => file,

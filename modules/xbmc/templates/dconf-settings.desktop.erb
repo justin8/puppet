@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Dconf Settings
 Comment=Fixes shit
-Exec=~/.config/dconf-settings.sh
+Exec=/usr/bin/bash <%= scope.lookupvar("home_#{user}") %>/.config/dconf-settings.sh
 Terminal=false
 Type=Application
