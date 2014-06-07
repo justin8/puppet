@@ -1,12 +1,12 @@
 class xbmc::standalone($user = 'htpc') {
-  if ${user} == 'htpc' {
+  if $user == 'htpc' {
     $home_path = "/home/${user}"
 
-    user { ${user}:
+    user { $user:
       home => $home_path,
     }
 
-    file { ${home_path}:
+    file { $home_path:
       ensure => directory,
       owner  => $user,
       group  => $user;
@@ -57,7 +57,7 @@ class xbmc::standalone($user = 'htpc') {
     'gdm':
       ensure  => running,
       enable  => true,
-      require => File['/etc/gdm/custom.conf'];
+      require => [ File['/etc/gdm/custom.conf'], File["${home_path}/.config"] ];
 
     'lxdm':
       ensure => stopped,
