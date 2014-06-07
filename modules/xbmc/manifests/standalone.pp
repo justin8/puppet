@@ -60,9 +60,10 @@ class xbmc::standalone($user = 'xbmc') {
   }
 
   file {
-    "/usr/share/backgrounds/gnome/xbmc.jpg":
+    "${home_path}/.background.jpg":
       ensure  => file,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg';
+      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
+      require => User[$user];
 
     "${home_path}/.config":
       ensure  => directory,
