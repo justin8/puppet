@@ -1,6 +1,21 @@
-class xbmc::standalone($user = 'xbmc') {
-  $home = "home_${user}"
-  $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
+class xbmc::standalone($user = 'htpc') {
+  if ${user} == 'htpc' {
+    $home_path = "/home/${user}"
+
+    user { ${user}:
+      home => $home_path,
+    }
+
+    file { ${home_path}:
+      ensure => directory,
+      owner  => $user,
+      group  => $user;
+    }
+  } else {
+    $home = "home_${user}"
+    $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
+  }
+
   class { 'xbmc':
     user => $user,
   }
@@ -32,16 +47,12 @@ class xbmc::standalone($user = 'xbmc') {
     'zenity' ]
   package { $standalone_packages: ensure => installed }
 
+# TODO: cleanup later
   package { [ 'slim', 'lxdm' ]:
     ensure => absent
   }
 
-  user { $user:
-    shell   => '/usr/bin/zsh',
-    groups  => 'users',
-    require => Package['xbmc']
-  }
-
+# TODO: cleanup later
   service {
     'gdm':
       ensure  => running,
@@ -85,6 +96,6 @@ class xbmc::standalone($user = 'xbmc') {
     '/etc/gdm/custom.conf':
       ensure  => file,
       require => Package['gdm'],
-      source  => 'puppet:///modules/xbmc/standalone/gdm-custom.conf';
+      content => template('xbmc/custom.conf.erb');
   }
 }
