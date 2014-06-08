@@ -3,7 +3,8 @@ class xbmc::standalone($user = 'htpc') {
     $home_path = "/home/${user}"
 
     user { $user:
-      home => $home_path,
+      home   => $home_path,
+      groups => 'wheel',
     }
 
     file { $home_path:
