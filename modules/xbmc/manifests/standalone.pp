@@ -55,6 +55,10 @@ class xbmc::standalone($user = 'htpc') {
 
 # TODO: cleanup later
   service {
+    'bluetooth':
+      ensure  => running,
+      enable  => true;
+
     'gdm':
       ensure  => running,
       enable  => true,
