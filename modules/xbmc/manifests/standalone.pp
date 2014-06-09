@@ -28,6 +28,7 @@ class xbmc::standalone($user = 'htpc') {
     'faenza-icon-theme',
     'file-roller',
     'chromium',
+    'chromium-pepper-flash',
     'gdm',
     'gnome',
     'gnome-shell-extensions',
