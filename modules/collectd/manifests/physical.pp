@@ -8,7 +8,13 @@ class collectd::physical {
     notify  => Service['collectd'],
   }
 
-
   $packages = [ 'hddtemp', 'lm_sensors' ]
   package { $packages: ensure => installed }
+
+  service { 'hddtemp':
+    ensure  => running,
+    enable  => true,
+    require => Package['hddtemp'],
+    notify  => Service['collectd'],
+  }
 }
