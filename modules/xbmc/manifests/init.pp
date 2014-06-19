@@ -1,4 +1,4 @@
-class xbmc( $user) {
+class xbmc( $user ) {
   $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc']
   package { $packages: ensure => installed }
   if $user == 'htpc' {
