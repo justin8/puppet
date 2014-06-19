@@ -3,8 +3,8 @@ class xbmc( $user ) {
   package { $packages: ensure => installed }
   if $user == 'htpc' {
     $home_path = "/home/${user}"
-  elsif $user == 'xbmc' {
-    $home_path = "/var/lib/xbmc"
+  } elsif $user == 'xbmc' {
+    $home_path = '/var/lib/xbmc'
   } else {
     $home = "home_${user}"
     $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
