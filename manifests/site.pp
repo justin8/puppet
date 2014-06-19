@@ -31,7 +31,9 @@ node 'huon.dray.be' inherits default {
 }
 
 node 'mahogany.dray.be' inherits default {
-  include xbmc
+  class { 'xbmc':
+    user => 'xbmc',
+  }
 }
 
 node 'ironwood.dray.be' inherits default {
