@@ -49,4 +49,15 @@ class xbmc( $user, $cache=True ) {
     }
   }
 
+  xbmc::gui {
+    'skin.confluence.HomeMenuNoWeatherButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoPicturesButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoMovieButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoTVShowButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoProgramsButton': value => 'true', user => $user;
+    'country': value => 'Australia \(12h\)', user => $user;
+    'timezone': value => 'Australia\/Brisbane', user => $user;
+    'timezonecountry': value => 'Australia', user => $user;
+  }
+
 }
