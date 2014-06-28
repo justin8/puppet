@@ -7,7 +7,7 @@ class os_default {
   include os_default::ssh
   include os_default::sudo
 
-  $packages = [ 'git', 'rsync', 'pkgfile' ]
+  $packages = [ 'dnsutils', 'git', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 
   file {
