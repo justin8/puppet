@@ -1,1 +1,1 @@
-jenkins ALL = (root) NOPASSWD: /usr/bin/makechrootpkg-compat
+jenkins ALL = (root) NOPASSWD: /usr/bin/makechrootpkg-jenkins

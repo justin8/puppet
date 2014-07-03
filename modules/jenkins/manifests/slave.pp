@@ -43,8 +43,11 @@ class jenkins::slave( $remote = true ) {
 
   file {
     '/usr/bin/makechrootpkg-compat':
+      ensure => absent;
+
+    '/usr/local/bin/makechrootpkg-jenkins':
       ensure  => file,
-      source  => 'puppet:///modules/jenkins/makechrootpkg-compat';
+      source  => 'puppet:///modules/jenkins/makechrootpkg-jenkins';
 
     '/chroot':
       ensure  => directory;
