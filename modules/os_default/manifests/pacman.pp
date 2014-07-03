@@ -26,7 +26,7 @@ class os_default::pacman {
     if $::hostname != 'abachi' {
       mount { '/var/cache/pacman/pkg':
         ensure  => mounted,
-        device  => "//abachi/pacman-pkg",
+        device  => "//abachi.dray.be/pacman-pkg",
         fstype  => 'cifs',
         options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount',
         atboot  => true;
