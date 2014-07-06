@@ -16,4 +16,7 @@
 	SSLCACertificateFile /etc/ssl/certs/ca.pem
 	ProxyPass / <%= @destination %>/ retry=0
 	ProxyPassReverse / <%= @destination %>/
+  <% if /http:/.match(destination) -%>
+  RequestHeader append X-Forwarded-Proto "https"
+  <% end -%>
 </VirtualHost>
