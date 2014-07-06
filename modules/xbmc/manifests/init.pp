@@ -1,4 +1,4 @@
-class xbmc( $user ) {
+class xbmc( $user, $cache=True ) {
   $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc']
   package { $packages: ensure => installed }
   if $user == 'htpc' {
@@ -34,13 +34,30 @@ class xbmc( $user ) {
       require => File["${home_path}/.xbmc"],
   }
 
-  mount { "${home_path}/.xbmc/userdata/Thumbnails":
-    ensure  => mounted,
-    device  => '//abachi/XBMC-Thumbnails',
-    fstype  => 'cifs',
-    options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=${user},gid=${user}",
-    atboot  => true,
-    require => File["${home_path}/.xbmc/userdata/Thumbnails"],
+  if $cache == True {
+    mount { "${home_path}/.xbmc/userdata/Thumbnails":
+      ensure  => mounted,
+      device  => '//abachi/XBMC-Thumbnails',
+      fstype  => 'cifs',
+      options => "credentials=/root/.smbcreds,noauto,x-systemd.automount,uid=${user},gid=${user}",
+      atboot  => true,
+      require => File["${home_path}/.xbmc/userdata/Thumbnails"],
+    }
+  } else {
+    mount { "${home_path}/.xbmc/userdata/Thumbnails":
+      ensure => absent,
+    }
+  }
+
+  xbmc::gui {
+    'skin.confluence.HomeMenuNoWeatherButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoPicturesButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoMovieButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoTVShowButton': value => 'true', user => $user;
+    'skin.confluence.HomeMenuNoProgramsButton': value => 'true', user => $user;
+    'country': value => 'Australia \(12h\)', user => $user;
+    'timezone': value => 'Australia\/Brisbane', user => $user;
+    'timezonecountry': value => 'Australia', user => $user;
   }
 
 }

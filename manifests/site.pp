@@ -26,6 +26,16 @@ node 'abachi.dray.be' inherits default {
   )
 }
 
+node 'araucaria.dray.be' inherits default {
+  include collectd::physical
+  include collectd::server
+  include httpd
+  class { 'xbmc':
+    user  => 'jdray',
+    cache => False,
+  }
+}
+
 node 'huon.dray.be' inherits default {
   include jenkins::slave
 }
