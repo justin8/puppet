@@ -1,5 +1,7 @@
 class repo {
   class { 'repo::mount': remote => false; }
+  include httpd
+  realize ( Httpd::Vhost['repo.dray.be'], )
 
   file {
     '/etc/incron.allow':

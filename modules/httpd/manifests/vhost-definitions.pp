@@ -7,14 +7,6 @@ class httpd::vhost-definitions {
       destination => 'http://couchpotato.dray.be:5050',
       proxy       => true;
 
-    'deluge.dray.be':
-      destination => 'http://deluge.dray.be:8112',
-      proxy       => true;
-
-    'headphones.dray.be':
-      destination => 'http://headphones.dray.be:8181',
-      proxy       => true;
-
     'jenkins.dray.be':
       destination => 'http://jenkins.dray.be:8090',
       proxy       => true;
