@@ -30,6 +30,7 @@ node 'araucaria.dray.be' inherits default {
   include collectd::physical
   include collectd::server
   include httpd
+  include jenkins::slave
   class { 'xbmc':
     user  => 'jdray',
     cache => False,
