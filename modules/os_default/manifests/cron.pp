@@ -4,5 +4,6 @@ class os_default::cron {
   service { 'cronie':
     ensure    => running,
     enable    => true,
+    require   => Package['cronie'],
   }
 }
