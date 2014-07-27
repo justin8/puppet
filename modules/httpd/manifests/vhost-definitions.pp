@@ -1,4 +1,5 @@
 class httpd::vhost-definitions {
+  # TODO: Add the ability to specify a proxy host from other modules
   @httpd::vhost {
     'abachi.dray.be':
       proxy => false;
