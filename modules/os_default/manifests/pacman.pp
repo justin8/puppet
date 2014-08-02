@@ -10,10 +10,9 @@ class os_default::pacman {
       command => 'curl -s "https://repo.dray.be/any/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
   }
 
-  if $::architecture == 'x86_64' {
     file { '/etc/pacman.d/mirrorlist':
       ensure => present,
-      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist-x86_64';
+      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
     }
 
     exec {
@@ -22,18 +21,12 @@ class os_default::pacman {
         unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
         command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
     }
-  } elsif $::architecture == 'armv7l' {
-    file { '/etc/pacman.d/mirrorlist':
-      ensure => present,
-      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist-armv7';
-    }
-  }
 
   if "$local" == "true" {
     if $::hostname != 'abachi' {
       mount { '/var/cache/pacman/pkg':
         ensure  => mounted,
-        device  => "//abachi/pacman-pkg-${::architecture}",
+        device  => "//abachi.dray.be/pacman-pkg",
         fstype  => 'cifs',
         options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount',
         atboot  => true;

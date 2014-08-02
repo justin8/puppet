@@ -1,4 +1,2 @@
 /srv/repo/x86_64/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo $@$#
-/srv/repo/armv7h/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo $@$#
-/srv/repo/armv6h/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo $@$#
 /srv/repo/any/ IN_CLOSE_WRITE,IN_MOVE_TO /usr/local/bin/update-repo $@$#

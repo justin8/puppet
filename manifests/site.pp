@@ -16,14 +16,22 @@ node 'abachi.dray.be' inherits default {
   realize (
     Httpd::Vhost['abachi.dray.be'],
     Httpd::Vhost['couchpotato.dray.be'],
-    Httpd::Vhost['deluge.dray.be'],
-    Httpd::Vhost['headphones.dray.be'],
     Httpd::Vhost['jenkins.dray.be'],
-    Httpd::Vhost['repo.dray.be'],
     Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sickbeard.dray.be'],
     Httpd::Vhost['transmission.dray.be'],
   )
+}
+
+node 'araucaria.dray.be' inherits default {
+  include collectd::physical
+  include collectd::server
+  include httpd
+  include jenkins::slave
+  class { 'xbmc':
+    user  => 'jdray',
+    cache => False,
+  }
 }
 
 node 'huon.dray.be' inherits default {

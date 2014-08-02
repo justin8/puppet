@@ -1,18 +1,11 @@
 class httpd::vhost-definitions {
+  # TODO: Add the ability to specify a proxy host from other modules
   @httpd::vhost {
     'abachi.dray.be':
       proxy => false;
 
     'couchpotato.dray.be':
       destination => 'http://couchpotato.dray.be:5050',
-      proxy       => true;
-
-    'deluge.dray.be':
-      destination => 'http://deluge.dray.be:8112',
-      proxy       => true;
-
-    'headphones.dray.be':
-      destination => 'http://headphones.dray.be:8181',
       proxy       => true;
 
     'jenkins.dray.be':

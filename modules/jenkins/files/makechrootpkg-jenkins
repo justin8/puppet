@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+set -x
+[[ "$USER" == "root" ]] && copy=copy || copy=$USER
+[[ -n "$SUDO_USER" ]] && copy=$SUDO_USER
+[[ -n "$1" ]] && copy=${copy}-${1}
+copydir="/chroot/$copy"
+ROOTLOCK="/chroot/root.lock"
+LOCK="${copydir}.lock.jenkins"
+
+[[ $EUID != 0 ]] && echo "You must run this as root!" && exit 1
+
+(
+	if ! flock -xn 200
+	then
+		echo "Failed to obtain lock $LOCK. Aborting..."
+		exit 1
+	fi
+
+	echo "Updating original chroot..."
+	(
+		if ! flock -xw 300 201
+		then
+			echo "Failed to obtain lock $ROOTLOCK. Aborting..."
+			exit 1
+		fi
+		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
+	) 201>$ROOTLOCK
+	echo "Beginning build..."
+	makechrootpkg -c -r /chroot -l "$copy" -A -f
+) 200>"$LOCK"

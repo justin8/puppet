@@ -136,7 +136,7 @@ function full_repo_update {
 function get_repo_from_path {
 	# Input: path-to-repo(or package)
 	path=$1
-	echo "$path" | grep -oE '/(x86_64|any|armv[67][lh]?)/' | sed 's|/||g'
+	echo "$path" | grep -oE '/(x86_64|any)/' | sed 's|/||g'
 }
 
 function single_package_repo_update {
@@ -156,12 +156,6 @@ function named_update {
 	case $1 in
 		x86_64)
 			full_repo_update "x86_64"
-			;;
-		armv6*)
-			full_repo_update "armv6l"
-			;;
-		armv7*)
-			full_repo_update "armv7l"
 			;;
 		any)
 			full_repo_update "any"
