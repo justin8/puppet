@@ -5,3 +5,4 @@ exec > /dev/null 2>&1
 cd /etc/puppet
 git reset --hard
 git pull
+git submodule update --init
