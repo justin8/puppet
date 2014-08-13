@@ -13,7 +13,7 @@ class xbmc( $user, $cache=True ) {
   file {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
       ensure  => file,
-      mode    => '0664',
+      mode    => '0644',
       require => Package['xbmc'],
       source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml';
 
