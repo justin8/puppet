@@ -7,11 +7,6 @@ class puppetmaster {
   }
 
   file {
-    '/etc/cron.d/puppet.cron':
-      ensure => file,
-      mode   => '0644',
-      source => 'puppet:///modules/puppetmaster/puppet.cron';
-
     '/usr/local/bin/update-puppet':
       ensure => file,
       mode   => '0775',
@@ -21,4 +16,25 @@ class puppetmaster {
       ensure => file,
       source => 'puppet:///modules/puppetmaster/autosign.conf';
   }
+
+  cron { 'update-puppet':
+    command  => '/usr/local/bin/update-puppet',
+    user     => 'root',
+    minute   => '*/5',
+    hour     => '*',
+    month    => '*',
+    monthday => '*',
+    weekday  => '*',
+  }
+
+  cron { 'clear-reports':
+    command  => 'find /var/lib/puppet/reports -mtime +7 -delete',
+    user     => 'root',
+    minute   => '0',
+    hour     => '0',
+    month    => '*',
+    monthday => '*',
+    weekday  => '*',
+  }
+
 }

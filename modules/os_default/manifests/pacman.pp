@@ -7,7 +7,7 @@ class os_default::pacman {
     'configure-repo':
       path    => '/usr/bin',
       unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
-      command => 'curl -s "https://repo.dray.be/any/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
+      command => 'curl -s "https://repo.dray.be/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
   }
 
     file { '/etc/pacman.d/mirrorlist':

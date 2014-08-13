@@ -21,16 +21,52 @@ usage() {
 clock() { echo -n "[$(date +%H:%M:%S)]"; }
 
 function update_repo {
-	# Input: (file|file-glob)
-	files=$1
-	if [[ -z $files ]]
+	# Input: repo-name (file|file-glob)
+	repo=$1
+	files=$2
+	if [[ -z $repo ]] || [[ -z $files ]]
 	then
 		echo "$(clock) update_repo called without valid input. Aborting"
 		exit 1
 	fi
-	echo "$(clock) Updating repo with file[s]: $files"
-	eval repo-add "${REPO_PATH}/${REPO_NAME}.db.tar.gz" "$REPO_PATH/$files"
-	eval repo-add -f "${REPO_PATH}/${REPO_NAME}.files.tar.gz" "$REPO_PATH/$files"
+	[[ $repo == "any" ]] && cur_repo_name="${REPO_NAME}-any" || cur_repo_name="${REPO_NAME}"
+	echo "$(clock) Updating repo $repo with file[s]: $files"
+	eval repo-add "${REPO_PATH}/${repo}/${cur_repo_name}.db.tar.gz" "$REPO_PATH/$repo/$files"
+	eval repo-add -f "${REPO_PATH}/${repo}/${cur_repo_name}.files.tar.gz" "$REPO_PATH/$repo/$files"
+}
+
+function link_repo {
+	# Input: repo
+	repo=$1
+	if [[ -z $repo ]]
+	then
+		echo "$(clock) link_repo called without valid input. Aborting"
+		exit 1
+	fi
+
+	if [[ $LINK_CACHES == 'true' ]]
+	then
+		if [[ $repo == "any" ]]; then
+			# Any repo: link to all caches
+			for package in "$REPO_PATH/$repo"/*.pkg.tar*
+			do
+				echo "$(clock) Linking package ${package##*/} all available caches..."
+				for cache in "$CACHE_PATH"/*
+				do
+					#TODO: Change to cp --reflink=auto once RAID is btrfs
+					ln -Pf "$package" "$cache/$(basename "$package")"
+				done
+			done
+		else
+			# Not any repo: link to specific architecture
+			for package in "$REPO_PATH/$repo"/*.pkg.tar*
+			do
+				echo "$(clock) Linking package ${package}..."
+				#TODO: Change to cp --reflink=auto once RAID is btrfs
+				ln -Pf "$package" "$CACHE_PATH/$repo/$(basename "$package")"
+			done
+		fi
+	fi
 }
 
 function read_package_name {
@@ -46,9 +82,10 @@ function read_package_name {
 }
 
 function clean_old_versions {
-	# Input: package-name
-	name=$1
-	if [[ -z $name ]]
+	# Input: repo-name package-name
+	repo=$1
+	name=$2
+	if [[ -z $repo ]] || [[ -z $name ]]
 	then
 		echo "$(clock) clean_old_versions called without enough arguments. Aborting"
 		exit 1
@@ -56,7 +93,7 @@ function clean_old_versions {
 
 	echo "$(clock) Checking for old versions of package '$name'"
 	cleanlist=""
-	for clean_package in "$REPO_PATH/$name"*.pkg.tar*
+	for clean_package in "$REPO_PATH/$repo/$name"*
 	do
 		curname=$(read_package_name "$clean_package")
 		if [[ $curname == "$name" ]]
@@ -77,9 +114,11 @@ function clean_old_versions {
 }
 
 function full_repo_update {
-	echo "$(clock) Performing full update on repo"
+	# Input: reponame
+	repo=$1
+	echo "$(clock) Performing full update on repo '$repo'"
 
-	for package in "$REPO_PATH"/*.pkg.tar*
+	for package in "$REPO_PATH/$repo"/*.pkg.tar*
 	do
 		packagelist="$packagelist $(read_package_name "$package")"
 	done
@@ -87,20 +126,47 @@ function full_repo_update {
 
 	for package_name in $packagelist
 	do
-		clean_old_versions "$package_name"
+		clean_old_versions "$repo" "$package_name"
 	done
 
-	update_repo "*.pkg.tar*"
+	update_repo "$repo" "*.pkg.tar*"
+	link_repo "$repo"
+}
+
+function get_repo_from_path {
+	# Input: path-to-repo(or package)
+	path=$1
+	echo "$path" | grep -oE '/(x86_64|any)/' | sed 's|/||g'
 }
 
 function single_package_repo_update {
 	# Input: path-to-package
 	update_package=$1
-	echo "$(clock) Adding package '${update_package##*/}' to repo"
+	repo=$(get_repo_from_path "$update_package")
+	echo "$(clock) Adding package '${update_package##*/}' to '$repo' repo"
 
 	package_name="$(read_package_name "$update_package")"
-	clean_old_versions "$package_name"
-	update_repo "${update_package##*/}"
+	clean_old_versions "$repo" "$package_name"
+	update_repo "$repo" "${update_package##*/}"
+	link_repo "$repo"
+}
+
+function named_update {
+	# Input: repo-name
+	case $1 in
+		x86_64)
+			full_repo_update "x86_64"
+			;;
+		any)
+			full_repo_update "any"
+			;;
+		*)
+			echo -e '\e[31;1mNo valid input detected!\e[0m'
+			echo "Input was '$1'"
+			usage
+			exit 1
+			;;
+	esac
 }
 
 if [[ $EUID -ne 0 ]]; then
@@ -129,8 +195,12 @@ exec 200>"$LOCK"
 
 if flock -xw 30 200
 then
-	# Check for a package path, otherwise fall back to a full scan
-	if [[ -f /$1 ]]
+	# Check for either full repo path, repo name, or full package path
+	if [[ -d /$1 ]]
+	then
+		# Full path to repo
+		named_update "$(get_repo_from_path "$1")"
+	elif [[ -f /$1 ]]
 	then
 	       if echo "$1" | grep -q 'pkg.tar'
 		then
@@ -145,8 +215,8 @@ then
 		# Probably a file (or path), which doesn't exist/ is not a pkg. ignore.
 		true
 	else
-		# Hopefully a full update
-		full_repo_update
+		# Hopefully a repo name
+		named_update "$1"
 	fi
 
 	#Fix permissions

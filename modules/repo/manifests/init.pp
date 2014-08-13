@@ -3,6 +3,10 @@ class repo {
   include httpd
   realize ( Httpd::Vhost['repo.dray.be'], )
 
+  package { 'pkgcacheclean':
+    ensure => installed,
+  }
+
   file {
     '/etc/incron.allow':
       ensure  => file,
@@ -17,6 +21,11 @@ class repo {
       ensure => file,
       mode   => '0755',
       source => 'puppet:///modules/repo/update-repo';
+
+    '/etc/cron.daily/pkgcacheclean.cron':
+      ensure => file,
+      mode   => '0755',
+      source => 'puppet:///modules/repo/pkgcacheclean.cron',
   }
 
 }
