@@ -13,9 +13,14 @@ class os_default::optimizations {
     source  => 'puppet:///modules/os_default/prelink.cron',
   }
 
-  service { 'preload':
-    ensure  => running,
-    enable  => true,
-    require => Package['preload'],
+  service {
+    'preload':
+      ensure  => running,
+      enable  => true,
+      require => Package['preload'];
+
+    'nscd':
+      ensure  => running,
+      enable  => true,
   }
 }
