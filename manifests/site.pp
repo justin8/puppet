@@ -64,6 +64,7 @@ node 'sugi.dray.be' inherits default {
 node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include collectd::physical
   include collectd::server
+  include httpd
 }
 
 node 'zingana.dray.be' inherits default {
