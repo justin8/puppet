@@ -10,6 +10,11 @@ class os_default {
   $packages = [ 'dnsutils', 'git', 'htop', 'iftop', 'ncdu', 'nethogs', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 
+  service { 'puppet':
+    ensure => running,
+    enable => true,
+  }
+
   file {
     '/root/.smbcreds':
       mode   => '0600',
