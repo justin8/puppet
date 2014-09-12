@@ -28,6 +28,9 @@ node 'araucaria.dray.be' inherits default {
   include collectd::server
   include httpd
   include jenkins::slave
+  class { 'btsync':
+    webui => 'local',
+  }
   class { 'xbmc':
     user  => 'jdray',
     cache => False,
