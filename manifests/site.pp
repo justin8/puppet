@@ -4,6 +4,7 @@ node default {
 }
 
 node 'abachi.dray.be' inherits default {
+  include btsync
   include collectd::server
   include collectd::physical
   include httpd
@@ -24,13 +25,11 @@ node 'abachi.dray.be' inherits default {
 }
 
 node 'araucaria.dray.be' inherits default {
+  include btsync
   include collectd::physical
   include collectd::server
   include httpd
   include jenkins::slave
-  class { 'btsync':
-    webui => 'local',
-  }
   class { 'xbmc':
     user  => 'jdray',
     cache => False,
@@ -65,6 +64,7 @@ node 'sugi.dray.be' inherits default {
 }
 
 node 'wkmil0393.mil.wotifgroup.com' inherits default {
+  include btsync
   include collectd::physical
   include collectd::server
   include httpd

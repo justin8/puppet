@@ -1,4 +1,4 @@
-class btsync($webui=remote) {
+class btsync {
 
   package { 'btsync':
     ensure => present,
@@ -15,6 +15,7 @@ class btsync($webui=remote) {
     group => 'btsync',
     mode  => '0600',
     require => Package['btsync'],
+    notify  => Service['btsync'],
   }
 
 }
