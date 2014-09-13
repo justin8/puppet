@@ -19,4 +19,12 @@ class btsync( $webui = 'local' ) {
     content => template('btsync/btsync.conf.erb'),
   }
 
+  file { '/var/lib/btsync/sync':
+    ensure  => directory,
+    owner   => 'btsync',
+    group   => 'btsync',
+    mode    => '0775',
+    require => Package['btsync'],
+  }
+
 }
