@@ -14,8 +14,7 @@ node 'abachi.dray.be' inherits default {
   include repo
   include jenkins
   include puppetmaster
-
-  class { 'btsync': webui => 'remote'; }
+  include btsync::server
 
   class { 'jenkins::slave': remote => false; }
 
