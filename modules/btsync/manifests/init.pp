@@ -1,4 +1,4 @@
-class btsync {
+class btsync( $webui = 'local' ) {
 
   package { 'btsync':
     ensure => present,
@@ -11,11 +11,12 @@ class btsync {
   }
 
   file { '/etc/btsync.conf':
-    owner => 'btsync',
-    group => 'btsync',
-    mode  => '0600',
+    owner   => 'btsync',
+    group   => 'btsync',
+    mode    => '0600',
     require => Package['btsync'],
     notify  => Service['btsync'],
+    content => template('btsync/btsync.conf.erb'),
   }
 
 }

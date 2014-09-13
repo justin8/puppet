@@ -4,13 +4,14 @@ node default {
 }
 
 node 'abachi.dray.be' inherits default {
-  include btsync
   include collectd::server
   include collectd::physical
   include httpd
   include repo
   include jenkins
   include puppetmaster
+
+  class { 'btsync': webui => 'remote'; }
 
   class { 'jenkins::slave': remote => false; }
 

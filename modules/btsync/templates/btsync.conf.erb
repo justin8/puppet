@@ -26,7 +26,11 @@
 
   "webui" :
   {
+<% if @webui == 'local' -%>
     "listen" : "127.0.0.1:8888" // remove field to disable WebUI
+<% elsif @webui == 'remote' -%>
+    "listen" : "0.0.0.0:8888" // remove field to disable WebUI
+<% end -%>
 
 /* preset credentials. Use password or password_hash */
 //  ,"login" : "admin"
