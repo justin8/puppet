@@ -47,6 +47,7 @@ node 'mahogany.dray.be' inherits default {
 }
 
 node 'ironwood.dray.be' inherits default {
+  include btsync
   include collectd::physical
   class { 'xbmc':
     user => 'justin',
