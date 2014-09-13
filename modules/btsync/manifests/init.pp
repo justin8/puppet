@@ -23,8 +23,13 @@ class btsync( $webui = 'local' ) {
     ensure  => directory,
     owner   => 'btsync',
     group   => 'btsync',
-    mode    => '0775',
+    mode    => '2775',
     require => Package['btsync'],
+  }
+
+  exec { 'sync permissions':
+    command => 'setfacl -d -m g::rwx /var/lib/btsync/sync',
+    unless  => 'getfacl /var/lib/btsync/sync | grep default',
   }
 
 }
