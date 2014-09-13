@@ -37,7 +37,7 @@
 	ServerAlias sync.dray.be
 	DocumentRoot /var/lib/btsync/sync
 	<Directory />
-		Options Indexes FollowSymLinks
+		Options -Indexes +FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
