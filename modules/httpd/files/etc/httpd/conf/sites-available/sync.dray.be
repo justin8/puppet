@@ -7,7 +7,7 @@
 	TransferLog "/var/log/httpd/sync-access_log"
 
 	<Location />
-		Options Indexes FollowSymLinks
+		Options +Indexes +FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
@@ -23,7 +23,7 @@
     </Location>
 
 	<Location /public>
-		Options Indexes FollowSymLinks
+		Options -Indexes +FollowSymLinks
 		AllowOverride All
 		Order allow,deny
         Satisfy Any
@@ -36,12 +36,25 @@
 	ServerName sync.dray.be
 	ServerAlias sync.dray.be
 	DocumentRoot /var/lib/btsync/sync
-	<Directory />
-		Options -Indexes +FollowSymLinks
+	<Location />
+		Options +Indexes +FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
-	</Directory>
+	</Location>
+
+    <Location /icons>
+        Allow from all
+        Satisfy Any
+    </Location>
+
+	<Location /public>
+		Options -Indexes +FollowSymLinks
+		AllowOverride All
+		Order allow,deny
+        Satisfy Any
+		Allow from all
+	</Location>
 	
 	SSLEngine on
 	SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
