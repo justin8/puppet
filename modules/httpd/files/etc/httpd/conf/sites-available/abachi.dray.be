@@ -23,6 +23,11 @@
 		Require valid-user
 	</Location>
 
+    <Location /icons>
+        Allow from all
+        Satisfy Any
+    </Location>
+
     ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
     ProxyPassMatch ^/CGP/$ fcgi://127.0.0.1:9000/srv/http/CGP/index.php
     <Location /CGP/>
@@ -32,7 +37,7 @@
         Require valid-user
         Order allow,deny
         Allow from 192.168.1.0/24
-        satisfy any
+        Satisfy Any
     </Location>
 
 	SSLEngine on

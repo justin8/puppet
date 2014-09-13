@@ -6,12 +6,12 @@
 	ErrorLog "/var/log/httpd/repo-error_log"
 	TransferLog "/var/log/httpd/repo-access_log"
 
-	<Directory />
+	<Location />
 		Options Indexes FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
-	</Directory>
+	</Location>
 </VirtualHost>
 
 <VirtualHost *:443>
@@ -19,12 +19,12 @@
 	ServerName repo.dray.be
 	ServerAlias repo.dray.be
 	DocumentRoot /srv/repo
-	<Directory />
+	<Location />
 		Options Indexes FollowSymLinks
 		AllowOverride All
 		Order allow,deny
 		Allow from all
-	</Directory>
+	</Location>
 	
 	SSLEngine on
 	SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
