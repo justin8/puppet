@@ -1,3 +1,7 @@
+Exec {
+  path => '/usr/bin',
+}
+
 node default {
   include os_default
   include collectd
