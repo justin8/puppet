@@ -69,12 +69,13 @@ node 'sugi.dray.be' inherits default {
 }
 
 node 'wkmil0393.mil.wotifgroup.com' inherits default {
-  include btsync
+  include btsync::server
   include collectd::physical
   include collectd::server
   include httpd
 }
 
 node 'zingana.dray.be' inherits default {
+  include btsync::server
   include httpd::blog
 }
