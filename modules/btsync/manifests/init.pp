@@ -39,6 +39,7 @@ class btsync( $webui = 'local' ) {
   exec { 'sync permissions':
     command => 'setfacl -d -m g::rwx /var/lib/btsync/sync',
     unless  => 'getfacl /var/lib/btsync/sync | grep default',
+    require => File['/var/lib/btsync/sync'],
   }
 
 }
