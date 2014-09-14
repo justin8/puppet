@@ -27,6 +27,15 @@ class btsync( $webui = 'local' ) {
     require => Package['btsync'],
   }
 
+  cron { 'btsync perms':
+    command  => '/usr/bin/chmod -R g+w /var/lib/btsync/sync',
+    minute   => '*',
+    hour     => '*',
+    month    => '*',
+    monthday => '*',
+    weekday  => '*',
+  }
+
   exec { 'sync permissions':
     command => 'setfacl -d -m g::rwx /var/lib/btsync/sync',
     unless  => 'getfacl /var/lib/btsync/sync | grep default',
