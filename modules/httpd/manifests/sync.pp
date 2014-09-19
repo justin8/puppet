@@ -14,6 +14,29 @@ class httpd::sync {
     group => 'http',
   }
 
+  file { ['/srv/sync', '/srv/sync/public']:
+    ensure => directory,
+    owner  => 'btsync',
+    group  => 'btsync',
+    mode   => '2775',
+  }
+
+  cron { '/srv/sync perms':
+    command  => '/usr/bin/chmod -R g+w /srv/sync',
+    minute   => '*',
+    hour     => '*',
+    month    => '*',
+    monthday => '*',
+    weekday  => '*',
+  }
+
+  exec { '/srv/sync permissions':
+    command => 'setfacl -d -m g::rwx /srv//sync',
+    unless  => 'getfacl /srv//sync | grep default',
+    require => File['/srv/sync'],
+  }
+
+
   btsync::folder {
     '/srv/sync/public/packages':
       secret => 'AFL725PL2GCDL77OF6FCD5UFRCP42Z6LY',
