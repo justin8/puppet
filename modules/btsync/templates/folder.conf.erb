@@ -4,10 +4,10 @@
 
 /* storage_path dir contains auxilliary app files if no storage_path field: .sync dir created in the directory
    where binary is located. otherwise user-defined directory will be used */
-  "storage_path" : "/var/lib/btsync",
+  "storage_path" : "<%= @config_folder %>",
 
 /* set location of pid file */
-  "pid_file" : "/var/run/btsync/btsync.pid",
+  "pid_file" : "/var/run/btsync/<%= @clean_path %>-btsync.pid",
 
 /* use UPnP for port mapping */
   "use_upnp" : true,
@@ -34,7 +34,7 @@
       "use_dht" : true,
       "search_lan" : true,
       "use_sync_trash" : <%= @sync_trash %>, // enable SyncArchive to store files deleted on remote devices
-      "overwrite_changes" : false, // restore modified files to original version, ONLY for Read-Only folders
+      "overwrite_changes" : false // restore modified files to original version, ONLY for Read-Only folders
     }
   ]
 
