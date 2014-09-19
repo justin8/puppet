@@ -7,9 +7,16 @@ define btsync::folder($secret, $path = $title, $owner = 'root', $group = 'root',
   $config_folder = "/var/lib/btsync/${clean_path}"
   $config = "${config_folder}/btsync.conf"
 
+  exec { "${clean_path}-daemon-reload":
+    command     => 'systemctl daemon-reload',
+    refreshonly => true,
+    notify      => Service[$service_name];
+  }
+
   file {
     "/etc/systemd/system/${service_name}":
-      content => template('btsync/folder.service.erb');
+      content => template('btsync/folder.service.erb'),
+      notify  => Exec["${clean_path}-daemon-reload"];
 
     [ $path, $config_folder ]:
       ensure => directory,
@@ -17,7 +24,8 @@ define btsync::folder($secret, $path = $title, $owner = 'root', $group = 'root',
       group  => $group;
 
     $config:
-      content => template('btsync/folder.conf.erb');
+      content => template('btsync/folder.conf.erb'),
+      notify  => Service[$service_name];
   }
 
   service { $service_name:
