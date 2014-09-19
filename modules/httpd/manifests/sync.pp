@@ -1,6 +1,6 @@
-class btsync::server {
+class httpd::btsync {
 
-  require btsync
+  require btsync::system
   Httpd::Vhost <| title == 'sync.dray.be' |>
 
   exec { 'httpd btsync membership':

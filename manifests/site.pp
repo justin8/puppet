@@ -11,10 +11,10 @@ node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
+  include httpd::sync
   include repo
   include jenkins
   include puppetmaster
-  include btsync::server
 
   class { 'jenkins::slave': remote => false; }
 
@@ -69,13 +69,13 @@ node 'sugi.dray.be' inherits default {
 }
 
 node 'wkmil0393.mil.wotifgroup.com' inherits default {
-  include btsync::server
   include collectd::physical
   include collectd::server
   include httpd
+  include httpd::sync
 }
 
 node 'zingana.dray.be' inherits default {
-  include btsync::server
+  include httpd::sync
   include httpd::blog
 }
