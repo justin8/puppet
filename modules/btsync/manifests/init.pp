@@ -4,4 +4,10 @@ class btsync( $webui = 'local' ) {
     ensure => present,
   }
 
+  file { '/var/lib/btsync/custom':
+    ensure => directory,
+    purge  => true,
+    force  => true,
+  }
+
 }
