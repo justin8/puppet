@@ -29,7 +29,7 @@ node 'abachi.dray.be' inherits default {
 }
 
 node /^araucaria.*$/ inherits default {
-  include btsync
+  include btsync::system
   include collectd::physical
   include collectd::server
   include httpd
@@ -51,7 +51,7 @@ node 'mahogany.dray.be' inherits default {
 }
 
 node 'ironwood.dray.be' inherits default {
-  include btsync
+  include btsync::system
   include collectd::physical
   class { 'xbmc':
     user => 'justin',
