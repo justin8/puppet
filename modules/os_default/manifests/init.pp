@@ -7,7 +7,7 @@ class os_default {
   include os_default::ssh
   include os_default::sudo
 
-  $packages = [ 'dnsutils', 'git', 'htop', 'iftop', 'ncdu', 'nethogs', 'rsync', 'pkgfile' ]
+  $packages = [ 'dnsutils', 'git', 'htop', 'iftop', 'mlocate', 'ncdu', 'nethogs', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 
   service { 'puppet':

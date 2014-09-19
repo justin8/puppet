@@ -28,7 +28,7 @@ node 'abachi.dray.be' inherits default {
   )
 }
 
-node 'araucaria.dray.be' inherits default {
+node /^araucaria.*$/ inherits default {
   include btsync
   include collectd::physical
   include collectd::server

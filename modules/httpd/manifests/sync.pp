@@ -1,4 +1,4 @@
-class httpd::btsync {
+class httpd::sync {
 
   require btsync::system
   Httpd::Vhost <| title == 'sync.dray.be' |>

@@ -1,18 +1,22 @@
-define btsync::folder($secret, $user = 'root', $group = 'root', $sync_trash = 'true')  {
+define btsync::folder($secret, $path = $title, $owner = 'root', $group = 'root', $sync_trash = 'true')  {
   include btsync
-  $clean_title = regsubst($title, '/', '-', 'G')
-  $service_name = "${clean_title}-btsync.service"
+
+  $int_path = regsubst($path, '/', '')
+  $clean_path = regsubst($int_path, '/', '-', 'G')
+  $service_name = "${clean_path}-btsync.service"
+  $config_folder = "/var/lib/btsync/${clean_path}"
+  $config = "${config_folder}/btsync.conf"
 
   file {
     "/etc/systemd/system/${service_name}":
       content => template('btsync/folder.service.erb');
 
-    [ $title, "/var/lib/btsync/${clean_title}" ]:
-      ensure => directory
-      user   => $user,
+    [ $path, $config_folder ]:
+      ensure => directory,
+      owner  => $owner,
       group  => $group;
 
-    "/var/lib/btsync/${clean_title}/btsync.conf":
+    $config:
       content => template('btsync/folder.conf.erb');
   }
 
