@@ -14,6 +14,7 @@ class httpd::sync {
     group => 'http',
   }
 
+  # TODO: Test recurse with sticky bit for dirs
   file { ['/srv/sync', '/srv/sync/public']:
     ensure => directory,
     owner  => 'btsync',
@@ -39,19 +40,19 @@ class httpd::sync {
 
   btsync::folder {
     '/srv/sync/public/packages':
-      secret => 'AFL725PL2GCDL77OF6FCD5UFRCP42Z6LY',
+      secret => 'AM63EC4VXIWKDHO3IEZYBNV3Z2PO2WN3U',
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
 
     '/srv/sync/public/misc':
-      secret => 'ASR5MFIRMUJ7D2KLIMMSDNMP3SCIAA4WZ',
+      secret => 'AKU7U4ASOVBAEYILA7NSMM2WB54HKY6CH',
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
 
     '/srv/sync/private':
-      secret => 'AAB4H3CI3NRHPGAAAI4UERXTJC2H4YYVH',
+      secret => 'AKWW375YPMCQRMQ3F4I6VCPIPS67POH27',
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
