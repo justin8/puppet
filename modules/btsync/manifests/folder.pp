@@ -13,6 +13,7 @@ define btsync::folder($secret, $path = $title, $owner = 'root', $group = 'root',
     notify      => Service[$service_name];
   }
 
+  # TODO: Handle the key being changed, would require purging and recreating config directories
   file {
     "/etc/systemd/system/${service_name}":
       content => template('btsync/folder.service.erb'),

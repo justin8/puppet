@@ -37,7 +37,7 @@ BrowserMatch " Konqueror/4" redirect-carefully
     ServerAdmin justin@dray.be
     ServerName sync.dray.be
     ServerAlias sync.dray.be
-    DocumentRoot /var/lib/btsync/sync
+    DocumentRoot /srv/sync
     ErrorLog "/var/log/httpd/sync-error_log"
     TransferLog "/var/log/httpd/sync-access_log"
 
@@ -70,7 +70,7 @@ BrowserMatch " Konqueror/4" redirect-carefully
     ServerAdmin justin@dray.be
     ServerName sync.dray.be
     ServerAlias sync.dray.be
-    DocumentRoot /var/lib/btsync/sync
+    DocumentRoot /srv/sync
     <Location />
         Options +Indexes +FollowSymLinks
         AllowOverride All
@@ -95,7 +95,7 @@ BrowserMatch " Konqueror/4" redirect-carefully
         Allow from all
     </Location>
 
-    Alias /uploads "/var/lib/btsync/sync"
+    Alias /uploads "/srv/sync"
     <Location /uploads>
         Dav On
         AuthType Basic
