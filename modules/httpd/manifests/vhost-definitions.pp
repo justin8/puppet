@@ -5,29 +5,33 @@ class httpd::vhost-definitions {
       proxy => false;
 
     'couchpotato.dray.be':
-      destination => 'http://couchpotato.dray.be:5050',
+      destination => 'http://localhost:5050',
+      proxy       => true;
+
+    'drone.dray.be':
+      destination => 'http://localhost:8989',
       proxy       => true;
 
     'jenkins.dray.be':
-      destination => 'http://jenkins.dray.be:8090',
+      destination => 'http://localhost:8090',
       proxy       => true;
 
     'repo.dray.be':
       proxy => false;
 
     'sab.dray.be':
-      destination => 'http://sab.dray.be:8080',
+      destination => 'http://localhost:8080',
       proxy       => true;
 
     'sickbeard.dray.be':
-      destination => 'http://sickbeard.dray.be:8081',
+      destination => 'http://localhost:8081',
       proxy       => true;
 
     'sync.dray.be':
       proxy => false;
 
     'transmission.dray.be':
-      destination => 'http://transmission.dray.be:9091',
+      destination => 'http://localhost:9091',
       proxy       => true;
 
     'www.dray.be':
