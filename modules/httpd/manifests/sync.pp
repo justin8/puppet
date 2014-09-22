@@ -14,7 +14,6 @@ class httpd::sync {
     group => 'http',
   }
 
-  # TODO: Test recurse with sticky bit for dirs
   file { ['/srv/sync', '/srv/sync/public']:
     ensure => directory,
     owner  => 'btsync',
