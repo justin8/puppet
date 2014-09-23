@@ -29,7 +29,8 @@ class os_default::pacman {
         device  => "//abachi.dray.be/pacman-pkg",
         fstype  => 'cifs',
         options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount',
-        atboot  => true;
+        atboot  => true,
+        require => Package['cifs-utils'];
       }
     }
   }
