@@ -35,6 +35,7 @@ node /^araucaria.*$/ inherits default {
   include collectd::server
   include httpd
   include jenkins::slave
+  include os_default::desktop
   class { 'xbmc':
     user  => 'jdray',
     cache => False,
@@ -54,6 +55,7 @@ node 'mahogany.dray.be' inherits default {
 node 'ironwood.dray.be' inherits default {
   include btsync::system
   include collectd::physical
+  include os_default::desktop
   class { 'xbmc':
     user => 'justin',
   }
@@ -74,6 +76,7 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include collectd::server
   include httpd
   include httpd::sync
+  include os_default::desktop
 }
 
 node 'zingana.dray.be' inherits default {
