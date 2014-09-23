@@ -10,8 +10,12 @@ class os_default::misc {
       mode    => '0775',
       source  => 'puppet:///modules/os_default/snap';
 
+    '/etc/locale.gen':
+      ensure  => file;
+
     '/etc':
       ensure  => directory,
+      mode    => 'u+r',
       recurse => 'remote',
       source  => 'puppet:///modules/os_default/etc';
   }
