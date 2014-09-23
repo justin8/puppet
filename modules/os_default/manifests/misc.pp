@@ -15,7 +15,6 @@ class os_default::misc {
 
     '/etc':
       ensure  => directory,
-      mode    => 'u+r',
       recurse => 'remote',
       source  => 'puppet:///modules/os_default/etc';
   }
