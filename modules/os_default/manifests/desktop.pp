@@ -1,4 +1,4 @@
-class desktop {
+class os_default::desktop {
 
   $packages = [ 'preload', 'prelink', 'profile-sync-daemon' ]
   package { $packages: ensure => installed }
