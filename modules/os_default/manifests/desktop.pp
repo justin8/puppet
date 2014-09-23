@@ -4,8 +4,15 @@ class os_default::desktop {
   package { $packages: ensure => installed }
 
   #psd.conf config
-  file { '/etc/psd.conf':
-    content => template ('os_default/psd.conf.erb'),
+  file {
+    '/etc/psd.conf':
+      content => template ('os_default/psd.conf.erb');
+
+    '/etc/systemd/system/psd-resync.timer.d':
+      ensure => directory;
+
+    '/etc/systemd/system/psd-resync.timer.d/frequency.conf':
+      content => '[Timer]\nOnUnitActiveSec=10min\n';
   }
 
   service { 'profile-sync-daemon':
