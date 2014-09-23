@@ -13,14 +13,18 @@ class desktop {
     enable => true,
   }
 
-  file { 'prelink.cron':
-    ensure  => file,
-    path    => '/etc/cron.daily/prelink.cron',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0775',
-    require => Package['prelink', 'cronie'],
-    source  => 'puppet:///modules/os_default/prelink.cron',
+  file { '/etc/cron.daily/prelink.cron':
+    ensure => absent,
+  }
+
+  cron { 'prelink':
+    command  => 'prelink -amR',
+    minute   => '0',
+    hour     => '4',
+    month    => '*',
+    weekday  => '*',
+    monthday => '*',
+    require  => Package['prelink', 'cronie'],
   }
 
   service {
