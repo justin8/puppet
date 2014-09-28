@@ -133,7 +133,7 @@ then
 	# Check for a package path, otherwise fall back to a full scan
 	if [[ -f /$1 ]]
 	then
-	       if echo "$1" | grep -q 'pkg.tar'
+	       if echo "$1" | grep -q 'pkg.tar' | grep -v 'sync'
 		then
 			# Full path to package
 			single_package_repo_update "$1"
