@@ -26,9 +26,12 @@ function update_repo {
 		echo "$(clock) update_repo called without valid input. Aborting"
 		exit 1
 	fi
+	temp=$(mktemp -d)
+	cp "${REPO_PATH}/${REPO_NAME}"* "$temp"
 	echo "$(clock) Updating repo with file[s]: $files"
-	eval repo-add "${REPO_PATH}/${REPO_NAME}.db.tar.gz" "$REPO_PATH/$files"
-	eval repo-add -f "${REPO_PATH}/${REPO_NAME}.files.tar.gz" "$REPO_PATH/$files"
+	eval repo-add "${temp}/${REPO_NAME}.db.tar.gz" "$REPO_PATH/$files"
+	eval repo-add -f "${temp}/${REPO_NAME}.files.tar.gz" "$REPO_PATH/$files"
+	mv "${temp}/"* "${REPO_PATH}"
 }
 
 function read_package_name {
