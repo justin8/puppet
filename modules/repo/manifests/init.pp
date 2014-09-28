@@ -1,5 +1,4 @@
 class repo {
-  class { 'repo::mount': remote => false; }
   include httpd
   realize ( Httpd::Vhost['repo.dray.be'], )
 
@@ -28,4 +27,11 @@ class repo {
       source => 'puppet:///modules/repo/pkgcacheclean.cron',
   }
 
+  btsync::folder {
+    '/srv/repo':
+      secret => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
+      owner  => 'http',
+      group  => 'http',
+      notify => Service['httpd'];
+  }
 }
