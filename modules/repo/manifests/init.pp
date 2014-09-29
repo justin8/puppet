@@ -1,31 +1,45 @@
 class repo {
-  class { 'repo::mount': remote => false; }
   include httpd
+  include incron
   realize ( Httpd::Vhost['repo.dray.be'], )
 
   package { 'pkgcacheclean':
     ensure => installed,
   }
 
+  incron { 'update-repo':
+    user    => 'root',
+    command => '/usr/local/sbin/update-repo $@$#',
+    path    => '/srv/repo',
+    mask    => ['IN_CLOSE_WRITE', 'IN_MOVED_TO'],
+  }
+
+  cron { 'pkgcacheclean':
+    command  => 'pkgcacheclean -k 5',
+    minute   => '0',
+    hour     => '4',
+    month    => '*',
+    weekday  => '*',
+    monthday => '*',
+    require  => Package['pkgcacheclean'],
+  }
+
   file {
-    '/etc/incron.allow':
-      ensure  => file,
-      content => "root\n";
+    ['/etc/cron.daily/pkgcacheclean.cron',
+    '/usr/local/bin/update-repo']:
+      ensure => absent;
 
-    '/etc/incron.d/update-repo.incron':
-      ensure  => file,
-      source  => 'puppet:///modules/repo/update-repo.incron',
-      require => File['/usr/local/bin/update-repo'];
-
-    '/usr/local/bin/update-repo':
+    '/usr/local/sbin/update-repo':
       ensure => file,
       mode   => '0755',
       source => 'puppet:///modules/repo/update-repo';
-
-    '/etc/cron.daily/pkgcacheclean.cron':
-      ensure => file,
-      mode   => '0755',
-      source => 'puppet:///modules/repo/pkgcacheclean.cron',
   }
 
+  btsync::folder {
+    '/srv/repo':
+      secret => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
+      owner  => 'http',
+      group  => 'http',
+      notify => Service['httpd'];
+  }
 }

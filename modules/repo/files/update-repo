@@ -1,10 +1,8 @@
 #!/bin/bash
-CACHE_PATH='/raid/server-files/system/pacman-cache'
 LOCK="/run/lock/$(basename "$(readlink -f "$0")")"
 LOG="/var/log/$(basename "$(readlink -f "$0")").log"
 REPO_NAME="dray.be"
 REPO_PATH="/srv/repo"
-LINK_CACHES="true"
 
 usage() {
 	cat <<-EOF
@@ -28,9 +26,12 @@ function update_repo {
 		echo "$(clock) update_repo called without valid input. Aborting"
 		exit 1
 	fi
+	temp=$(mktemp -d)
+	cp "${REPO_PATH}/${REPO_NAME}"* "$temp"
 	echo "$(clock) Updating repo with file[s]: $files"
-	eval repo-add "${REPO_PATH}/${REPO_NAME}.db.tar.gz" "$REPO_PATH/$files"
-	eval repo-add -f "${REPO_PATH}/${REPO_NAME}.files.tar.gz" "$REPO_PATH/$files"
+	eval repo-add "${temp}/${REPO_NAME}.db.tar.gz" "$REPO_PATH/$files"
+	eval repo-add -f "${temp}/${REPO_NAME}.files.tar.gz" "$REPO_PATH/$files"
+	mv "${temp}/"* "${REPO_PATH}"
 }
 
 function read_package_name {
@@ -132,18 +133,22 @@ then
 	# Check for a package path, otherwise fall back to a full scan
 	if [[ -f /$1 ]]
 	then
-	       if echo "$1" | grep -q 'pkg.tar'
+		if echo "$1" | grep -q 'pkg.tar' | grep -vE '!sync'
 		then
 			# Full path to package
 			single_package_repo_update "$1"
 		else
 			# Skip this as it is a file that is not a package
-			true
+			exit 0
 		fi
 	elif echo "$1" | grep -q '/'
 	then
 		# Probably a file (or path), which doesn't exist/ is not a pkg. ignore.
-		true
+		exit 0
+	elif echo "$1" | grep -q '\.sync'
+	then
+		# A btsync folder update. Ignore.
+		exit 0
 	else
 		# Hopefully a full update
 		full_repo_update
