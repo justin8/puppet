@@ -12,10 +12,10 @@ node 'abachi.dray.be' inherits default {
   include collectd::physical
   include httpd
   include httpd::sync
-  include repo
   include jenkins
   include puppetmaster
 
+  class { 'repo': owner => 'jenkins', group => 'jenkins'; }
   class { 'jenkins::slave': remote => false; }
 
   realize (
