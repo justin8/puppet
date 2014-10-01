@@ -3,6 +3,16 @@ class os_default::pacman {
   $packages = [ 'cifs-utils', 'smbclient' ]
   package { $packages: ensure => installed }
 
+  cron { 'update-pkgfile':
+    command  => 'pkgfile -u',
+    user     => 'root',
+    minute   => '0',
+    hour     => '3',
+    weekday  => '*',
+    monthday => '*',
+    month    => '*',
+  }
+
   exec {
     'configure-repo':
       path    => '/usr/bin',
@@ -10,17 +20,17 @@ class os_default::pacman {
       command => 'curl -s "https://repo.dray.be/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
   }
 
-    file { '/etc/pacman.d/mirrorlist':
-      ensure => present,
-      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
-    }
+  file { '/etc/pacman.d/mirrorlist':
+    ensure => present,
+    source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
+  }
 
-    exec {
-      'enable-multilib':
-        path    => '/usr/bin',
-        unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
-        command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
-    }
+  exec {
+    'enable-multilib':
+      path    => '/usr/bin',
+      unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
+      command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
+  }
 
   if "$local" == "true" {
     if $::hostname != 'abachi' {
