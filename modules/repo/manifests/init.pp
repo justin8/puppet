@@ -1,4 +1,4 @@
-class repo {
+class repo( $owner = 'http', $group = 'http') {
   include httpd
   include incron
   realize ( Httpd::Vhost['repo.dray.be'], )
@@ -38,8 +38,8 @@ class repo {
   btsync::folder {
     '/srv/repo':
       secret => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
-      owner  => 'http',
-      group  => 'http',
+      owner  => $owner,
+      group  => $group,
       notify => Service['httpd'];
   }
 }

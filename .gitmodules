@@ -7,3 +7,6 @@
 [submodule "modules/docker"]
 	path = modules/docker
 	url = https://github.com/justin8/garethr-docker.git
+[submodule "modules/btsync"]
+	path = modules/btsync
+	url = https://github.com/justin8/puppet-btsync.git
