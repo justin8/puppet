@@ -6,7 +6,7 @@
 	url = https://github.com/meltwater/puppet-incron.git
 [submodule "modules/docker"]
 	path = modules/docker
-	url = https://github.com/justin8/garethr-docker.git
+	url = https://github.com/garethr/garethr-docker.git
 [submodule "modules/btsync"]
 	path = modules/btsync
 	url = https://github.com/justin8/puppet-btsync.git
