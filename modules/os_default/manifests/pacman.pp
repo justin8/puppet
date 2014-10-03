@@ -4,7 +4,7 @@ class os_default::pacman {
   package { $packages: ensure => installed }
 
   cron { 'update-pkgfile':
-    command  => 'pkgfile -u',
+    command  => 'pkgfile -u &>/dev/null',
     user     => 'root',
     minute   => '0',
     hour     => '3',
