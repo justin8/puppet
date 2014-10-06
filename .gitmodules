@@ -10,3 +10,6 @@
 [submodule "modules/btsync"]
 	path = modules/btsync
 	url = https://github.com/justin8/puppet-btsync.git
+[submodule "modules/vcsrepo"]
+	path = modules/vcsrepo
+	url = https://github.com/puppetlabs/puppetlabs-vcsrepo.git
