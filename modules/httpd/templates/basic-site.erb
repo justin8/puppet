@@ -1,0 +1,46 @@
+<VirtualHost _default_:80>
+  ServerName <%= @fqdn %>
+  ServerAlias <%= @fqdn %>
+	ServerAdmin justin@dray.be
+	DocumentRoot /srv/http
+  ErrorLog "/var/log/httpd/<%= @hostname %>-error_log"
+	TransferLog "/var/log/httpd/<%= @hostname %>-access_log"
+
+	<Location />
+		Options Indexes FollowSymLinks
+		AllowOverride All
+		Order allow,deny
+		Allow from all
+		AuthType Basic
+    AuthName "<%= @fqdn %>"
+		AuthUserFile /srv/http/.htpasswd
+		Require valid-user
+	</Location>
+
+    <Location /icons>
+        Allow from all
+        Satisfy Any
+    </Location>
+
+<%- if @CGP == true -%>
+    ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/srv/http/$1
+    ProxyPassMatch ^/CGP/$ fcgi://127.0.0.1:9000/srv/http/CGP/index.php
+    <Location /CGP/>
+        AuthUserFile /srv/http/.htpasswd
+        AuthType Basic
+        AuthName "CollectD Graph Panel"
+        Require valid-user
+        Order allow,deny
+        Allow from 192.168.1.0/24
+        Satisfy Any
+    </Location>
+<%- end -%>
+
+	<FilesMatch "\.(cgi|shtml|phtml|php)$">
+		SSLOptions +StdEnvVars
+	</FilesMatch>
+
+	<Directory /usr/lib/cgi-bin>
+		SSLOptions +StdEnvVars
+	</Directory>
+</VirtualHost>

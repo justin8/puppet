@@ -34,6 +34,7 @@ node /^araucaria.*$/ inherits default {
   include collectd::physical
   include collectd::server
   include httpd
+  include httpd::basic
   include jenkins::slave
   include os_default::desktop
   class { 'xbmc':
@@ -75,6 +76,7 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include collectd::physical
   include collectd::server
   include httpd
+  include httpd::basic
   include httpd::sync
   include os_default::desktop
 }
