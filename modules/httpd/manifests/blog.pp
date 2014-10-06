@@ -1,4 +1,5 @@
-class httpd::blog inherits httpd {
+class httpd::blog {
+  include httpd
   $packages = [ 'mariadb' ]
   package { $packages: ensure => installed }
 
