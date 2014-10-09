@@ -13,11 +13,13 @@ include httpd
   file {
     "/etc/httpd/conf/sites-available/${fqdn}":
       ensure  => file,
-      content => template('httpd/basic-site.erb');
+      content => template('httpd/basic-site.erb'),
+      notify  => Service['httpd'];
 
     "/etc/httpd/conf/sites-enabled/${fqdn}":
       ensure  => link,
-      target  => "../sites-available/${fqdn}";
+      target  => "../sites-available/${fqdn}",
+      notify  => Service['httpd'];
   }
 
 }
