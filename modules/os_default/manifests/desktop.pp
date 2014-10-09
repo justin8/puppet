@@ -15,7 +15,7 @@ class os_default::desktop {
       content => '[Timer]\nOnUnitActiveSec=10min\n';
   }
 
-  service { 'profile-sync-daemon':
+  service { 'psd':
     ensure => running,
     enable => true,
   }
