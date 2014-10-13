@@ -120,8 +120,8 @@ do
 done
 shift $((OPTIND - 1))
 
-echo "--------------------------------------------------------------------------------" >> "$LOG"
 if [[ -n $verbose ]]; then
+	echo "--------------------------------------------------------------------------------" >> "$LOG"
 	exec > >(tee -a "$LOG") 2>&1
 else
 	exec >> "$LOG" 2>&1
@@ -136,6 +136,7 @@ then
 	then
 		if echo "$1" | grep 'pkg.tar' | grep -vqE '!sync'
 		then
+			echo "--------------------------------------------------------------------------------" >> "$LOG"
 			# Full path to package
 			single_package_repo_update "$1"
 		else
@@ -151,6 +152,7 @@ then
 		# A btsync folder update. Ignore.
 		exit 0
 	else
+		echo "--------------------------------------------------------------------------------" >> "$LOG"
 		# Hopefully a full update
 		full_repo_update
 	fi
