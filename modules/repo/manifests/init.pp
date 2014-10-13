@@ -24,6 +24,12 @@ class repo( $owner = 'http', $group = 'http') {
     require  => Package['pkgcacheclean'],
   }
 
+  logrotate::rule { 'update-repo':
+    path => '/var/log/update-repo.log',
+    rotate => 7,
+    rotate_every => 'day',
+  }
+
   file {
     ['/etc/cron.daily/pkgcacheclean.cron',
     '/usr/local/bin/update-repo']:
