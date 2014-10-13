@@ -9,7 +9,7 @@ class repo( $owner = 'http', $group = 'http') {
 
   incron { 'update-repo':
     user    => 'root',
-    command => '/usr/local/sbin/update-repo $@$#',
+    command => '/usr/local/sbin/update-repo $@/$#',
     path    => '/srv/repo',
     mask    => ['IN_CLOSE_WRITE', 'IN_MOVED_TO'],
   }
@@ -30,15 +30,10 @@ class repo( $owner = 'http', $group = 'http') {
     rotate_every => 'day',
   }
 
-  file {
-    ['/etc/cron.daily/pkgcacheclean.cron',
-    '/usr/local/bin/update-repo']:
-      ensure => absent;
-
-    '/usr/local/sbin/update-repo':
-      ensure => file,
-      mode   => '0755',
-      source => 'puppet:///modules/repo/update-repo';
+  file {'/usr/local/sbin/update-repo':
+    ensure => file,
+    mode   => '0755',
+    source => 'puppet:///modules/repo/update-repo';
   }
 
   btsync::folder {
