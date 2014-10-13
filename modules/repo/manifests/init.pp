@@ -37,9 +37,10 @@ class repo( $owner = 'http', $group = 'http') {
 
   btsync::folder {
     '/srv/repo':
-      secret => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
-      owner  => $owner,
-      group  => $group,
-      notify => Service['httpd'];
+      secret      => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
+      owner       => $owner,
+      group       => $group,
+      ignore_list => [ 'dray.be.*' ]
+      notify      => Service['httpd'];
   }
 }
