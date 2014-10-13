@@ -123,7 +123,7 @@ shift $((OPTIND - 1))
 if [[ -n $verbose ]]; then
 	exec > >(tee -a "$LOG") 2>&1
 else
-	exec > "$LOG" 2>&1
+	exec >> "$LOG" 2>&1
 fi
 
 exec 200>"$LOCK"

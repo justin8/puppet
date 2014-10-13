@@ -13,3 +13,6 @@
 [submodule "modules/vcsrepo"]
 	path = modules/vcsrepo
 	url = https://github.com/puppetlabs/puppetlabs-vcsrepo.git
+[submodule "modules/logrotate"]
+	path = modules/logrotate
+	url = https://github.com/rodjek/puppet-logrotate/
