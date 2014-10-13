@@ -40,7 +40,7 @@ class repo( $owner = 'http', $group = 'http') {
       secret      => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
       owner       => $owner,
       group       => $group,
-      ignore_list => [ 'dray.be.*' ]
+      ignore_list => [ 'dray.be.*' ],
       notify      => Service['httpd'];
   }
 }
