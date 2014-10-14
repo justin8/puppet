@@ -15,6 +15,12 @@ class puppetmaster {
     enable => true,
   }
 
+  vcsrepo { '/etc/hieradata':
+    ensure   => latest,
+    source   => 'git@github.com:justin8/hieradata.git',
+    revision => 'master',
+  }
+
   file {
     '/usr/local/bin/update-puppet':
       ensure => file,

@@ -2,8 +2,10 @@
 
 exec > /dev/null 2>&1
 
-cd /etc/puppet
-git reset --hard
-git pull
-git submodule sync
-git submodule update --init
+for repo in /etc/puppet /etc/hieradata
+do
+	git -C $repo reset --hard
+	git -C $repo pull
+	git -C $repo submodule sync
+	git -C $repo submodule update --init
+done
