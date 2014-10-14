@@ -23,7 +23,7 @@ class puppetmaster {
       ensure => file,
       source => 'puppet:///modules/puppetmaster/autosign.conf';
 
-    '/var/lib/puppet/keys':
+    '/etc/puppet/keys':
       recurse => true,
       mode    => '0400';
   }
