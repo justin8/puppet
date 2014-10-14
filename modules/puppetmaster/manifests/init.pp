@@ -27,6 +27,8 @@ class puppetmaster {
 
     '/etc/puppet/keys':
       recurse => true,
+      owner   => 'puppet',
+      group   => 'puppet',
       mode    => '0400';
   }
 
