@@ -1,5 +1,6 @@
 define httpd::vhost ($destination = '*', $proxy) {
   include httpd
+  $httpd_private_keys = hiera('httpd_private_keys')
 
   if $proxy == true {
     file { "/etc/httpd/conf/sites-available/${title}":
@@ -25,5 +26,10 @@ define httpd::vhost ($destination = '*', $proxy) {
       ensure => file,
       source => "puppet:///modules/httpd/etc/ssl/certs/${title}.crt",
       notify => Service['httpd'];
+
+    "/etc/ssl/private/${title}.pem":
+      ensure  => file,
+      mode    => '0400',
+      content => $httpd_private_keys[$title];
   }
 }
