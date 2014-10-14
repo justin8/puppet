@@ -15,8 +15,8 @@ define mediacenter::xbmc::gui ( $value, $user, $home_path = undef ) {
 
   exec { "xbmc-gui-${title}":
     path    => '/usr/bin',
-    unless  => "grep -qE '<(setting\ .*)?${title}(\ default.*)?\"?>${value}</' '${real_home_path}/.xbmc/userdata/guisettings.xml'",
-    command => "sed -ri '/<(setting\ .*)?${title}(\ default.*)?\"?>/s/>.*<\//>${value}<\//' '${real_home_path}/.xbmc/userdata/guisettings.xml'",
+    unless  => "grep -qE '<(setting\\ .*)?${title}(\\ default.*)?\"?>${value}</' '${real_home_path}/.xbmc/userdata/guisettings.xml'",
+    command => "sed -ri '|<(setting\\ .*)?${title}(\\ default.*)?\"?>|s|>.*</|>${value}</|' '${real_home_path}/.xbmc/userdata/guisettings.xml'",
   }
 
 }
