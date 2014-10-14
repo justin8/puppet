@@ -2,6 +2,7 @@ class repo( $owner = 'http', $group = 'http') {
   include httpd
   include incron
   realize ( Httpd::Vhost['repo.dray.be'], )
+  $btsync_keys = hiera('btsync_keys')
 
   package { 'pkgcacheclean':
     ensure => installed,
@@ -38,7 +39,7 @@ class repo( $owner = 'http', $group = 'http') {
 
   btsync::folder {
     '/srv/repo':
-      secret      => 'AEB27GZEPUXIIL7CS6CB3RD57ZYBOO47B',
+      secret      => $btsync_keys['repo'],
       owner       => $owner,
       group       => $group,
       ignore_list => [ 'dray.be.*' ],

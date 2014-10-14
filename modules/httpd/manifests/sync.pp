@@ -36,22 +36,23 @@ class httpd::sync {
     require => File['/srv/sync'],
   }
 
+  $btsync_keys = hiera('btsync_keys')
 
   btsync::folder {
     '/srv/sync/public/packages':
-      secret => 'AM63EC4VXIWKDHO3IEZYBNV3Z2PO2WN3U',
+      secret => $btsync_keys['public_packages'],
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
 
     '/srv/sync/public/misc':
-      secret => 'AKU7U4ASOVBAEYILA7NSMM2WB54HKY6CH',
+      secret => $btsync_keys['public_misc'],
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
 
     '/srv/sync/private':
-      secret => 'AKWW375YPMCQRMQ3F4I6VCPIPS67POH27',
+      secret => $btsync_keys['private'],
       owner  => 'btsync',
       group  => 'btsync',
       notify => Service['httpd'];
