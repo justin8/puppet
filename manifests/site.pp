@@ -15,9 +15,10 @@ node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
-  include syncserver
   include jenkins
+  include mediaserver
   include puppetmaster
+  include syncserver
 
   class { 'repo': owner => 'jenkins', group => 'jenkins'; }
   class { 'jenkins::slave': remote => false; }
