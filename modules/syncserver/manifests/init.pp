@@ -1,5 +1,5 @@
-class httpd::sync {
-
+class syncserver {
+  include httpd
   Httpd::Vhost <| title == 'sync.dray.be' |>
 
   exec { 'httpd btsync membership':

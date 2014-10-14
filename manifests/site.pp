@@ -15,7 +15,7 @@ node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
-  include httpd::sync
+  include syncserver
   include jenkins
   include puppetmaster
 
@@ -87,13 +87,13 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include collectd::server
   include httpd
   include httpd::basic
-  include httpd::sync
+  include syncserver
   include os_default::desktop
   include repo
 }
 
 node 'zingana.dray.be' inherits default {
-  include httpd::sync
+  include syncserver
   include httpd::blog
   include repo
 }
