@@ -79,6 +79,7 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include httpd::basic
   include httpd::sync
   include os_default::desktop
+  include repo
 }
 
 node 'zingana.dray.be' inherits default {
