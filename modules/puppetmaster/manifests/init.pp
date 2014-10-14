@@ -1,5 +1,12 @@
 class puppetmaster {
-  package { 'puppet': ensure => installed }
+  package {
+    'puppet':
+      ensure => installed;
+
+    'hiera-eyaml':
+      ensure   => installed,
+      provider => 'gem';
+  }
 
   service { 'puppetmaster':
     ensure => running,
@@ -15,6 +22,10 @@ class puppetmaster {
     '/etc/puppet/autosign.conf':
       ensure => file,
       source => 'puppet:///modules/puppetmaster/autosign.conf';
+
+    '/var/lib/puppet/keys':
+      recurse => true,
+      mode    => '0400';
   }
 
   cron { 'update-puppet':
