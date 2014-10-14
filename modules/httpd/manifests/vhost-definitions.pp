@@ -16,6 +16,10 @@ class httpd::vhost-definitions {
       destination => 'http://localhost:8090',
       proxy       => true;
 
+    'plex.dray.be':
+      destination => 'http://localhost:32400',
+      proxy       => true;
+
     'repo.dray.be':
       proxy => false;
 
