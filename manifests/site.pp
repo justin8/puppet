@@ -2,6 +2,10 @@ Exec {
   path => '/usr/bin',
 }
 
+Vcsrepo {
+  provider => 'git',
+}
+
 node default {
   include os_default
   include collectd

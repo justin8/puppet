@@ -4,7 +4,6 @@ include httpd
   if $CGP == true {
     vcsrepo { '/srv/http/CGP':
       ensure   => present,
-      provider => 'git',
       source   => 'https://github.com/justin8/CGP',
       revision => 'master';
     }
