@@ -4,6 +4,7 @@
     - eyaml
 :hierarchy:
     - common
+    - secure
 :yaml:
     :datadir: /etc/hieradata
 :eyaml:
