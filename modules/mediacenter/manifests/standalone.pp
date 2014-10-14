@@ -1,24 +1,16 @@
-class xbmc::standalone($user = 'htpc') {
-  if $user == 'htpc' {
-    $home_path = "/home/${user}"
-
-    user { $user:
-      home   => $home_path,
-      groups => 'wheel',
-    }
-
-    file { $home_path:
-      ensure => directory,
-      owner  => $user,
-      group  => $user;
-    }
-  } else {
-    $home = "home_${user}"
-    $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
+class mediacenter::standalone( $type, $user, $home_path ) {
+  user { $user:
+    home       => $home_path,
+    groups     => 'wheel',
+    managehome => true,
   }
 
-  class { 'xbmc':
-    user => $user,
+  if $type == 'xbmc' {
+    file { "${home_path}/.config/autostart/xbmc.desktop":
+      ensure => link,
+      target => '/usr/share/applications/xbmc.desktop',
+    }
+#  } elsif $type == 'plex' {
   }
 
   $standalone_packages = [
@@ -49,12 +41,6 @@ class xbmc::standalone($user = 'htpc') {
     'zenity' ]
   package { $standalone_packages: ensure => installed }
 
-# TODO: cleanup later
-  package { [ 'slim', 'lxdm' ]:
-    ensure => absent
-  }
-
-# TODO: cleanup later
   service {
     'bluetooth':
       ensure  => running,
@@ -64,22 +50,20 @@ class xbmc::standalone($user = 'htpc') {
       ensure  => running,
       enable  => true,
       require => [ File['/etc/gdm/custom.conf'], File["${home_path}/.config"] ];
-
-    'lxdm':
-      ensure => stopped,
-      enable => false,
-      notify => Service['gdm'];
-
-    'slim':
-      ensure => stopped,
-      enable => false,
-      notify => Service['gdm'];
   }
 
   file {
+    [
+      "${home_path}/.config",
+      "${home_path}/.config/autostart",
+    ] :
+      ensure => directory,
+      owner  => $user,
+      group  => $user;
+
     "${home_path}/.background.jpg":
       ensure  => file,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/background.jpg',
+      source  => 'puppet:///modules/mediacenter/standalone/dotfiles/background.jpg',
       require => User[$user];
 
     "${home_path}/.config":
@@ -89,19 +73,20 @@ class xbmc::standalone($user = 'htpc') {
       ignore  => 'chromium',
       owner   => $user,
       group   => $user,
-      source  => 'puppet:///modules/xbmc/standalone/dotfiles/.config',
+      source  => 'puppet:///modules/mediacenter/standalone/dotfiles/.config',
       require => User[$user];
 
-    "${home_path}/.config/autostart/dconf-settings.desktop":
+    "${home_path}/.config/autostart/misc-settings.desktop":
       ensure  => file,
       mode    => '0755',
       owner   => $user,
       group   => $user,
-      content => template('xbmc/dconf-settings.desktop.erb');
+      content => template('mediacenter/misc-settings.desktop.erb');
 
     '/etc/gdm/custom.conf':
       ensure  => file,
       require => Package['gdm'],
-      content => template('xbmc/custom.conf.erb');
+      content => template('mediacenter/custom.conf.erb');
   }
+
 }

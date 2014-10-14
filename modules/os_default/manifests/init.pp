@@ -7,7 +7,7 @@ class os_default {
   include os_default::ssh
   include os_default::sudo
 
-  $packages = [ 'atop', 'aura-bin', 'dnsutils', 'git', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'nethogs', 'pkgstats', 'rsync', 'pkgfile' ]
+  $packages = [ 'atop', 'aura-bin', 'dnsutils', 'ethtool', 'git', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'pkgstats', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 
   service { ['puppet', 'atop']:

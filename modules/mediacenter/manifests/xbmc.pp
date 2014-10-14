@@ -1,23 +1,20 @@
-class xbmc( $user, $cache=True ) {
-  $packages = [ 'ethtool', 'polkit', 'udisks', 'xbmc']
+class mediacenter::xbmc( $user, $cache, $home_path ) {
+  $packages = [ 'polkit', 'udisks', 'xbmc']
   package { $packages: ensure => installed }
-  if $user == 'htpc' {
-    $home_path = "/home/${user}"
-  } elsif $user == 'xbmc' {
-    $home_path = '/var/lib/xbmc'
-  } else {
-    $home = "home_${user}"
-    $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
-  }
 
   file {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':
       ensure  => file,
       mode    => '0644',
       require => Package['xbmc'],
-      source  => 'puppet:///modules/xbmc/IncludesHomeMenuItems.xml';
+      source  => 'puppet:///modules/mediacenter/xbmc/common/IncludesHomeMenuItems.xml';
 
     "${home_path}/.xbmc":
+      ensure => directory,
+      owner  => $user,
+      group  => $user;
+
+    "${home_path}/.xbmc/userdata":
       ensure  => directory,
       recurse => true,
       force   => true,
@@ -25,13 +22,13 @@ class xbmc( $user, $cache=True ) {
       owner   => $user,
       group   => $user,
       require => Package['xbmc'],
-      source  => 'puppet:///modules/xbmc/shared-settings';
+      source  => 'puppet:///modules/mediacenter/xbmc/common/userdata';
 
     "${home_path}/.xbmc/userdata/Thumbnails":
       ensure  => directory,
       owner   => $user,
       group   => $user,
-      require => File["${home_path}/.xbmc"],
+      require => File["${home_path}/.xbmc/userdata"],
   }
 
   if $cache == True {
@@ -49,7 +46,7 @@ class xbmc( $user, $cache=True ) {
     }
   }
 
-  xbmc::gui {
+  mediacenter::xbmc::gui {
     'skin.confluence.HomeMenuNoWeatherButton': value => 'true', user => $user;
     'skin.confluence.HomeMenuNoPicturesButton': value => 'true', user => $user;
     'skin.confluence.HomeMenuNoMovieButton': value => 'true', user => $user;
