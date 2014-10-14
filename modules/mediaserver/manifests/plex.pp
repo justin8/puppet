@@ -6,6 +6,7 @@ class mediaserver::plex {
   
   docker::image { $image:
     image_tag => 'latest',
+    require   => Docker::Run['plexmediaserver'],
   }
 
   docker::run { 'plexmediaserver':
