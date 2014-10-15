@@ -158,7 +158,7 @@ then
 	fi
 
 	#Fix permissions
-	chown -R downloads. /srv/repo
+	chown -R http. /srv/repo
 	chmod -R g+rw /srv/repo
 else
 	echo "$(clock) Unable to obtain lock. Aborting" && exit 1
