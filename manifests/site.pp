@@ -6,6 +6,10 @@ Vcsrepo {
   provider => 'git',
 }
 
+File {
+  backup => false,
+}
+
 node default {
   include os_default
   include collectd
