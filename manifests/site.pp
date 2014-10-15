@@ -94,7 +94,9 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   include httpd::basic
   include syncserver
   include os_default::desktop
-  include repo
+  class { 'repo':
+    open_network => false,
+  }
 }
 
 node 'zingana.dray.be' inherits default {

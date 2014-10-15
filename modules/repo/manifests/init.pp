@@ -1,4 +1,4 @@
-class repo( $owner = 'http', $group = 'http') {
+class repo( $owner = 'http', $group = 'http', $open_network = true) {
   include httpd
   include incron
   realize ( Httpd::Vhost['repo.dray.be'], )
@@ -42,6 +42,7 @@ class repo( $owner = 'http', $group = 'http') {
       secret      => $btsync_keys['repo'],
       owner       => $owner,
       group       => $group,
+      use_upnp    => $open_network,
       ignore_list => [ 'dray.be.*' ],
       notify      => Service['httpd'];
   }

@@ -1,4 +1,4 @@
-class syncserver {
+class syncserver( $open_network = true ) {
   include httpd
   Httpd::Vhost <| title == 'sync.dray.be' |>
 
@@ -40,22 +40,25 @@ class syncserver {
 
   btsync::folder {
     '/srv/sync/public/packages':
-      secret => $btsync_keys['public_packages'],
-      owner  => 'btsync',
-      group  => 'btsync',
-      notify => Service['httpd'];
+      secret   => $btsync_keys['public_packages'],
+      owner    => 'btsync',
+      group    => 'btsync',
+      use_upnp => $open_network,
+      notify   => Service['httpd'];
 
     '/srv/sync/public/misc':
-      secret => $btsync_keys['public_misc'],
-      owner  => 'btsync',
-      group  => 'btsync',
-      notify => Service['httpd'];
+      secret   => $btsync_keys['public_misc'],
+      owner    => 'btsync',
+      group    => 'btsync',
+      use_upnp => $open_network,
+      notify   => Service['httpd'];
 
     '/srv/sync/private':
-      secret => $btsync_keys['private'],
-      owner  => 'btsync',
-      group  => 'btsync',
-      notify => Service['httpd'];
+      secret   => $btsync_keys['private'],
+      owner    => 'btsync',
+      group    => 'btsync',
+      use_upnp => $open_network,
+      notify   => Service['httpd'];
   }
 
 }
