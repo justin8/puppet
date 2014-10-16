@@ -1,5 +1,4 @@
 #!/bin/bash
-chown -R jenkins. /srv/repo
 if [[ -d /var/lib/jenkins/aur-mirror ]]
 then
 	exec > /dev/null 2>&1
