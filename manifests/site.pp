@@ -22,9 +22,9 @@ node 'abachi.dray.be' inherits default {
   include jenkins
   include mediaserver
   include puppetmaster
+  include repo
   include syncserver
 
-  class { 'repo': owner => 'jenkins', group => 'jenkins'; }
   class { 'jenkins::slave': remote => false; }
 
   realize (
