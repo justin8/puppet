@@ -10,7 +10,7 @@ class mediaserver::plex {
 
   docker::run { 'plexmediaserver':
     image   => $image,
-    ports   => ['32400'],
+    ports   => ['32400:32400'],
     volumes => ['/raid/server-files/config/plex:/config',
                 '/raid/shares/:/media'],
     require   => Docker::Image['justin8/plexmediaserver'],
