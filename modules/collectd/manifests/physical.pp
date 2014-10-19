@@ -17,4 +17,14 @@ class collectd::physical {
     require => Package['hddtemp'],
     notify  => Service['collectd'],
   }
+
+  file {
+    '/etc/systemd/system/hddtemp.service.d':
+      ensure => directory;
+
+    '/etc/systemd/system/hddtemp.service.d/disks.conf':
+      ensure  => present,
+      content => template('collectd/hddtemp-disks.conf.erb');
+  }
+
 }

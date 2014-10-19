@@ -1,0 +1,2 @@
+[Service]
+ExecStart=/usr/bin/hddtemp -dF<% @blockdevices.split(",").each do |device| %> /dev/<%= device %><% end %>
