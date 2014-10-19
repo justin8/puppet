@@ -1,5 +1,5 @@
 class mediaserver {
   include docker
 
-  include mediaserver::plex
+  #include mediaserver::plex
 }
