@@ -49,7 +49,7 @@ class puppetmaster {
   }
 
   cron { 'clear-reports':
-    command  => 'find /var/lib/puppet/reports -mtime +7 -type f -delete',
+    command  => 'find /var/lib/puppet/reports -mtime +1 -type f -delete',
     user     => 'root',
     minute   => '0',
     hour     => '0',
