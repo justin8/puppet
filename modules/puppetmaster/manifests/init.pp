@@ -48,14 +48,4 @@ class puppetmaster {
     weekday  => '*',
   }
 
-  cron { 'clear-reports':
-    command  => 'find /var/lib/puppet/reports -mmin +60 -type f -delete',
-    user     => 'root',
-    minute   => '0',
-    hour     => '0',
-    month    => '*',
-    monthday => '*',
-    weekday  => '*',
-  }
-
 }
