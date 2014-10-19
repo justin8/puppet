@@ -2,7 +2,7 @@ class mediaserver::plex {
   include httpd
   Httpd::Vhost <| title == 'plex.dray.be' |>
 
-  $image = 'justin8/plexmediaserver'
+  $image = 'justin8/plexmediaserver:latest'
 
   docker::image { $image:
     image_tag => 'latest',
@@ -17,7 +17,7 @@ class mediaserver::plex {
                 '1900:1900/udp',],
     volumes => ['/raid/server-files/config/plex:/config',
                 '/raid/shares/:/media'],
-    require   => Docker::Image['justin8/plexmediaserver'],
+    require   => Docker::Image[$image],
   }
 
 }
