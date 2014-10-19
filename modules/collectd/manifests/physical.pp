@@ -24,7 +24,8 @@ class collectd::physical {
 
     '/etc/systemd/system/hddtemp.service.d/disks.conf':
       ensure  => present,
-      content => template('collectd/hddtemp-disks.conf.erb');
+      content => template('collectd/hddtemp-disks.conf.erb'),
+      notify  => [ Exec['systemd-daemon-reload'], Service['hddtemp'] ];
   }
 
 }

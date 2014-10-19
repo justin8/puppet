@@ -21,4 +21,9 @@ class os_default {
       source => 'puppet:///modules/os_default/smbcreds';
   }
 
+  exec { 'systemd-daemon-reload':
+    command     => '/usr/bin/systemctl daemon-reload',
+    refreshonly => true,
+  }
+
 }
