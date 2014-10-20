@@ -17,5 +17,5 @@ class mediaserver::sabnzbd ( $config_dir ) {
                 '/raid/shares/public:/public'],
     require => Docker::Image[$image],
   }
- 
+
 }
