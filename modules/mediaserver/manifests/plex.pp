@@ -1,4 +1,4 @@
-class mediaserver::plex {
+class mediaserver::plex ( $config_dir ) {
   include httpd
   Httpd::Vhost <| title == 'plex.dray.be' |>
 

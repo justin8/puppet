@@ -1,10 +1,10 @@
 class mediaserver {
   include docker
 
-  $config_dir = '/raid/server-files/config'
-
-  include mediaserver::plex
-  include mediaserver::sabnzbd
+  class { [ 'mediaserver::plex',
+            'mediaserver::sabnzbd' ]:
+    config_dir => '/raid/server-files/config',
+  }
   #include mediaserver::couchpotato
   #include mediaserver::drone
   #include mediaserver::transmission

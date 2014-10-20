@@ -1,4 +1,4 @@
-class mediaserver::sabnzbd {
+class mediaserver::sabnzbd ( $config_dir ) {
   include httpd
   Httpd::Vhost <| title == 'sab.dray.be' |>
 
