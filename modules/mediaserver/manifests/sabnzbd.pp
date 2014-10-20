@@ -13,7 +13,8 @@ class mediaserver::sabnzbd ( $config_dir ) {
     image   => "${image}:${latest}",
     ports   => ['8080:8080'],
     volumes => ["${config_dir}/sabnzbd:/config",
-                '/raid/server-files/downloads:/downloads'],
+                '/raid/server-files/downloads:/downloads',
+                '/raid/shares/public:/public'],
     require => Docker::Image[$image],
   }
  
