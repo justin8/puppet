@@ -17,14 +17,8 @@ class mediaserver::plex ( $config_dir ) {
                 '32469:32469/udp',
                 '1900:1900/udp',],
     volumes => ["${config_dir}/plex:/config",
-                '/raid/shares/anime:/media/anime',
-                '/raid/shares/documentaries:/media/documentaries',
-                '/raid/shares/movies:/media/movies',
-                '/raid/shares/music:/media/music',
-                '/raid/shares/music-videos:/media/music-videos',
-                '/raid/shares/tv:/media/tv',
-                '/raid/shares/videos:/media/videos',
-                '/raid/server-files/downloads:/media/downloads'],
+                '/raid/shares:/media',
+                '/raid/server-files/downloads:/downloads'],
     require   => Docker::Image[$image],
   }
 
