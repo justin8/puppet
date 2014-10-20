@@ -16,7 +16,7 @@ class mediaserver::plex {
                 '32469:32469',
                 '32469:32469/udp',
                 '1900:1900/udp',],
-    volumes => ['/raid/server-files/config/plex:/config',
+    volumes => ["${config_dir}/plex:/config",
                 '/raid/shares/anime:/media/anime',
                 '/raid/shares/documentaries:/media/documentaries',
                 '/raid/shares/movies:/media/movies',
