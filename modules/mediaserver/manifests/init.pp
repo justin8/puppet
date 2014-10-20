@@ -3,10 +3,9 @@ class mediaserver {
 
   class { [ 'mediaserver::plex',
             'mediaserver::couchpotato',
+            'mediaserver::drone',
+            'mediaserver::transmission',
             'mediaserver::sabnzbd' ]:
     config_dir => '/raid/server-files/config',
   }
-  #include mediaserver::couchpotato
-  #include mediaserver::drone
-  #include mediaserver::transmission
 }

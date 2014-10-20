@@ -29,12 +29,7 @@ node 'abachi.dray.be' inherits default {
 
   realize (
     Httpd::Vhost['abachi.dray.be'],
-    Httpd::Vhost['couchpotato.dray.be'],
-    Httpd::Vhost['drone.dray.be'],
     Httpd::Vhost['jenkins.dray.be'],
-    Httpd::Vhost['sab.dray.be'],
-    Httpd::Vhost['sickbeard.dray.be'],
-    Httpd::Vhost['transmission.dray.be'],
   )
 }
 
