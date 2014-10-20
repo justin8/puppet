@@ -9,7 +9,7 @@ class mediaserver::sabnzbd ( $config_dir ) {
     image_tag => $tag,
   }
 
-  docker::run { 'sabbnzbd':
+  docker::run { 'sabnzbd':
     image   => "${image}:${latest}",
     ports   => ['8080:8080'],
     volumes => ["${config_dir}/sabnzbd:/config",
