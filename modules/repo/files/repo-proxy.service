@@ -1,0 +1,11 @@
+[Unit]
+Description=Tunnel for repo syncing
+After=network.target
+
+[Service]
+Environment="AUTOSSH_GATETIME=0"
+ExecStart=/usr/bin/autossh -M 0 -ND 8080 -o TCPKeepAlive=yes -p 22222 abachi.dray.be
+
+[Install]
+WantedBy=multi-user.target
+
