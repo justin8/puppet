@@ -64,6 +64,11 @@ class mediaserver {
       '/etc/systemd/system/transmission.service.d/downloads.conf'
     ]:
       source => 'puppet:///modules/mediaserver/downloads.conf';
+
+    [
+      '/etc/conf.d/plexmediaserver',
+    ]:
+      source => 'puppet:///modules/mediaserver/conf.d/plexmediaserver';
   }
 
 }
