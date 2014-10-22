@@ -13,6 +13,7 @@ class repo( $owner = 'http', $group = 'http', $open_network = true) {
     }
 
     file { 'repo-proxy.service':
+      path    => '/etc/systemd/system/repo-proxy.service',
       ensure  => absent,
       require => Service['repo-proxy'],
     }
