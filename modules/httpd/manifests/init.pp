@@ -41,7 +41,7 @@ class httpd {
     '/etc/ssl/private':
       ensure  => directory,
       recurse => true,
-      mode    => '0640';
+      mode    => '0600';
 
     '/etc/ssl/certs':
       ensure  => directory,
