@@ -41,40 +41,21 @@ node /^araucaria.*$/ inherits default {
   include httpd::basic
   include jenkins::slave
   include os_default::desktop
-  class { 'mediacenter':
-    type  => 'xbmc',
-    user  => 'jdray',
-    cache => False,
-  }
 }
 
 node 'huon.dray.be' inherits default {
   include jenkins::slave
 }
 
-node 'mahogany.dray.be' inherits default {
-  class { 'mediacenter':
-    type => 'xbmc',
-    user => 'xbmc',
-  }
-}
-
 node 'ironwood.dray.be' inherits default {
   include btsync::system
   include collectd::physical
   include os_default::desktop
-  class { 'mediacenter':
-    type => 'xbmc',
-    user => 'justin',
-  }
 }
 
-node /xbmc/ inherits default {
+node /mediacenter/ inherits default {
   include collectd::physical
-  class { 'mediacenter':
-    type => 'xbmc-standalone',
-    user => 'htpc',
-  }
+  include mediacenter
 }
 
 node 'sugi.dray.be' inherits default {

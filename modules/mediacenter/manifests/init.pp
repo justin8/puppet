@@ -1,34 +1,80 @@
-class mediacenter( $type, $user, $cache=True ) {
+class mediacenter( $user='htpc', $home_path ) {
+
   if $user == 'htpc' {
     $home_path = "/home/${user}"
-  } elsif $user == 'xbmc' {
-    $home_path = '/var/lib/xbmc'
   } else {
     $home = "home_${user}"
     $home_path = inline_template("<%= scope.lookupvar('::${home}') %>")
   }
 
-  if $type == 'xbmc' {
-    class { 'mediacenter::xbmc':
-      user  => $user,
-      cache => $cache,
-      home_path => $home_path,
-    }
-  } elsif $type == 'xbmc-standalone' {
-    class { 'mediacenter::xbmc':
-      user  => $user,
-      cache => $cache,
-      home_path => $home_path,
-    }
-
-    class { 'mediacenter::standalone':
-      type      => 'xbmc',
-      user      => $user,
-      home_path => $home_path,
-    }    
-  } elsif $type == 'plex' {
-    class { 'mediacenter::plex':
-      user => $user,
-    }
+  user { $user:
+    home       => $home_path,
+    groups     => 'wheel',
+    managehome => true,
   }
+
+  $standalone_packages = [
+    'adwaita-x-dark-and-light-theme',
+    'clipit',
+    'evince',
+    'faenza-icon-theme',
+    'file-roller',
+    'chromium',
+    'chromium-pepper-flash',
+    'gdm',
+    'gnome',
+    'gnome-shell-extensions',
+    'gvfs',
+    'gvfs-smb',
+    'gvfs-mtp',
+    'plex-hopme-theatre',
+    'pulseaudio',
+    'pulseaudio-alsa',
+    'scrot',
+    'terminator',
+    'thunar',
+    'thunar-archive-plugin',
+    'thunar-media-tags-plugin',
+    'thunar-volman',
+    'ttf-dejavu',
+    'xorg-server',
+    'xorg-xinit',
+    'zenity' ]
+  package { $standalone_packages: ensure => installed }
+
+  service {
+    'bluetooth':
+      ensure  => running,
+      enable  => true;
+
+    'gdm':
+      ensure  => running,
+      enable  => true,
+      require => [ File['/etc/gdm/custom.conf'], File["${home_path}/.config"] ];
+  }
+
+  file {
+    "${home_path}/.config":
+      ensure  => directory,
+      recurse => true,
+      force   => true,
+      ignore  => 'chromium',
+      owner   => $user,
+      group   => $user,
+      source  => 'puppet:///modules/mediacenter/dotfiles/.config',
+      require => User[$user];
+
+    "${home_path}/.config/autostart/misc-settings.desktop":
+      ensure  => file,
+      mode    => '0755',
+      owner   => $user,
+      group   => $user,
+      content => template('mediacenter/misc-settings.desktop.erb');
+
+    '/etc/gdm/custom.conf':
+      ensure  => file,
+      require => Package['gdm'],
+      content => template('mediacenter/custom.conf.erb');
+  }
+
 }

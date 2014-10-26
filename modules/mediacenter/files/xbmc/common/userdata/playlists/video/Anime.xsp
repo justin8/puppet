@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<smartplaylist type="tvshows">
-    <name>Anime</name>
-    <match>one</match>
-    <rule field="path" operator="startswith">smb://abachi/Anime/</rule>
-    <order direction="ascending">tvshow</order>
-</smartplaylist>
