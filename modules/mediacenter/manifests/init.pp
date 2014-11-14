@@ -1,4 +1,4 @@
-class mediacenter( $user='htpc', $home_path ) {
+class mediacenter( $user='htpc' ) {
 
   if $user == 'htpc' {
     $home_path = "/home/${user}"
@@ -27,7 +27,7 @@ class mediacenter( $user='htpc', $home_path ) {
     'gvfs',
     'gvfs-smb',
     'gvfs-mtp',
-    'plex-hopme-theatre',
+    'plex-home-theater',
     'pulseaudio',
     'pulseaudio-alsa',
     'scrot',
