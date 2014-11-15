@@ -11,6 +11,7 @@ class mediacenter( $user='htpc' ) {
     home       => $home_path,
     groups     => 'wheel',
     managehome => true,
+    password   => hiera('user_password'),
   }
 
   $standalone_packages = [
