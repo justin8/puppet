@@ -20,9 +20,17 @@ class collectd {
     ensure  => directory,
   }
 
+  if $zfs_version {
+    file { '/etc/collectd.d/zfs.conf':
+      ensure => file,
+      source => 'puppet:///modules/collectd/collectd.d/zfs.conf',
+      require => [ Package['collectd'], File['/etc/collectd.d'] ],
+      notify  => Service['collectd'],
+    }
+  }
+
   file { '/etc/collectd.d/network.conf':
     ensure  => file,
-    mode    => '0644',
     source  => 'puppet:///modules/collectd/collectd.d/network.conf-client',
     require => [ Package['collectd'], File['/etc/collectd.d'] ],
     notify  => Service['collectd'],
