@@ -53,7 +53,7 @@ node 'ironwood.dray.be' inherits default {
   include os_default::desktop
 }
 
-node /mediacenter/ inherits default {
+node /^.*mediacenter.*/ inherits default {
   include collectd::physical
   include mediacenter
 }
