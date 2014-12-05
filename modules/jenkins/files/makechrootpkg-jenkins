@@ -27,5 +27,5 @@ LOCK="${copydir}.lock.jenkins"
 		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
 	) 201>$ROOTLOCK
 	echo "Beginning build..."
-	makechrootpkg -c -r /chroot -l "$copy" -A -f
+	makechrootpkg -c -l "$copy" -r /chroot -- -A -f
 ) 200>"$LOCK"
