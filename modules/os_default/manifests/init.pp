@@ -7,10 +7,10 @@ class os_default {
   include os_default::ssh
   include os_default::sudo
 
-  $packages = [ 'atop', 'aura-bin', 'avahi', 'cv', 'dnsutils', 'ethtool', 'git', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'pkgstats', 'rsync', 'pkgfile' ]
+  $packages = [ 'atop', 'aura-bin', 'avahi', 'cv', 'dnsutils', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'pkgstats', 'rsync', 'pkgfile' ]
   package { $packages: ensure => installed }
 
-  service { ['puppet', 'atop', 'avahi-daemon']:
+  service { ['atop', 'avahi-daemon', 'haveged', 'puppet']:
     ensure => running,
     enable => true,
   }
