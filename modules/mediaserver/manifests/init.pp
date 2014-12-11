@@ -12,7 +12,7 @@ class mediaserver {
     [
       'couchpotato',
       'plex-media-server',
-      'nzbdrone-torrents',
+      'sonarr-develop',
       'sabnzbd',
       'transmission-cli',
     ]:
@@ -30,10 +30,10 @@ class mediaserver {
       enable  => true,
       require => File['/etc/systemd/system/plexmediaserver.service.d/downloads.conf'];
 
-    'nzbdrone':
+    'sonarr':
       ensure  => running,
       enable  => true,
-      require => File['/etc/systemd/system/nzbdrone.service.d/downloads.conf'];
+      require => File['/etc/systemd/system/sonarr.service.d/downloads.conf'];
 
     'sabnzbd':
       ensure  => running,
@@ -50,7 +50,7 @@ class mediaserver {
     [
       '/etc/systemd/system/couchpotato.service.d',
       '/etc/systemd/system/plexmediaserver.service.d',
-      '/etc/systemd/system/nzbdrone.service.d',
+      '/etc/systemd/system/sonarr.service.d',
       '/etc/systemd/system/sabnzbd.service.d',
       '/etc/systemd/system/transmission.service.d'
     ]:
@@ -59,7 +59,7 @@ class mediaserver {
     [
       '/etc/systemd/system/couchpotato.service.d/downloads.conf',
       '/etc/systemd/system/plexmediaserver.service.d/downloads.conf',
-      '/etc/systemd/system/nzbdrone.service.d/downloads.conf',
+      '/etc/systemd/system/sonarr.service.d/downloads.conf',
       '/etc/systemd/system/sabnzbd.service.d/downloads.conf',
       '/etc/systemd/system/transmission.service.d/downloads.conf'
     ]:
