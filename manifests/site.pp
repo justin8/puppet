@@ -77,6 +77,6 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
 
 node 'zingana.dray.be' inherits default {
   include syncserver
-  include httpd::blog
+#  include httpd::blog
   include repo
 }
