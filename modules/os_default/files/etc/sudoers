@@ -94,3 +94,4 @@ root ALL=(ALL) ALL
 Defaults	editor="/usr/bin/vim", !env_editor
 Defaults	env_keep += "SSH_TTY"
 Defaults	env_keep += "IHAVEPATCHEDFONTS"
+Defaults    env_keep += "ZDOTDIR"
