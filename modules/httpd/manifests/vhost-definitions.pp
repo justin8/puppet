@@ -8,7 +8,7 @@ class httpd::vhost-definitions {
       destination => 'http://localhost:5050',
       proxy       => true;
 
-    'drone.dray.be':
+    'sonarr.dray.be':
       destination => 'http://localhost:8989',
       proxy       => true;
 
