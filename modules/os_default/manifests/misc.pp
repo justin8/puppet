@@ -11,7 +11,8 @@ class os_default::misc {
       source  => 'puppet:///modules/os_default/snap';
 
     '/etc/locale.gen':
-      ensure  => file;
+      ensure  => file,
+      source  => 'puppet:///modules/os_default/etc/locale.gen';
 
     '/etc':
       ensure  => directory,
