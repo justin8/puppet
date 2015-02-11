@@ -3,9 +3,16 @@ class httpd {
   $packages = [ 'apache', 'php-fpm' ]
   package { $packages: ensure => installed }
 
-  service { [ 'httpd', 'php-fpm' ]:
-    ensure => running,
-    enable => true,
+  service {
+    'httpd':
+      ensure  => running,
+      enable  => true,
+      require => Package['apache'];
+
+    'php-fpm':
+      ensure  => running,
+      enable  => true,
+      require => Package['php-fpm'];
   }
 
   file { '/etc/php/php.ini':
