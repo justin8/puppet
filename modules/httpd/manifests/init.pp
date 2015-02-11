@@ -1,11 +1,25 @@
 class httpd {
   include httpd::vhost-definitions
-  $packages = [ 'apache' ]
+  $packages = [ 'apache', 'php-fpm' ]
   package { $packages: ensure => installed }
 
-  service { [ 'httpd' ]:
+  service { [ 'httpd', 'php-fpm' ]:
     ensure => running,
     enable => true,
+  }
+
+  file { '/etc/php/php.ini':
+    ensure  => present,
+    source  => 'puppet:///modules/httpd/etc/php/php.ini',
+    notify  => Service['php-fpm'],
+    require => POackage['php-fpm'],
+  }
+
+  file { '/etc/php/php-fpm.ini':
+    ensure  => present,
+    source  => 'puppet:///modules/httpd/etc/php/php-fpm.ini',
+    notify  => Service['php-fpm'],
+    require => POackage['php-fpm'],
   }
 
   file { '/etc/httpd/conf/httpd.conf':
