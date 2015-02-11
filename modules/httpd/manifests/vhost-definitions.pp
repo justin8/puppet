@@ -4,6 +4,9 @@ class httpd::vhost-definitions {
     'abachi.dray.be':
       proxy => false;
 
+    'cloud.dray.be':
+      proxy => false;
+
     'couchpotato.dray.be':
       destination => 'http://localhost:5050',
       proxy       => true;
