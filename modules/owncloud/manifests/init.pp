@@ -2,8 +2,9 @@ class owncloud {
   include httpd
   realize (Httpd::Vhost['cloud.dray.be'])
 
-  $pacakges = [ 'exiv2', 'mariadb', 'owncloud', 'php-apcu', 'php-intl', 'php-mcrypt' ]
-  package { $packages: ensure => installed }
+  package { ['exiv2', 'mariadb', 'owncloud', 'php-apcu', 'php-intl', 'php-mcrypt']:
+    ensure => installed
+  }
 
   service { 'mysqld':
     ensure  => running,

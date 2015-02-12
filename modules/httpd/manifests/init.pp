@@ -1,7 +1,8 @@
 class httpd {
   include httpd::vhost-definitions
-  $packages = [ 'apache', 'php-fpm' ]
-  package { $packages: ensure => installed }
+  package { [ 'apache', 'php-fpm']:
+    ensure => installed
+  }
 
   service {
     'httpd':
