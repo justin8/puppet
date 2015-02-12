@@ -23,9 +23,9 @@ class httpd {
     require => Package['php-fpm'],
   }
 
-  file { '/etc/php/php-fpm.ini':
+  file { '/etc/php/php-fpm.conf':
     ensure  => present,
-    source  => 'puppet:///modules/httpd/etc/php/php-fpm.ini',
+    source  => 'puppet:///modules/httpd/etc/php/php-fpm.conf',
     notify  => Service['php-fpm'],
     require => Package['php-fpm'],
   }
