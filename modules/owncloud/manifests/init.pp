@@ -3,11 +3,6 @@ class owncloud {
   include mysql::server
   realize (Httpd::Vhost['cloud.dray.be'])
 
-  mysql::db { 'owncloud':
-    user     => 'owncloud',
-    password => 'owncloud',
-  }
-
   package { ['exiv2', 'owncloud', 'php-apcu', 'php-intl', 'php-mcrypt']:
     ensure => installed
   }
