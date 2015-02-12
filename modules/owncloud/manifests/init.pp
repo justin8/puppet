@@ -14,14 +14,16 @@ class owncloud {
 
   file {
     '/etc/php/conf.d/owncloud.ini':
-      ensure => present,
-      source => 'puppet:///modules/owncloud/owncloud.ini',
-      notify => Service['php-fpm'];
+      ensure  => present,
+      source  => 'puppet:///modules/owncloud/owncloud.ini',
+      notify  => Service['php-fpm'],
+      require => Package['owncloud'];
 
     [ '/usr/share/webapps/owncloud', '/etc/webapps/owncloud' ]:
-      ensure => directory,
-      owner  => 'http',
-      group  => 'http';
+      ensure  => directory,
+      owner   => 'http',
+      group   => 'http',
+      require => Package['owncloud'];
   }
 
 }
