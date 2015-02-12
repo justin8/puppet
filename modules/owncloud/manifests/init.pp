@@ -19,7 +19,9 @@ class owncloud {
       notify  => Service['php-fpm'],
       require => Package['owncloud'];
 
-    [ '/usr/share/webapps/owncloud', '/etc/webapps/owncloud' ]:
+    [ '/usr/share/webapps/owncloud/apps',
+      '/usr/share/webapps/owncloud/data',
+      '/etc/webapps/owncloud/config' ]:
       ensure  => directory,
       owner   => 'http',
       group   => 'http',
