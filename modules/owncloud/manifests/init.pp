@@ -23,6 +23,7 @@ class owncloud {
       ensure  => directory,
       owner   => 'http',
       group   => 'http',
+      recurse => true,
       require => Package['owncloud'];
   }
 
