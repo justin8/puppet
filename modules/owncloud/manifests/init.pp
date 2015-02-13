@@ -16,7 +16,7 @@ class owncloud {
 
     '/etc/cron.daily/backup-owncloud-db.cron':
       ensure => present,
-      mode   => '0644',
+      mode   => '0755',
       source => 'puppet:///modules/owncloud/backup-owncloud-db.cron',
       require => Package['owncloud'];
 
