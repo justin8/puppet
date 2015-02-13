@@ -79,7 +79,8 @@ node 'wkmil0393.mil.wotifgroup.com' {
 
 node 'zingana.dray.be' {
   include os_default
-  include syncserver
 #  include httpd::blog
+  include owncloud
   include repo
+  include syncserver
 }
