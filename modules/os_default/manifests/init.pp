@@ -29,8 +29,7 @@ class os_default {
 
     'puppet':
       ensure => running,
-      enable => true,
-      require => Package['puppet'];
+      enable => true;
   }
 
   file {
