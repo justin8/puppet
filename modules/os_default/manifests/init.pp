@@ -18,20 +18,19 @@ class os_default {
       require => Package['atop'];
 
     'avahi-daemon':
-      ensure => running
+      ensure => running,
       enable => true,
       require => Package['avahi-daemon'];
 
     'haveged':
-      ensure => running
+      ensure => running,
       enable => true,
       require => Package['haveged'];
 
     'puppet':
-      ensure => running
+      ensure => running,
       enable => true,
       require => Package['puppet'];
-
   }
 
   file {
