@@ -10,12 +10,8 @@ File {
   backup => false,
 }
 
-node default {
+node 'abachi.dray.be' {
   include os_default
-  include collectd
-}
-
-node 'abachi.dray.be' inherits default {
   include collectd::server
   include collectd::physical
   include httpd
@@ -33,7 +29,8 @@ node 'abachi.dray.be' inherits default {
   )
 }
 
-node /^araucaria.*$/ inherits default {
+node /^araucaria.*$/ {
+  include os_default
   include btsync::system
   include collectd::physical
   include collectd::server
@@ -43,27 +40,32 @@ node /^araucaria.*$/ inherits default {
   include os_default::desktop
 }
 
-node 'huon.dray.be' inherits default {
+node 'huon.dray.be' {
+  include os_default
   include jenkins::slave
 }
 
-node 'ironwood.dray.be' inherits default {
+node 'ironwood.dray.be' {
+  include os_default
   include btsync::system
   include collectd::physical
   include os_default::desktop
 }
 
-node /^.*mediacenter.*/ inherits default {
+node /^.*mediacenter.*/ {
+  include os_default
   include collectd::physical
   include mediacenter
 }
 
-node 'sugi.dray.be' inherits default {
+node 'sugi.dray.be' {
+  include os_default
   include collectd::physical
   include jenkins::slave
 }
 
-node 'wkmil0393.mil.wotifgroup.com' inherits default {
+node 'wkmil0393.mil.wotifgroup.com' {
+  include os_default
   include collectd::physical
   include collectd::server
   include httpd
@@ -75,7 +77,8 @@ node 'wkmil0393.mil.wotifgroup.com' inherits default {
   }
 }
 
-node 'zingana.dray.be' inherits default {
+node 'zingana.dray.be' {
+  include os_default
   include syncserver
 #  include httpd::blog
   include repo
