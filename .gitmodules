@@ -16,6 +16,3 @@
 [submodule "modules/logrotate"]
 	path = modules/logrotate
 	url = https://github.com/rodjek/puppet-logrotate/
-[submodule "modules/mysql"]
-	path = modules/mysql
-	url = https://github.com/puppetlabs/puppetlabs-mysql.git

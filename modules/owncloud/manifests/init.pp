@@ -1,6 +1,5 @@
 class owncloud {
   include httpd
-  include mysql::server
   realize (Httpd::Vhost['cloud.dray.be'])
 
   package { ['exiv2', 'owncloud', 'php-apcu', 'php-intl', 'php-mcrypt']:
