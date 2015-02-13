@@ -20,7 +20,7 @@ class os_default {
     'avahi-daemon':
       ensure => running,
       enable => true,
-      require => Package['avahi-daemon'];
+      require => Package['avahi'];
 
     'haveged':
       ensure => running,
