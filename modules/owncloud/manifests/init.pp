@@ -20,7 +20,7 @@ class owncloud {
       source => 'puppet:///modules/owncloud/backup-owncloud-db.cron',
       require => Package['owncloud'];
 
-    '/usr/share/webapps/owncloud/database-backup':
+    '/usr/share/webapps/owncloud/database-backups':
       ensure => directory,
       require => Package['owncloud'];
 
