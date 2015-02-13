@@ -14,6 +14,15 @@ class owncloud {
       notify  => Service['php-fpm'],
       require => Package['owncloud'];
 
+    '/etc/cron.daily/backup-owncloud-db.cron':
+      ensure => present,
+      source => 'puppet:///modules/owncloud/backup-owncloud-db.cron',
+      require => Package['owncloud'];
+
+    '/usr/share/webapps/owncloud/database-backup':
+      ensure => directory,
+      require => Package['owncloud'];
+
     [ '/usr/share/webapps/owncloud/apps',
       '/usr/share/webapps/owncloud/data',
       '/etc/webapps/owncloud/config' ]:
