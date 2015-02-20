@@ -10,6 +10,11 @@ File {
   backup => false,
 }
 
+node 'default' {
+  include os_default
+  include collectd
+}
+
 node 'abachi.dray.be' {
   include os_default
   include collectd::server
@@ -31,7 +36,6 @@ node 'abachi.dray.be' {
 
 node /^araucaria.*$/ {
   include os_default
-  include btsync::system
   include collectd::physical
   include collectd::server
   include httpd
@@ -47,7 +51,6 @@ node 'huon.dray.be' {
 
 node 'ironwood.dray.be' {
   include os_default
-  include btsync::system
   include collectd::physical
   include os_default::desktop
 }
