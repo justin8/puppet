@@ -20,7 +20,7 @@ class os_default::pacman {
 
     file { '/etc/pacman.d/mirrorlist':
       ensure => present,
-      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
+      source => 'puppet:///modules/os_default/mirrorlist';
     }
 
     exec {
