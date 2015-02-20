@@ -20,9 +20,11 @@ class os_default::pacman {
       command => 'curl -s "https://repo.dray.be/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
   }
 
-  file { '/etc/pacman.d/mirrorlist':
-    ensure => present,
-    source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
+  if $architecture == 'x86_64' {
+    file { '/etc/pacman.d/mirrorlist':
+      ensure => present,
+      source => 'puppet:///modules/os_default/etc/pacman.d/mirrorlist';
+    }
   }
 
   exec {
