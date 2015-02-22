@@ -1,7 +1,7 @@
 class repo( $owner = 'http', $group = 'http', $open_network = true) {
   include httpd
   include incron
-  realize ( Httpd::Vhost['repo.dray.be'], )
+  realize Httpd::Vhost['repo.dray.be']
   $btsync_keys = hiera('btsync_keys')
 
   if $open_network {

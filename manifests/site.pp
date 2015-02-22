@@ -28,10 +28,7 @@ node 'abachi.dray.be' {
 
   class { 'jenkins::slave': remote => false; }
 
-  realize (
-    Httpd::Vhost['abachi.dray.be'],
-    Httpd::Vhost['jenkins.dray.be'],
-  )
+  realize Httpd::Vhost['abachi.dray.be']
 }
 
 node /^araucaria.*$/ {
@@ -42,6 +39,12 @@ node /^araucaria.*$/ {
   include httpd::basic
   include jenkins::slave
   include os_default::desktop
+}
+
+node 'cocobolo.dray.be' {
+  include os_default
+  include collectd::physical
+  include repo
 }
 
 node 'huon.dray.be' {
