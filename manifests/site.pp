@@ -76,7 +76,6 @@ node 'wkmil0393.mil.wotifgroup.com' {
   include collectd::server
   include httpd
   include httpd::basic
-  include syncserver
   include os_default::desktop
   class { 'repo':
     open_network => false,
