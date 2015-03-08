@@ -1,4 +1,5 @@
 class collectd::physical {
+  include collectd
 
   file { '/etc/collectd.d/physical.conf':
     ensure  => file,

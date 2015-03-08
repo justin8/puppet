@@ -1,6 +1,6 @@
 class owncloud {
   include httpd
-  realize (Httpd::Vhost['cloud.dray.be'])
+  realize Httpd::Vhost['cloud.dray.be']
 
   package { ['exiv2', 'owncloud', 'php-apcu', 'php-intl', 'php-mcrypt']:
     ensure => installed

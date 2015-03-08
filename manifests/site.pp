@@ -10,6 +10,11 @@ File {
   backup => false,
 }
 
+node 'default' {
+  include os_default
+  include collectd
+}
+
 node 'abachi.dray.be' {
   include os_default
   include collectd::server
@@ -23,21 +28,23 @@ node 'abachi.dray.be' {
 
   class { 'jenkins::slave': remote => false; }
 
-  realize (
-    Httpd::Vhost['abachi.dray.be'],
-    Httpd::Vhost['jenkins.dray.be'],
-  )
+  realize Httpd::Vhost['abachi.dray.be']
 }
 
 node /^araucaria.*$/ {
   include os_default
-  include btsync::system
   include collectd::physical
   include collectd::server
   include httpd
   include httpd::basic
   include jenkins::slave
   include os_default::desktop
+}
+
+node 'cocobolo.dray.be' {
+  include os_default
+  include collectd::physical
+  include repo
 }
 
 node 'huon.dray.be' {
@@ -47,7 +54,6 @@ node 'huon.dray.be' {
 
 node 'ironwood.dray.be' {
   include os_default
-  include btsync::system
   include collectd::physical
   include os_default::desktop
 }
@@ -70,7 +76,6 @@ node 'wkmil0393.mil.wotifgroup.com' {
   include collectd::server
   include httpd
   include httpd::basic
-  include syncserver
   include os_default::desktop
   class { 'repo':
     open_network => false,

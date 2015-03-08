@@ -1,4 +1,6 @@
 class jenkins {
+  include httpd
+  realize Httpd::Vhost['jenkins.dray.be']
 
   $packages = [ 'jenkins' ]
   package { $packages: ensure => installed }
