@@ -35,4 +35,15 @@ class collectd {
     require => [ Package['collectd'], File['/etc/collectd.d'] ],
     notify  => Service['collectd'],
   }
+
+  if $::networkmanager {
+    file { '/etc/networkmanager/dispatcher.d/10-collectd':
+      mode   => '0755',
+      source => 'puppet:///modules/collectd/nm-dispatcher-collectd',
+    }
+  } else {
+    file { '/etc/networkmanager/dispatcher.d/10-collectd':
+      ensure => absent,
+    }
+  }
 }
