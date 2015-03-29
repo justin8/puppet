@@ -1,5 +1,5 @@
 #!/bin/bash
-CACHE_PATH='/raid/server-files/system/pacman-cache'
+CACHE_PATH='/storage/server-files/system/pacman-cache'
 LOCK="/run/lock/$(basename "$(readlink -f "$0")")"
 LOG="/var/log/$(basename "$(readlink -f "$0")").log"
 REPO_NAME="dray.be"
