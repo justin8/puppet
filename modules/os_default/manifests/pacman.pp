@@ -1,7 +1,7 @@
 class os_default::pacman {
 
   cron { 'create-package-list':
-    command  => 'pacman -Q > /root/package-list',
+    command  => 'pacman -Q > /etc/package-list',
     user     => 'root',
     minute   => '0',
     hour     => '0',
