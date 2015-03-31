@@ -1,5 +1,15 @@
 class os_default::pacman {
 
+  cron { 'create-package-list':
+    command  => 'pacman -Q > /root/package-list',
+    user     => 'root',
+    minute   => '0',
+    hour     => '0',
+    weekday  => '*',
+    monthday => '*',
+    month    => '*',
+  }
+
   cron { 'update-pkgfile':
     command  => 'pkgfile -u &>/dev/null',
     user     => 'root',
