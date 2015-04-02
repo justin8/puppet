@@ -1,0 +1,7 @@
+#!/bin/bash
+
+case "$2" in
+    up)
+        systemctl restart collectd.service
+	;;
+esac
