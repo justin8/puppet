@@ -37,12 +37,12 @@ class collectd {
   }
 
   if $::networkmanager {
-    file { '/etc/networkmanager/dispatcher.d/10-collectd':
+    file { '/etc/NetworkManager/dispatcher.d/10-collectd':
       mode   => '0755',
       source => 'puppet:///modules/collectd/nm-dispatcher-collectd',
     }
   } else {
-    file { '/etc/networkmanager/dispatcher.d/10-collectd':
+    file { '/etc/NetworkManager/dispatcher.d/10-collectd':
       ensure => absent,
     }
   }
