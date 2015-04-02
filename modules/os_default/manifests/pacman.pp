@@ -51,7 +51,7 @@ class os_default::pacman {
           fstype  => 'nfs',
           options => 'defaults',
           atboot  => true,
-          require => Service['nfs-utils'];
+          require => Package['nfs-utils'];
         }
       }
     }
