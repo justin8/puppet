@@ -30,18 +30,18 @@ class os_default::pacman {
         command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
     }
 
-    $packages = [ 'cifs-utils', 'smbclient' ]
+    $packages = [ 'nfs-utils', ]
     package { $packages: ensure => installed }
 
     if "$local" == "true" {
       if $::hostname != 'abachi' {
         mount { '/var/cache/pacman/pkg':
           ensure  => mounted,
-          device  => "//abachi.dray.be/pacman-pkg",
-          fstype  => 'cifs',
-          options => 'credentials=/root/.smbcreds,noauto,x-systemd.automount',
+          device  => "abachi.dray.be:/pacman",
+          fstype  => 'nfs',
+          options => 'defaults',
           atboot  => true,
-          require => Package['cifs-utils'];
+          require => Service['nfs-utils'];
         }
       }
     }
