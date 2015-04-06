@@ -49,7 +49,7 @@ class os_default::pacman {
           ensure  => mounted,
           device  => "abachi.dray.be:/pacman",
           fstype  => 'nfs',
-          options => 'defaults',
+          options => 'defaults,x-systemd.automount',
           atboot  => true,
           require => Package['nfs-utils'];
         }
