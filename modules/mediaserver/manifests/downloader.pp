@@ -8,6 +8,7 @@ class mediaserver::downloader {
   package {
     [
       'openvpn',
+      'python2-pyopenssl',
       'sabnzbd',
       'transmission-cli',
     ]:
