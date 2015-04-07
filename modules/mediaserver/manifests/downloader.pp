@@ -7,6 +7,7 @@ class mediaserver::downloader {
 
   package {
     [
+      'openvpn',
       'sabnzbd',
       'transmission-cli',
     ]:
@@ -23,6 +24,11 @@ class mediaserver::downloader {
       ensure  => running,
       enable  => true,
       require => File['/etc/systemd/system/transmission.service.d/downloads.conf'];
+
+    'openvpn@ghostpath':
+      ensure  => running,
+      enable  => true,
+      require => File['/etc/openvpn/ghostpath.conf', '/etc/openvpn/ghostpath-auth'];
   }
 
   file {
@@ -37,6 +43,12 @@ class mediaserver::downloader {
       '/etc/systemd/system/transmission.service.d/downloads.conf'
     ]:
       source => 'puppet:///modules/mediaserver/downloads.conf';
+
+    '/etc/openvpn/ghostpath.conf':
+      source => 'puppet:///modules/mediaserver/ghostpath.conf';
+
+    '/etc/openvpn/ghostpath-auth':
+      content => hiera('ghostpath_auth');
   }
 
 }
