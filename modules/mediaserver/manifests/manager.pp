@@ -3,7 +3,9 @@ class mediaserver::manager {
   realize (
     Httpd::Vhost['couchpotato.dray.be'],
     Httpd::Vhost['plex.dray.be'],
+    Httpd::Vhost['sab.dray.be'],
     Httpd::Vhost['sonarr.dray.be'],
+    Httpd::Vhost['transmission.dray.be'],
   )
 
   package {

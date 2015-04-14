@@ -27,7 +27,7 @@ class httpd::vhost-definitions {
       proxy => false;
 
     'sab.dray.be':
-      destination => 'http://localhost:8080',
+      destination => 'http://hemlock:8080',
       proxy       => true;
 
     'sickbeard.dray.be':
@@ -38,7 +38,7 @@ class httpd::vhost-definitions {
       proxy => false;
 
     'transmission.dray.be':
-      destination => 'http://localhost:9091',
+      destination => 'http://hemlock:9091',
       proxy       => true;
 
     'www.dray.be':

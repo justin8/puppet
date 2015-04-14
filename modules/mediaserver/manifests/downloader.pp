@@ -1,9 +1,4 @@
 class mediaserver::downloader {
-  include httpd
-  realize (
-    Httpd::Vhost['sab.dray.be'],
-    Httpd::Vhost['transmission.dray.be'],
-  )
 
   package {
     [
