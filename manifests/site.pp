@@ -17,11 +17,11 @@ node 'default' {
 
 node 'abachi.dray.be' {
   include os_default
-  include collectd::server
-  include collectd::physical
+#  include collectd::server
+#  include collectd::physical
   include httpd
   include jenkins
-  include mediaserver
+  include mediaserver::manager
   include puppetmaster
   include repo
 
@@ -49,6 +49,11 @@ node 'cocobolo.dray.be' {
 node 'huon.dray.be' {
   include os_default
   include jenkins::slave
+}
+
+node 'hemlock.dray.be' {
+  include os_default
+  include mediaserver::downloader
 }
 
 node 'ironwood.dray.be' {

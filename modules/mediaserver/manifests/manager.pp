@@ -1,10 +1,10 @@
-class mediaserver {
+class mediaserver::manager {
   include httpd
   realize (
     Httpd::Vhost['couchpotato.dray.be'],
-    Httpd::Vhost['sonarr.dray.be'],
     Httpd::Vhost['plex.dray.be'],
     Httpd::Vhost['sab.dray.be'],
+    Httpd::Vhost['sonarr.dray.be'],
     Httpd::Vhost['transmission.dray.be'],
   )
 
@@ -13,8 +13,6 @@ class mediaserver {
       'couchpotato',
       'plex-media-server',
       'sonarr-develop',
-      'sabnzbd',
-      'transmission-cli',
     ]:
       ensure => present,
   }
@@ -34,16 +32,6 @@ class mediaserver {
       ensure  => running,
       enable  => true,
       require => File['/etc/systemd/system/sonarr.service.d/downloads.conf'];
-
-    'sabnzbd':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/systemd/system/sabnzbd.service.d/downloads.conf'];
-
-    'transmission':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/systemd/system/transmission.service.d/downloads.conf'];
   }
 
   file {
@@ -51,8 +39,6 @@ class mediaserver {
       '/etc/systemd/system/couchpotato.service.d',
       '/etc/systemd/system/plexmediaserver.service.d',
       '/etc/systemd/system/sonarr.service.d',
-      '/etc/systemd/system/sabnzbd.service.d',
-      '/etc/systemd/system/transmission.service.d'
     ]:
       ensure => directory;
 
@@ -60,8 +46,6 @@ class mediaserver {
       '/etc/systemd/system/couchpotato.service.d/downloads.conf',
       '/etc/systemd/system/plexmediaserver.service.d/downloads.conf',
       '/etc/systemd/system/sonarr.service.d/downloads.conf',
-      '/etc/systemd/system/sabnzbd.service.d/downloads.conf',
-      '/etc/systemd/system/transmission.service.d/downloads.conf'
     ]:
       source => 'puppet:///modules/mediaserver/downloads.conf';
   }
