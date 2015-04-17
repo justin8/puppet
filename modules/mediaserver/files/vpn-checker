@@ -13,6 +13,6 @@ then
 	systemctl restart openvpn@ghostpath.service
 else
 	# VPN is connected; check services and restart them if necessary
-	systemctl status sabnzbd &>/dev/null || systemctl restart sabnzbd && echo "Restarted sabnzbd"
-	systemctl status transmission &>/dev/null || systemctl restart transmission && echo "Restart transmission"
+	systemctl status sabnzbd &>/dev/null || (systemctl restart sabnzbd && echo "Restarted sabnzbd")
+	systemctl status transmission &>/dev/null || (systemctl restart transmission && echo "Restart transmission")
 fi
