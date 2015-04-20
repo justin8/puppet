@@ -13,6 +13,9 @@ class os_default::desktop {
 
     '/etc/systemd/system/psd-resync.timer.d/frequency.conf':
       content => '[Timer]\nOnUnitActiveSec=10min\n';
+
+    '/etc/modules-load.d/overlay.conf':
+      content => 'overlay\n';
   }
 
   service { 'psd':
