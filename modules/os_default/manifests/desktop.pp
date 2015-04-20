@@ -1,27 +1,34 @@
 class os_default::desktop {
 
-  $packages = [ 'preload', 'prelink', 'profile-sync-daemon' ]
+  $packages = [ 'preload', 'prelink' ]
   package { $packages: ensure => installed }
+
+
+# CAN BE REMOVED LATER
+
+  package { 'profile-sync-daemon': ensure => absent }
 
   #psd.conf config
   file {
     '/etc/psd.conf':
-      content => template ('os_default/psd.conf.erb');
+      ensure => absent;
 
     '/etc/systemd/system/psd-resync.timer.d':
-      ensure => directory;
+      ensure => absent;
 
     '/etc/systemd/system/psd-resync.timer.d/frequency.conf':
-      content => "[Timer]\nOnUnitActiveSec=10min\n";
+      ensure => absent;
 
     '/etc/modules-load.d/overlay.conf':
-      content => "overlay\n";
+      ensure => absent;
   }
 
   service { 'psd':
-    ensure => running,
-    enable => true,
+    ensure => stopped,
+    enable => false,
   }
+
+####### DO NOT REMOVE PAST HERE
 
   file { '/etc/cron.daily/prelink.cron':
     ensure => absent,
