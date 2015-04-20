@@ -14,7 +14,8 @@ class os_default::desktop {
       ensure => absent;
 
     '/etc/systemd/system/psd-resync.timer.d':
-      ensure => absent;
+      ensure => absent,
+      force  => true;
 
     '/etc/systemd/system/psd-resync.timer.d/frequency.conf':
       ensure => absent;
