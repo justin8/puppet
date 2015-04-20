@@ -11,20 +11,21 @@ class mediaserver::downloader {
   }
 
   service {
-    'sabnzbd':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/systemd/system/sabnzbd.service.d/downloads.conf'];
-
-    'transmission':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/systemd/system/transmission.service.d/downloads.conf'];
-
     'openvpn@ghostpath':
       ensure  => running,
       enable  => true,
       require => File['/etc/openvpn/ghostpath.conf', '/etc/openvpn/ghostpath-auth'];
+  }
+
+  cron {
+    'vpn-checker':
+      command  => '/usr/local/sbin/vpn-checker',
+      user     => 'root',
+      minute   => '*/5',
+      hour     => '*',
+      month    => '*',
+      monthday => '*',
+      weekday  => '*';
   }
 
   file {
@@ -45,6 +46,10 @@ class mediaserver::downloader {
 
     '/etc/openvpn/ghostpath-auth':
       content => hiera('ghostpath_auth');
+
+    '/usr/local/sbin/vpn-checker':
+      mode   => '755',
+      source => 'puppet:///modules/mediaserver/vpn-checker';
   }
 
 }
