@@ -16,5 +16,10 @@ class jenkins {
       ensure => file,
       source => 'puppet:///modules/jenkins/conf.d-jenkins',
       notify => Service['jenkins'];
+
+    '/usr/local/bin/fix-package-cache':
+      ensure => file,
+      source => 'puppet:///modules/jenkins/fix-package-cache';
   }
+
 }
