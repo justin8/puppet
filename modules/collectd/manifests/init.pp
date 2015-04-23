@@ -41,9 +41,5 @@ class collectd {
       mode   => '0755',
       source => 'puppet:///modules/collectd/nm-dispatcher-collectd',
     }
-  } else {
-    file { '/etc/NetworkManager/dispatcher.d/10-collectd':
-      ensure => absent,
-    }
   }
 }
