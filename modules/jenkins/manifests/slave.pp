@@ -58,7 +58,8 @@ class jenkins::slave( $remote = true ) {
 
     '/etc/sudoers.d/jenkins':
       ensure  => file,
-      source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
+      source  => 'puppet:///modules/jenkins/sudoers.d-jenkins',
+      notify  => Service['jenkins'];
 
     '/usr/local/bin/update-sources':
       ensure  => file,

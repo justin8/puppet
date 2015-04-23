@@ -1,1 +1,2 @@
 jenkins ALL = (root) NOPASSWD: /usr/local/bin/makechrootpkg-jenkins
+jenkins ALL = (root) NOPASSWDL /usr/local/bin/fix-package-cache
