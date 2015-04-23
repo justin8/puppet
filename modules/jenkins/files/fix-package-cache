@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-rsync /srv/repo/*pkg.tar* /var/cache/pacman/pkg/
+rsync -v /srv/repo/*pkg.tar* /var/cache/pacman/pkg/
