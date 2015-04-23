@@ -12,6 +12,7 @@ File {
 
 node 'default' {
   include os_default
+}
 
 node 'abachi.dray.be' {
   include os_default
