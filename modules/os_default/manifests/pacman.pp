@@ -47,7 +47,7 @@ class os_default::pacman {
       if $::hostname != 'abachi' {
         mount { '/var/cache/pacman/pkg':
           ensure  => mounted,
-          device  => "abachi.local:/pacman",
+          device  => "abachi:/pacman",
           fstype  => 'nfs',
           options => 'defaults,noauto,x-systemd.automount',
           atboot  => true,
