@@ -1,5 +1,5 @@
 class os_default {
-  include collectd
+  #include collectd
   include os_default::cron
   include os_default::misc
   include os_default::ntp

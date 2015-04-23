@@ -12,8 +12,6 @@ File {
 
 node 'default' {
   include os_default
-  #include collectd
-}
 
 node 'abachi.dray.be' {
   include os_default
