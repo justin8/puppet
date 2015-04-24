@@ -30,7 +30,8 @@ LOCK="${copydir}.lock.jenkins"
 	count=0
 	while [[ $count -lt 5 ]]
 	do
-		if makechrootpkg -c -l "$copy" -r /chroot -- -A -f | grep corrupt
+		makechrootpkg -c -l "$copy" -r /chroot -- -A -f | tee out
+		if grep corrupt out
 		then
 			count=$((count+1))
 			echo "Failed $count times!"
