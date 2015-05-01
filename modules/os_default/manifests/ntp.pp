@@ -1,7 +1,7 @@
 class os_default::ntp {
-  package { 'ntp': ensure => absent }
+  package { 'openntpd': ensure => absent, require => Service['openntpd'] }
 
-  package { 'openntpd': ensure => installed, require => Package['ntp'] }
+  package { 'ntp': ensure => installed, require => Package['openntpd'] }
 
   file { '/etc/localtime':
     ensure  => link,
@@ -10,21 +10,27 @@ class os_default::ntp {
   }
 
   if $networkmanager == 'true' {
-    package { 'networkmanager-dispatcher-openntpd':
-      ensure => installed;
+    package {
+      'networkmanager-dispatcher-openntpd':
+        ensure   => absent,
+        requires => Package['openntpd'];
+
+      'networkmanager-dispatcher-ntpd':
+        ensure   => installed,
+        requires => Package['ntp'];
     }
 
     service { 'NetworkManager-dispatcher':
+      ensure    => running,
       enable => true;
     }
 
     service { 'openntpd':
-      ensure    => running,
       enable    => false,
     }
   }
   else {
-    service { 'openntpd':
+    service { 'ntp':
       ensure    => running,
       enable    => true,
       subscribe => File['/etc/localtime'],
