@@ -1,5 +1,5 @@
 class os_default::ntp {
-  package { 'openntpd': ensure => absent, require => Service['openntpd'] }
+  package { 'openntpd': ensure => absent }
 
   package { 'ntp': ensure => installed, require => Package['openntpd'] }
 
