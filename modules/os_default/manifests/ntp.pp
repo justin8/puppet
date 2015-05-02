@@ -30,10 +30,11 @@ class os_default::ntp {
     }
   }
   else {
-    service { 'ntp':
+    service { 'ntpd':
       ensure    => running,
       enable    => true,
       subscribe => File['/etc/localtime'],
+      requires  => Package['ntp'],
     }
   }
 }
