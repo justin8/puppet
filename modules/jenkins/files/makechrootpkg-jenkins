@@ -24,13 +24,13 @@ LOCK="${copydir}.lock.jenkins"
 			echo "Failed to obtain lock $ROOTLOCK. Aborting..."
 			exit 1
 		fi
-		while ! arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
+		while ! ionice arch-nspawn /chroot/root pacman -Syu --noconfirm; do sleep 5; done
 	) 201>$ROOTLOCK
 	echo "Beginning build..."
 	count=0
 	while [[ $count -lt 5 ]]
 	do
-		makechrootpkg -c -l "$copy" -r /chroot -- -A -f 2>&1 | tee out
+		ionice makechrootpkg -c -l "$copy" -r /chroot -- -A -f 2>&1 | tee out
 		if grep 'invalid or corrupted package' out
 		then
 			count=$((count+1))
