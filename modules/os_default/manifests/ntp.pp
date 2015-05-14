@@ -1,5 +1,5 @@
 class os_default::ntp {
-  package { 'openntpd': ensure => absent }
+  package { 'openntpd': ensure => absent, require => Package['networkmanager-dispatcher-openntpd'] }
 
   package { 'ntp': ensure => installed, require => Package['openntpd'] }
 
@@ -12,8 +12,7 @@ class os_default::ntp {
   if $networkmanager == 'true' {
     package {
       'networkmanager-dispatcher-openntpd':
-        ensure   => absent,
-        require => Package['openntpd'];
+        ensure   => absent;
 
       'networkmanager-dispatcher-ntpd':
         ensure   => installed,
