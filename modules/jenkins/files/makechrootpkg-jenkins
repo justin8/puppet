@@ -36,8 +36,8 @@ LOCK="${copydir}.lock.jenkins"
 			count=$((count+1))
 			echo "Failed $count times!"
 		else
-		break
-	fi
+			break
+		fi
 	done
 
 ) 200>"$LOCK"
