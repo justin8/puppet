@@ -1,5 +1,5 @@
 class os_default::ntp {
-  package { 'openntpd': ensure => absent }
+  package { 'openntpd': ensure => absent, require => Package['networkmanager-dispatcher-openntpd'] }
 
   package { 'ntp': ensure => installed, require => Package['openntpd'] }
 
@@ -12,12 +12,11 @@ class os_default::ntp {
   if $networkmanager == 'true' {
     package {
       'networkmanager-dispatcher-openntpd':
-        ensure   => absent,
-        requires => Package['openntpd'];
+        ensure   => absent;
 
       'networkmanager-dispatcher-ntpd':
         ensure   => installed,
-        requires => Package['ntp'];
+        require => Package['ntp'];
     }
 
     service { 'NetworkManager-dispatcher':
@@ -34,7 +33,7 @@ class os_default::ntp {
       ensure    => running,
       enable    => true,
       subscribe => File['/etc/localtime'],
-      requires  => Package['ntp'],
+      require  => Package['ntp'],
     }
   }
 }
