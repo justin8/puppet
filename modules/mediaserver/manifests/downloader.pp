@@ -15,6 +15,9 @@ class mediaserver::downloader {
       ensure  => running,
       enable  => true,
       require => File['/etc/openvpn/ghostpath.conf', '/etc/openvpn/ghostpath-auth'];
+
+    ['transmission', 'sabnzbd']:
+      enable => false;
   }
 
   cron {
