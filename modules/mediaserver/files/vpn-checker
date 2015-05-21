@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! ip route | grep -q 10.1.0.1
+if ip route | head -n1 | grep -q 192.168.1.1
 then
 	# VPN is not connected; kill services and restart VPN. Services will be restarted on next run if it is working.
 	warn=0
