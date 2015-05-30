@@ -1,6 +1,6 @@
 class puppetmaster {
   package {
-    'puppet':
+    'puppet3':
       ensure => installed;
 
     [ 'hiera-eyaml',
