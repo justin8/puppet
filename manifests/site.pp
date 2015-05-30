@@ -16,8 +16,8 @@ node 'default' {
 
 node 'abachi.dray.be' {
   include os_default
-#  include collectd::server
-#  include collectd::physical
+  include collectd::server
+  include collectd::physical
   include httpd
   include jenkins
   include mediaserver::manager
