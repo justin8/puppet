@@ -36,7 +36,7 @@ class collectd {
     notify  => Service['collectd'],
   }
 
-  if $::networkmanager {
+  if $::networkmanager == 'true' {
     file { '/etc/NetworkManager/dispatcher.d/10-collectd':
       mode   => '0755',
       source => 'puppet:///modules/collectd/nm-dispatcher-collectd',
