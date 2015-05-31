@@ -1,4 +1,8 @@
-class collectd {
+class monitoring {
+
+  if $::virtual == 'physical' {
+    include monitoring::physical
+  }
 
   package { 'collectd':
     ensure => installed,
@@ -27,13 +31,6 @@ class collectd {
       require => [ Package['collectd'], File['/etc/collectd.d'] ],
       notify  => Service['collectd'],
     }
-  }
-
-  file { '/etc/collectd.d/network.conf':
-    ensure  => file,
-    source  => 'puppet:///modules/collectd/collectd.d/network.conf-client',
-    require => [ Package['collectd'], File['/etc/collectd.d'] ],
-    notify  => Service['collectd'],
   }
 
   if $::networkmanager == 'true' {

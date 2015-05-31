@@ -1,0 +1,40 @@
+class monitoring::server {
+  include monitoring
+  include httpd
+  realize (
+    Httpd::Vhost['grafana.dray.be'],
+  )
+
+  package { ['grafana', 'influxdb']:
+    ensure => installed,
+  }
+
+  service {
+    'influxdb':
+      ensure => running,
+      enable => true,
+      require => Package['influxdb'];
+
+    'grafana':
+      ensure => running,
+      enable => true,
+      require => Package['grafana'];
+  }
+
+  file {
+    '/etc/grafana/grafana.ini':
+      ensure  => file,
+      mode    => '0644',
+      source  => 'puppet:///modules/monitoring/grafana.ini',
+      require => Package['grafana'],
+      notify  => Service['grafana'];
+
+    '/etc/influxdb.conf':
+      ensure  => file,
+      mode    => '0644',
+      source  => 'puppet:///modules/monitoring/influxdb.conf',
+      require => Package['influxdb'],
+      notify  => Service['influxdb'];
+  }
+
+}

@@ -1,5 +1,5 @@
 class httpd {
-  include httpd::vhost-definitions
+  include httpd::vhost_definitions
   package { [ 'apache', 'php-fpm']:
     ensure => installed
   }

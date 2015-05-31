@@ -1,4 +1,4 @@
-class httpd::vhost-definitions {
+class httpd::vhost_definitions {
   # TODO: Add the ability to specify a proxy host from other modules
   @httpd::vhost {
     'abachi.dray.be':
@@ -6,6 +6,10 @@ class httpd::vhost-definitions {
 
     'cloud.dray.be':
       proxy => false;
+
+    'grafana.dray.be':
+      destination => 'http://localhost:3000',
+      proxy       => true;
 
     'couchpotato.dray.be':
       destination => 'http://localhost:5050',

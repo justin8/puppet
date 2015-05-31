@@ -16,8 +16,7 @@ node 'default' {
 
 node 'abachi.dray.be' {
   include os_default
-  include collectd::server
-  include collectd::physical
+  include monitoring::server
   include httpd
   include jenkins
   include mediaserver::manager
@@ -31,8 +30,6 @@ node 'abachi.dray.be' {
 
 node /^araucaria.*$/ {
   include os_default
-  #include collectd::physical
-  #include collectd::server
   include httpd
   include httpd::basic
   include jenkins::slave
@@ -41,7 +38,6 @@ node /^araucaria.*$/ {
 
 node 'cocobolo.dray.be' {
   include os_default
-  #include collectd::physical
   include repo
 }
 
@@ -57,26 +53,21 @@ node 'hemlock.dray.be' {
 
 node 'ironwood.dray.be' {
   include os_default
-  #include collectd::physical
   include os_default::desktop
 }
 
 node /^.*mediacenter.*/ {
   include os_default
-  #include collectd::physical
   include mediacenter
 }
 
 node 'sugi.dray.be' {
   include os_default
-  #include collectd::physical
   include jenkins::slave
 }
 
 node 'wkmil0393.mil.wotifgroup.com' {
   include os_default
-  #include collectd::physical
-  #include collectd::server
   include httpd
   include httpd::basic
   include os_default::desktop

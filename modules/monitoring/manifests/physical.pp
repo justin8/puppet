@@ -1,5 +1,5 @@
-class collectd::physical {
-  include collectd
+class monitoring::physical {
+  include monitoring
 
   file { '/etc/collectd.d/physical.conf':
     ensure  => file,
