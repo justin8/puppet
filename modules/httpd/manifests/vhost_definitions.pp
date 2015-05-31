@@ -4,9 +4,6 @@ class httpd::vhost_definitions {
     'abachi.dray.be':
       proxy => false;
 
-    'cloud.dray.be':
-      proxy => false;
-
     'grafana.dray.be':
       destination => 'http://localhost:3000',
       proxy       => true;
@@ -37,9 +34,6 @@ class httpd::vhost_definitions {
     'sickbeard.dray.be':
       destination => 'http://localhost:8081',
       proxy       => true;
-
-    'sync.dray.be':
-      proxy => false;
 
     'transmission.dray.be':
       destination => 'http://hemlock:9091',

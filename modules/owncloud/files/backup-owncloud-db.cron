@@ -1,6 +1,0 @@
-#!/bin/bash
-BACKUPDIR=/usr/share/webapps/owncloud/database-backups
-
-mysqldump owncloud > "$BACKUPDIR/$(date +%Y-%m-%d)-owncloud.sql"
-
-find $BACKUPDIR/* -maxdepth 0 -mtime +14 -delete
