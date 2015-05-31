@@ -3,7 +3,7 @@ class monitoring::physical {
 
   file { '/etc/collectd.d/physical.conf':
     ensure  => file,
-    source  => 'puppet:///modules/collectd/collectd.d/physical.conf',
+    source  => 'puppet:///modules/monitoring/collectd.d/physical.conf',
     mode    => '0644',
     require => [ Package['collectd'], File['/etc/collectd.d'] ],
     notify  => Service['collectd'],
@@ -25,7 +25,7 @@ class monitoring::physical {
 
     '/etc/systemd/system/hddtemp.service.d/disks.conf':
       ensure  => present,
-      content => template('collectd/hddtemp-disks.conf.erb'),
+      content => template('monitoring/hddtemp-disks.conf.erb'),
       notify  => [ Exec['systemd-daemon-reload'], Service['hddtemp'] ];
   }
 

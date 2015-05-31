@@ -15,7 +15,7 @@ class monitoring {
 
   file { '/etc/collectd.conf':
     ensure  => file,
-    source  => 'puppet:///modules/collectd/collectd.conf',
+    source  => 'puppet:///modules/monitoring/collectd.conf',
     require => Package['collectd'],
     notify  => Service['collectd'],
   }
@@ -27,7 +27,7 @@ class monitoring {
   if $zfs_version {
     file { '/etc/collectd.d/zfs.conf':
       ensure => file,
-      source => 'puppet:///modules/collectd/collectd.d/zfs.conf',
+      source => 'puppet:///modules/monitoring/collectd.d/zfs.conf',
       require => [ Package['collectd'], File['/etc/collectd.d'] ],
       notify  => Service['collectd'],
     }
@@ -36,7 +36,7 @@ class monitoring {
   if $::networkmanager == 'true' {
     file { '/etc/NetworkManager/dispatcher.d/10-collectd':
       mode   => '0755',
-      source => 'puppet:///modules/collectd/nm-dispatcher-collectd',
+      source => 'puppet:///modules/monitoring/nm-dispatcher-collectd',
     }
   }
 }
