@@ -1,8 +1,5 @@
 class monitoring {
-
-  if $::virtual == 'physical' {
-    include monitoring::physical
-  }
+  include monitoring::physical
 
   package { 'collectd':
     ensure => installed,
