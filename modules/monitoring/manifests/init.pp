@@ -24,6 +24,10 @@ class monitoring {
     ensure  => directory,
   }
 
+  file { '/etc/collectd.d/network.conf':
+    ensure => absent,
+  }
+
   if $zfs_version {
     file { '/etc/collectd.d/zfs.conf':
       ensure => file,
