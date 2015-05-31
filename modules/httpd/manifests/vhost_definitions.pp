@@ -17,7 +17,7 @@ class httpd::vhost_definitions {
       proxy       => true;
 
     'jenkins.dray.be':
-      destination => 'http://localhost:8090',
+      destination => 'http://localhost:7090',
       proxy       => true;
 
     'plex.dray.be':
