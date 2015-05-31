@@ -24,7 +24,9 @@ class monitoring {
     ensure  => directory,
   }
 
-  file { '/etc/collectd.d/network.conf':
+  file { ['/etc/collectd.d/network.conf',
+          '/etc/collectd.d/rrdtool.conf',
+          '/etc/collectd.d/passwd']:
     ensure => absent,
   }
 
