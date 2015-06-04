@@ -71,9 +71,6 @@ node 'wkmil0393.mil.wotifgroup.com' {
   include httpd
   include httpd::basic
   include os_default::desktop
-  class { 'repo':
-    open_network => false,
-  }
 }
 
 node 'zingana.dray.be' {
