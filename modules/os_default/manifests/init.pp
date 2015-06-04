@@ -4,9 +4,12 @@ class os_default {
   include os_default::misc
   include os_default::ntp
   include os_default::optimizations
-  include os_default::pacman
   include os_default::ssh
   include os_default::sudo
+
+  if $operatingsystem == 'Archlinux' {
+    include os_default::pacman
+  }
 
   $packages = [ 'avahi', 'cv', 'dnsutils', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'pkgstats', 'rsync', 'pkgfile', 'the_silver_searcher' ]
   package { $packages: ensure => installed }
