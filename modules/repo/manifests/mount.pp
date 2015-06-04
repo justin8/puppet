@@ -1,6 +1,6 @@
 class repo::mount( $remote = true, $user = root ) {
 
-  if $remote {
+  if "$remote" == "true" {
 
     file {
       '/srv/repo':
