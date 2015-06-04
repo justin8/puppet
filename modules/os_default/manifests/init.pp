@@ -19,22 +19,7 @@ class os_default {
       ensure => installed }
   }
 
-  package { 'atop':
-    ensure => absent,
-    require => Service['atop'];
-  }
-
-  file { '/var/log/atop':
-    ensure => absent,
-    recurse => true,
-    force => true,
-  }
-
   service {
-    'atop':
-      ensure => stopped,
-      enable => false;
-
     'avahi-daemon':
       ensure => running,
       enable => true,
