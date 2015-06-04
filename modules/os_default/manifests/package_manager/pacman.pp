@@ -1,4 +1,4 @@
-class os_default::pacman {
+class os_default::package_manager::pacman {
 
   cron { 'create-package-list':
     command  => 'pacman -Q > /etc/package-list',
