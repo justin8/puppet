@@ -25,7 +25,7 @@ class os_default::pacman {
       'configure-repo':
         path    => '/usr/bin',
         unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
-        command => 'curl -s "https://repo.dray.be/dray-repo-0.7-1-any.pkg.tar.xz" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
+        command => 'curl -s "https://repo.dray.be/dray-repo-latest" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
     }
 
     file { '/etc/pacman.d/mirrorlist':
@@ -47,7 +47,7 @@ class os_default::pacman {
       if $::hostname != 'abachi' {
         mount { '/var/cache/pacman/pkg':
           ensure  => mounted,
-          device  => "abachi.dray.be:/pacman",
+          device  => "abachi.local:/pacman",
           fstype  => 'nfs',
           options => 'defaults,noauto,x-systemd.automount',
           atboot  => true,
