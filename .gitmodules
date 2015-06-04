@@ -16,3 +16,6 @@
 [submodule "modules/logrotate"]
 	path = modules/logrotate
 	url = https://github.com/rodjek/puppet-logrotate/
+[submodule "modules/diamond"]
+	path = modules/diamond
+	url = https://github.com/justin8/garethr-diamond.git
