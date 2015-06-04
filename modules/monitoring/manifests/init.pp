@@ -1,10 +1,12 @@
 class monitoring {
+  if $operatingsystem == "Fedora" { $pip = true } else { $pip = false }
 
   class { 'diamond':
     graphite_host    => 'abachi.local',
     interval         => 10,
     purge_handlers   => true,
     purge_collectors => true,
+    install_from_pip => $pip
   }
 
   service { 'collectd':
