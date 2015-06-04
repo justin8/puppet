@@ -1,5 +1,6 @@
 class httpd {
   include httpd::vhost_definitions
+  include monitoring::httpd
   package { [ 'apache', 'php-fpm']:
     ensure => installed
   }

@@ -1,45 +1,37 @@
 class monitoring {
-  include monitoring::physical
 
-  package { 'collectd':
-    ensure => installed,
+  class { 'diamond':
+    graphite_host    => 'abachi.local',
+    interval         => 10,
+    purge_handlers   => true,
+    purge_collectors => true,
   }
 
   service { 'collectd':
-    ensure    => running,
-    enable    => true,
+    ensure => stopped,
+    enable => false,
   }
 
-  file { '/etc/collectd.conf':
-    ensure  => file,
-    source  => 'puppet:///modules/monitoring/collectd.conf',
-    require => Package['collectd'],
-    notify  => Service['collectd'],
-  }
-
-  file { '/etc/collectd.d':
-    ensure  => directory,
-  }
-
-  file { ['/etc/collectd.d/network.conf',
-          '/etc/collectd.d/rrdtool.conf',
-          '/etc/collectd.d/passwd']:
+  package { ['collectd', 'hddtemp']:
     ensure => absent,
+    require => Service['collectd']
   }
 
-  if $zfs_version {
-    file { '/etc/collectd.d/zfs.conf':
-      ensure => file,
-      source => 'puppet:///modules/monitoring/collectd.d/zfs.conf',
-      require => [ Package['collectd'], File['/etc/collectd.d'] ],
-      notify  => Service['collectd'],
-    }
+  diamond::collector { ['CPUCollector',
+                        'DiskSpaceCollector',
+                        'DiskUsageCollector',
+                        'MemoryCollector',
+                        'VMStatCollector',
+                        'NetworkCollector',
+                        'LoadAverageCollector',
+                        'NtpdCollector',
+                        'PuppetAgentCollector']: }
+
+  # Service-based auto-collection
+
+  if $is_virtual == 'false' {
+    package { 'python2-pysensors': ensure => installed }
+    diamond::collector { 'LMSensorsCollector': }
   }
 
-  if $::networkmanager == 'true' {
-    file { '/etc/NetworkManager/dispatcher.d/10-collectd':
-      mode   => '0755',
-      source => 'puppet:///modules/monitoring/nm-dispatcher-collectd',
-    }
-  }
 }
