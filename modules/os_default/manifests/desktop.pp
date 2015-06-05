@@ -25,4 +25,17 @@ class os_default::desktop {
       require => Package['preload'];
   }
 
+  if $networkmanager == 'true' {
+    package {
+      'networkmanager-dispatcher-ntpd':
+        ensure   => installed,
+        require => Package['ntp'];
+    }
+
+    service { 'NetworkManager-dispatcher':
+      ensure    => running,
+      enable => true;
+    }
+  }
+
 }

@@ -4,12 +4,6 @@ class os_default::ntp {
 
   package { 'ntp': ensure => installed, require => Package['openntpd'] }
 
-  file { '/etc/localtime':
-    ensure  => link,
-    require => Package['openntpd'],
-    target  => '/usr/share/zoneinfo/Australia/Brisbane',
-  }
-
   if $networkmanager == 'true' {
     package {
       'networkmanager-dispatcher-ntpd':

@@ -1,8 +1,8 @@
 class os_default {
-  include monitoring
+  include ::ntp
+  include ::monitoring
   include os_default::cron
   include os_default::misc
-  include os_default::ntp
   include os_default::optimizations
   include os_default::package_manager
   include os_default::ssh
@@ -31,6 +31,13 @@ class os_default {
       ensure => running,
       enable => true;
   }
+
+  file { '/etc/localtime':
+    ensure  => link,
+    require => Package['openntpd'],
+    target  => '/usr/share/zoneinfo/Australia/Brisbane',
+  }
+
 
   file {
     '/root/.smbcreds':
