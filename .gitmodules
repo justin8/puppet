@@ -19,3 +19,6 @@
 [submodule "modules/diamond"]
 	path = modules/diamond
 	url = https://github.com/justin8/garethr-diamond.git
+[submodule "modules/ntp"]
+	path = modules/ntp
+	url = https://github.com/puppetlabs/puppetlabs-ntp.git
