@@ -6,6 +6,8 @@ class monitoring {
     purge_collectors => true,
   }
 
+  package { ['python2-yaml']: ensure => installed }
+
   service { 'collectd':
     ensure => stopped,
     enable => false,
@@ -27,7 +29,6 @@ class monitoring {
                         'PuppetAgentCollector']: }
 
   # Service-based auto-collection
-
   if $is_virtual == 'false' {
     package { 'python2-pysensors': ensure => installed }
     diamond::collector { 'LMSensorsCollector': }
