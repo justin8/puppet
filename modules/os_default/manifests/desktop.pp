@@ -1,4 +1,5 @@
 class os_default::desktop {
+  include os_default::cron
 
   $packages = [ 'preload', 'prelink' ]
   package { $packages: ensure => installed }
@@ -14,7 +15,7 @@ class os_default::desktop {
     month    => '*',
     weekday  => '*',
     monthday => '*',
-    require  => Package['prelink', 'cronie'],
+    require  => Package['prelink', $::os_default::cron::cron_package],
   }
 
   service {
