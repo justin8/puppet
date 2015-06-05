@@ -20,7 +20,6 @@ class monitoring {
                         'DiskSpaceCollector',
                         'DiskUsageCollector',
                         'MemoryCollector',
-                        'ProcessStatCollector',
                         'VMStatCollector',
                         'NetworkCollector',
                         'LoadAverageCollector',
