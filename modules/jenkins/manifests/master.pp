@@ -29,7 +29,7 @@ class jenkins::master {
     month    => '*',
     weekday  => '*',
     monthday => '*',
-    require  => File['fix-package-cache'],
+    require  => File['/usr/local/sbin/fix-package-cache'],
   }
 
 }

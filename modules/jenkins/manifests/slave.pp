@@ -6,44 +6,14 @@ class jenkins::slave {
   user {
     'jenkins':
       home   => '/var/lib/jenkins',
+      groups => ['docker'],
       system => true;
   }
 
-  exec {
-    '/usr/local/bin/update-sources':
-      path    => '/usr/bin',
-      unless  => 'test -d /var/lib/jenkins/aur-mirror',
-      require => File['/usr/local/bin/update-sources'],
-      timeout => 0;
-
-    'create-chroot':
-      path    => '/usr/bin',
-      command => 'mkarchroot -C /etc/pacman.conf /chroot/root base-devel',
-      unless  => 'test -d /chroot/root',
-      timeout => 0,
-      require => File['/chroot'],
-      notify  => Exec['update-chroot-makepkg', 'update-chroot-pacman'];
-
-    'update-chroot-makepkg':
-      path    => '/usr/bin',
-      command => 'cp /etc/makepkg.conf /chroot/root/etc/makepkg.conf',
-      onlyif  => 'diff /etc/makepkg.conf /chroot/root/etc/makepkg.conf > /dev/null; [ $? -eq 1 ]',
-      require => Exec['create-chroot'];
-
-    'update-chroot-pacman':
-      path    => '/usr/bin',
-      command => 'cp /etc/pacman.conf /chroot/root/etc/pacman.conf',
-      onlyif  => 'diff /etc/pacman.conf /chroot/root/etc/pacman.conf > /dev/null; [ $? -eq 1 ]',
-      require => Exec['create-chroot'];
-  }
-
   file {
-    '/usr/bin/makechrootpkg-compat':
-      ensure => absent;
-
-    '/usr/local/bin/makechrootpkg-jenkins':
-      ensure  => file,
-      source  => 'puppet:///modules/jenkins/makechrootpkg-jenkins';
+    #'/usr/local/bin/makechrootpkg-jenkins':
+    # ensure  => absent,
+    # source  => 'puppet:///modules/jenkins/makechrootpkg-jenkins';
 
     '/chroot':
       ensure  => directory;
@@ -52,17 +22,17 @@ class jenkins::slave {
       ensure  => file,
       source  => 'puppet:///modules/jenkins/makepkg.conf';
 
-    '/etc/sudoers.d/jenkins':
-      ensure  => file,
-      source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
+    #'/etc/sudoers.d/jenkins':
+    #  ensure  => absent,
+    #  source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
 
-    '/usr/local/bin/update-sources':
-      ensure  => file,
-      source  => 'puppet:///modules/jenkins/update-sources';
+    #'/usr/local/bin/update-sources':
+    #  ensure  => absent,
+    #  source  => 'puppet:///modules/jenkins/update-sources';
 
-    '/etc/cron.daily/update-sources':
-      ensure  => link,
-      target  => '/usr/local/bin/update-sources';
+    #'/etc/cron.daily/update-sources':
+    #  ensure  => absent,
+    #  target  => '/usr/local/bin/update-sources';
 
     '/var/lib/jenkins':
       ensure  => directory,
