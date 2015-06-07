@@ -4,8 +4,9 @@ exec > /dev/null 2>&1
 
 for repo in /etc/puppet /etc/hieradata
 do
-	git -C $repo reset --hard
-	git -C $repo pull
+	git -C $repo checkout master
+	git -C $repo fetch --all
+	git -C $repo reset --hard origin/master
 	git -C $repo submodule sync
 	git -C $repo submodule update --init
 done
