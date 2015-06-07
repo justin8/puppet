@@ -1,4 +1,4 @@
-class jenkins {
+class jenkins::master {
   include httpd
   realize Httpd::Vhost['jenkins.dray.be']
 

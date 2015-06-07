@@ -18,12 +18,12 @@ node 'abachi.dray.be' {
   include os_default
   include monitoring::server
   include httpd
-  include jenkins
+  include jenkins::master
+  include jenkins::slave
   include mediaserver::manager
   include puppetmaster
   include repo
 
-  class { 'jenkins::slave': remote => false; }
 
   realize Httpd::Vhost['abachi.dray.be']
 }
