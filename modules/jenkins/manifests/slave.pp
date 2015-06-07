@@ -15,11 +15,14 @@ class jenkins::slave {
     # ensure  => absent,
     # source  => 'puppet:///modules/jenkins/makechrootpkg-jenkins';
 
+    '/usr/local/bin/dmakepkg':
+      mode   => '0755',
+      source => 'puppet:///modules/jenkins/dmakepkg';
+
     '/chroot':
       ensure  => directory;
 
     '/etc/makepkg.conf':
-      ensure  => file,
       source  => 'puppet:///modules/jenkins/makepkg.conf';
 
     #'/etc/sudoers.d/jenkins':
@@ -47,7 +50,6 @@ class jenkins::slave {
       require => User['jenkins'];
 
     '/var/lib/jenkins/.ssh/authorized_keys':
-      ensure  => file,
       mode    => '0600',
       owner   => 'jenkins',
       group   => 'jenkins',
