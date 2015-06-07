@@ -34,7 +34,6 @@ class os_default {
 
   file { '/etc/localtime':
     ensure  => link,
-    require => Package['openntpd'],
     target  => '/usr/share/zoneinfo/Australia/Brisbane',
   }
 
