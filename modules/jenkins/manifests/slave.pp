@@ -1,10 +1,6 @@
-class jenkins::slave( $remote = true ) {
+class jenkins::slave {
 
-  if $remote {
-    class { 'repo::mount': remote => true, user => 'jenkins'; }
-  }
-
-  $packages = [ 'jre7-openjdk-headless', 'abs', 'devtools' ]
+  $packages = [ 'jre8-openjdk-headless', 'abs', 'devtools' ]
   package { $packages: ensure => installed }
 
   user {
