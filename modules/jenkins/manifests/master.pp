@@ -23,7 +23,7 @@ class jenkins::master {
   }
 
   cron { 'fix-package-cache':
-    command  => '/usr/local/sbin/fix-package-cache',
+    command  => '/usr/local/sbin/fix-package-cache &> /dev/null',
     minute   => '0',
     hour     => '*',
     month    => '*',
