@@ -1,5 +1,6 @@
 class jenkins::master {
   include httpd
+  include incron
   realize Httpd::Vhost['jenkins.dray.be']
 
   $packages = [ 'jenkins' ]
@@ -22,13 +23,10 @@ class jenkins::master {
       source => 'puppet:///modules/jenkins/fix-package-cache';
   }
 
-  cron { 'fix-package-cache':
+  incron { 'fix-package-cache':
     command  => '/usr/local/sbin/fix-package-cache &> /dev/null',
-    minute   => '0',
-    hour     => '*',
-    month    => '*',
-    weekday  => '*',
-    monthday => '*',
+    path     => '/srv/repo',
+    mask     => ['IN_CLOSE_WRITE', 'IN_MOVE_TO'],
     require  => File['/usr/local/sbin/fix-package-cache'],
   }
 
