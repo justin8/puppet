@@ -3,7 +3,7 @@ class os_default::cron {
     'Archlinux': { $cron_package = 'cronie'}
     default: { $cron_package = 'cron' }
   }
-  package { $cron_package: ensure => installed }
+  ensure_packages($cron_package)
 
   service { $cron_package:
     ensure    => running,

@@ -13,8 +13,7 @@ class mediacenter( $user='htpc' ) {
     managehome => true,
   }
 
-  $standalone_packages = [
-    'adwaita-x-dark-and-light-theme',
+  ensure_packages(
     'clipit',
     'evince',
     'faenza-icon-theme',
@@ -39,8 +38,7 @@ class mediacenter( $user='htpc' ) {
     'ttf-dejavu',
     'xorg-server',
     'xorg-xinit',
-    'zenity' ]
-  package { $standalone_packages: ensure => installed }
+    'zenity')
 
   service {
     'bluetooth':

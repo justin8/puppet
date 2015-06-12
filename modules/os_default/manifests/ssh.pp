@@ -1,5 +1,5 @@
 class os_default::ssh {
-  package { 'openssh': ensure => installed }
+  ensure_packages('openssh')
 
   service { 'sshd':
     ensure    => running,

@@ -6,7 +6,7 @@ class monitoring {
     purge_collectors => true,
   }
 
-  package { ['python2-yaml']: ensure => installed }
+  ensure_packages('python2-yaml')
 
   service { 'collectd':
     ensure => stopped,

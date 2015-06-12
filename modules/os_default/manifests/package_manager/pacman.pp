@@ -40,8 +40,7 @@ class os_default::package_manager::pacman {
         command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
     }
 
-    $packages = [ 'nfs-utils', ]
-    package { $packages: ensure => installed }
+    ensure_packages('nfs-utils')
 
     if "$local" == "true" {
       if $::hostname != 'abachi' {

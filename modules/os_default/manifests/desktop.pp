@@ -1,8 +1,7 @@
 class os_default::desktop {
   include os_default::cron
 
-  $packages = [ 'preload', 'prelink' ]
-  package { $packages: ensure => installed }
+  ensure_packages('preload', 'prelink')
 
   file { '/etc/cron.daily/prelink.cron':
     ensure => absent,

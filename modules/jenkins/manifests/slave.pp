@@ -1,7 +1,6 @@
 class jenkins::slave {
 
-  $packages = [ 'jre8-openjdk-headless', 'abs', 'devtools' ]
-  package { $packages: ensure => installed }
+  ensure_packages('jre8-openjdk-headless', 'abs', 'devtools')
 
   user {
     'jenkins':

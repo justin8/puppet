@@ -1,14 +1,11 @@
 class mediaserver::downloader {
 
-  package {
-    [
-      'openvpn',
-      'python2-pyopenssl',
-      'sabnzbd',
-      'transmission-cli',
-    ]:
-      ensure => present,
-  }
+  ensure_packages(
+    'openvpn',
+    'python2-pyopenssl',
+    'sabnzbd',
+    'transmission-cli',
+  )
 
   service {
     'openvpn@ghostpath':

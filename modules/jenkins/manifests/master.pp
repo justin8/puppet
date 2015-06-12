@@ -3,8 +3,7 @@ class jenkins::master {
   include incron
   realize Httpd::Vhost['jenkins.dray.be']
 
-  $packages = [ 'jenkins' ]
-  package { $packages: ensure => installed }
+  ensure_packages('jenkins')
 
   service {
     'jenkins':

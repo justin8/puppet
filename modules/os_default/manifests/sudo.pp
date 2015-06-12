@@ -1,5 +1,5 @@
 class os_default::sudo {
-  package { 'sudo': ensure => installed }
+  ensure_packages('sudo')
 
   file { '/etc/sudoers.d':
     ensure  => directory,
