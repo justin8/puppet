@@ -13,7 +13,7 @@ class mediacenter( $user='htpc' ) {
     managehome => true,
   }
 
-  ensure_packages(
+  ensure_packages([
     'clipit',
     'evince',
     'faenza-icon-theme',
@@ -38,7 +38,8 @@ class mediacenter( $user='htpc' ) {
     'ttf-dejavu',
     'xorg-server',
     'xorg-xinit',
-    'zenity')
+    'zenity',
+    ])
 
   service {
     'bluetooth':

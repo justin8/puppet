@@ -8,11 +8,11 @@ class mediaserver::manager {
     Httpd::Vhost['transmission.dray.be'],
   )
 
-  ensure_packages(
+  ensure_packages([
     'couchpotato',
     'plex-media-server',
     'sonarr-develop',
-  )
+    ])
 
   service {
     'couchpotato':

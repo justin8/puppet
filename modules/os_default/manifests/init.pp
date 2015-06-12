@@ -8,7 +8,7 @@ class os_default {
   include os_default::ssh
   include os_default::sudo
 
-  ensure_packages('avahi', 'cv', 'dnsutils', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'pkgstats', 'rsync', 'pkgfile', 'the_silver_searcher')
+  ensure_packages(['avahi', 'cv', 'dnsutils', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'pkgstats', 'rsync', 'pkgfile', 'the_silver_searcher'])
 
   if $architecture == 'x86_64' {
     package { [ 'aura-bin' ]:

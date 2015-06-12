@@ -1,5 +1,5 @@
 class mediacenter::xbmc( $user, $cache, $home_path ) {
-  ensure_packages('polkit', 'udisks', 'xbmc')
+  ensure_packages(['polkit', 'udisks', 'xbmc'])
 
   file {
     '/usr/share/xbmc/addons/skin.confluence/720p/IncludesHomeMenuItems.xml':

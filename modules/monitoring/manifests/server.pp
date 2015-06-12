@@ -5,7 +5,7 @@ class monitoring::server {
     Httpd::Vhost['grafana.dray.be'],
   )
 
-  ensure_packages('grafana', 'influxdb')
+  ensure_packages(['grafana', 'influxdb'])
 
   service {
     'influxdb':

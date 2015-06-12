@@ -1,7 +1,7 @@
 class httpd {
   include httpd::vhost_definitions
   include monitoring::httpd
-  ensure_packages('apache', 'php-fpm')
+  ensure_packages(['apache', 'php-fpm'])
 
   service {
     'httpd':

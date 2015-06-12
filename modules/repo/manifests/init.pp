@@ -15,7 +15,7 @@ class repo( $owner = 'http', $group = 'http') {
     require => Service['repo-proxy'],
   }
 
-  ensure_packages('pkgcacheclean')
+  ensure_packages(['pkgcacheclean'])
 
   incron { 'update-repo':
     user    => 'root',
