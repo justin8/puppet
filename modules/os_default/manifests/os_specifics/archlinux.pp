@@ -1,4 +1,10 @@
-class os_default::package_manager::pacman {
+class os_default::os_specifics::archlinux {
+
+  ensure_packages(['dnsutils', 'pkgfile', 'pkgstats'])
+
+  if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
+
+  # Package manager config
 
   cron { 'create-package-list':
     command  => 'pacman -Q > /etc/package-list',
@@ -40,6 +46,7 @@ class os_default::package_manager::pacman {
         command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
     }
 
+    # Package cache
     ensure_packages(['nfs-utils'])
 
     if "$local" == "true" {
