@@ -25,16 +25,6 @@ class monitoring {
     }
   }
 
-  service { 'collectd':
-    ensure => stopped,
-    enable => false,
-  }
-
-  package { ['collectd', 'hddtemp']:
-    ensure => absent,
-    require => Service['collectd']
-  }
-
   diamond::collector { ['CPUCollector',
                         'DiskSpaceCollector',
                         'DiskUsageCollector',
