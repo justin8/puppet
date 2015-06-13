@@ -13,7 +13,17 @@ class monitoring {
     install_from_pip  => $install_from_pip
   }
 
-  ensure_packages(['python2-yaml'])
+  case $operatingsystem {
+    'Archlinux': {
+      ensure_packages(['python2-yaml'])
+    }
+    'Ubuntu': {
+      ensure_packages(['python-yaml'])
+    }
+    default: {
+      fail('Unsupported OS')
+    }
+  }
 
   service { 'collectd':
     ensure => stopped,
