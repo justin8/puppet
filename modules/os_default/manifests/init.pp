@@ -7,14 +7,14 @@ class os_default {
   include os_default::os_specifics
   include os_default::ssh
   include os_default::sudo
+  include systemd
 
-  ensure_packages(['avahi', 'cv', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'nss-mdns', 'rsync', 'the_silver_searcher'])
+  ensure_packages(['ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
 
   service {
     'avahi-daemon':
       ensure => running,
-      enable => true,
-      require => Package['avahi'];
+      enable => true;
 
     'haveged':
       ensure => running,
@@ -36,11 +36,6 @@ class os_default {
     '/root/.smbcreds':
       mode   => '0600',
       source => 'puppet:///modules/os_default/smbcreds';
-  }
-
-  exec { 'systemd-daemon-reload':
-    command     => '/usr/bin/systemctl daemon-reload',
-    refreshonly => true,
   }
 
 }

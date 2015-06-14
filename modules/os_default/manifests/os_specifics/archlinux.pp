@@ -1,6 +1,7 @@
 class os_default::os_specifics::archlinux {
 
-  ensure_packages(['dnsutils', 'pkgfile', 'pkgstats'])
+  ensure_packages(['dnsutils', 'nss-mdns', 'pkgfile', 'pkgstats', 'the_silver_searcher'])
+  package { 'avahi': before => Service['avahi-daemon'] }
 
   if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
 

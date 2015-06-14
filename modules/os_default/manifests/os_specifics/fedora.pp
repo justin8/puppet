@@ -10,6 +10,7 @@ class os_default::os_specifics::fedora {
     }
   }
 
-  ensure_packages(['bind-utils'])
+  ensure_packages(['bind-utils', 'nss-mdns', 'the_silver_searcher'])
+  package { 'avahi': before => Service['avahi-daemon'] }
   package { 'nscd': before => Service['nscd'] }
 }
