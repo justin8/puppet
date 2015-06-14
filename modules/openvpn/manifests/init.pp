@@ -36,21 +36,20 @@ class openvpn {
 
     file { "/etc/systemd/system/openvpn@.service":
       source => 'puppet:///modules/openvpn/openvpn@.service',
-      notify => [
-        Exec['systemd-daemon-reload'],
-        Service['openvpn@dray.be'],
-      ],
-    }
-
-    service { "openvpn@dray.be":
-      ensure => running,
-      enable => true,
+      notify => Exec['systemd-daemon-reload'],
     }
 
     file { "/usr/local/sbin/maintain-vpn":
       mode   => '0755',
+      notify => Exec['maintain-vpn'],
       source => 'puppet:///modules/openvpn/maintain-vpn',
     }
+
+    exec { "maintain-vpn":
+      command     => '/usr/local/sbin/maintain-vpn',
+      refreshonly => true,
+    }
+
 
     cron { 'maintain-vpn':
       command => '/usr/local/sbin/maintain-vpn',
