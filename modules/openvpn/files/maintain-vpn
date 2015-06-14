@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if ! ip route | grep tap0 | grep -q 192.168.1.0
+then
+	systemctl restart openvpn@dray.be
+fi

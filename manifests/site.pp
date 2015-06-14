@@ -56,6 +56,11 @@ node 'ironwood.dray.be' {
   include os_default::desktop
 }
 
+node 'cypress.dray.be' {
+  include os_default
+  include openvpn
+}
+
 node /^.*mediacenter.*/ {
   include os_default
   include mediacenter
