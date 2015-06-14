@@ -28,3 +28,6 @@
 [submodule "modules/nodejs"]
 	path = modules/nodejs
 	url = https://github.com/puppet-community/puppet-nodejs.git
+[submodule "modules/systemd"]
+	path = modules/systemd
+	url = https://github.com/justin8/justin8-systemd
