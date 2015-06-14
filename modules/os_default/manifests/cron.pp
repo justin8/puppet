@@ -8,6 +8,10 @@ class os_default::cron {
       $cron_package = 'cronie'
       $cron_service = 'crond'
     }
+    'Ubuntu': {
+      $cron_package = 'cron'
+      $cron_service = 'cron'
+    }
     default: {
       $cron_package = 'cron'
       $cron_service = 'crond'
