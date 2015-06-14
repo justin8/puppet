@@ -1,3 +1,13 @@
+# == Class: openvpn
+#
+# Module to connect a remote machine to the central network
+#
+# === Parameters
+#
+# None! Totally auto.
+#
+# However, all puppet-managed clients use a shared key currently
+
 class openvpn {
 
   if $systemd_available == 'true' {
