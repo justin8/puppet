@@ -23,9 +23,10 @@ class jenkins::master {
   }
 
   incron { 'fix-package-cache':
+    user     => 'root',
     command  => '/usr/local/sbin/fix-package-cache &> /dev/null',
     path     => '/srv/repo',
-    mask     => ['IN_CLOSE_WRITE', 'IN_MOVE_TO'],
+    mask     => ['IN_CLOSE_WRITE', 'IN_MOVED_TO'],
     require  => File['/usr/local/sbin/fix-package-cache'],
   }
 
