@@ -38,4 +38,9 @@ class os_default {
       source => 'puppet:///modules/os_default/smbcreds';
   }
 
+  exec { 'append local domain':
+    command => 'printf "\n\nsearch_domains=local\n" >> /etc/resolvconf.conf',
+    unless  => 'grep -q "search_domains" /etc/resolvconf.conf',
+  }
+
 }
