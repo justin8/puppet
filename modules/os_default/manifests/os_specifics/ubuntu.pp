@@ -5,4 +5,9 @@ class os_default::os_specifics::ubuntu {
   package { 'avahi-daemon': before => Service['avahi-daemon'] }
   package { 'nscd': before => Service['nscd'] }
 
+  exec { 'append local domain':
+    command => 'printf "\n\nsearch local dray.be\n" >> /etc/resolvconf/resolvconf.d/head',
+    unless  => 'grep -q "search" /etc/resolvconf/resolvconf.d/head',
+  }
+
 }

@@ -1,9 +1,16 @@
 class os_default::os_specifics::archlinux {
 
   ensure_packages(['dnsutils', 'nss-mdns', 'pkgfile', 'pkgstats', 'the_silver_searcher'])
+
+  # Name resolution
   package { 'avahi': before => Service['avahi-daemon'] }
 
   if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
+
+  exec { 'append local domain':
+    command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf',
+    unless  => 'grep -q "search_domains" /etc/resolvconf.conf',
+  }
 
   # Package manager config
 
