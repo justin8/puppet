@@ -11,7 +11,7 @@ class monitoring::server {
     'influxdb':
       ensure => running,
       enable => true,
-      require => Package['influxdb'];
+      require => Package['influxdb08'];
 
     'grafana':
       ensure => running,
@@ -31,7 +31,7 @@ class monitoring::server {
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/monitoring/influxdb.conf',
-    require => Package['influxdb'],
+    require => Package['influxdb08'],
     notify  => Service['influxdb']
   }
 
