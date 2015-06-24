@@ -9,6 +9,7 @@
 # However, all puppet-managed clients use a shared key currently
 
 class openvpn {
+  include systemd
 
   if $systemd_available == 'true' {
     ensure_packages(['openvpn'])
