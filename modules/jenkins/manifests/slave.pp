@@ -18,8 +18,8 @@ class jenkins::slave {
       mode   => '0755',
       source => 'puppet:///modules/jenkins/dmakepkg';
 
-    '/chroot':
-      ensure  => directory;
+    #'/chroot':
+    #  ensure  => directory;
 
     '/etc/makepkg.conf':
       source  => 'puppet:///modules/jenkins/makepkg.conf';
