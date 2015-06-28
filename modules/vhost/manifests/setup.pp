@@ -1,4 +1,5 @@
 class vhost::setup {
+  include nginx
   include monitoring::nginx
 
   file {

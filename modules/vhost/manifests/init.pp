@@ -3,7 +3,6 @@ define vhost($url,
              $www_root = undef,
              $autoindex = 'off',
 ) {
-  include nginx
   include vhost::setup
   #  include php?
   $vhost_private_keys = hiera('vhost_private_keys')
