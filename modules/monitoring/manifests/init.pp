@@ -25,15 +25,21 @@ class monitoring {
     }
   }
 
-  diamond::collector { ['CPUCollector',
-                        'DiskSpaceCollector',
-                        'DiskUsageCollector',
-                        'MemoryCollector',
-                        'VMStatCollector',
-                        'NetworkCollector',
-                        'LoadAverageCollector',
-                        'NtpdCollector',
-                        'PuppetAgentCollector']: }
+  diamond::collector {
+    ['CPUCollector',
+     'DiskSpaceCollector',
+     'DiskUsageCollector',
+     'MemoryCollector',
+     'VMStatCollector',
+     'LoadAverageCollector',
+     'NtpdCollector',
+     'PuppetAgentCollector']: ;
+
+   'NetworkCollector':
+     options => {'interfaces' => 'eth, bond, ens, enx, enp, eno'};
+  }
+
+
 
   # Service-based auto-collection
   if $is_virtual == 'false' {
