@@ -1,12 +1,22 @@
 class mediaserver::manager {
-  include httpd
-  realize (
-    Httpd::Vhost['couchpotato.dray.be'],
-    Httpd::Vhost['plex.dray.be'],
-    Httpd::Vhost['sab.dray.be'],
-    Httpd::Vhost['sonarr.dray.be'],
-    Httpd::Vhost['transmission.dray.be'],
-  )
+  vhost {
+    'couchpotato':
+      url      => 'couchpotato.dray.be',
+      upstream => 'localhost:5050';
+
+    'sab':
+      url      => 'sab.dray.be',
+      upstream => 'hemlock:8080';
+
+    'sonarr':
+      url      => 'sonarr.dray.be',
+      upstream => 'localhost:8989';
+
+    'transmission':
+      url      => 'transmission.dray.be',
+      upstream => 'hemlock:9091';
+  }
+
 
   ensure_packages([
     'couchpotato',

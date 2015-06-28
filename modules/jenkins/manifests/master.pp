@@ -1,7 +1,10 @@
 class jenkins::master {
-  include httpd
   include incron
-  realize Httpd::Vhost['jenkins.dray.be']
+
+  vhost { 'jenkins':
+    url => 'jenkins.dray.be',
+    upstream => 'localhost:7090',
+  }
 
   ensure_packages(['jenkins'])
 

@@ -17,15 +17,17 @@ node 'default' {
 node 'abachi.dray.be' {
   include os_default
   include monitoring::server
-  include httpd
   include jenkins::master
   include jenkins::slave
   include mediaserver::manager
   include puppetmaster
   include repo
 
-
-  realize Httpd::Vhost['abachi.dray.be']
+  vhost { 'abachi':
+    url       => 'abachi.dray.be',
+    www_root  => '/srv/http',
+    autoindex => 'on',
+  }
 }
 
 node /^araucaria.*$/ {

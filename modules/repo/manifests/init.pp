@@ -1,8 +1,12 @@
 class repo( $owner = 'http', $group = 'http') {
-  include httpd
   include incron
-  realize Httpd::Vhost['repo.dray.be']
   $btsync_keys = hiera('btsync_keys')
+
+  vhost { 'repo':
+    url       => 'repo.dray.be',
+    www_root  => '/srv/repo',
+    autoindex => 'on',
+  }
 
   service { 'repo-proxy':
     ensure => stopped,
@@ -54,6 +58,6 @@ class repo( $owner = 'http', $group = 'http') {
       use_upnp    => $open_network,
       use_dht     => $open_network,
       ignore_list => [ 'dray.be.*' ],
-      notify      => Service['httpd'];
+      notify      => Service['nginx'];
   }
 }

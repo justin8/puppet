@@ -1,9 +1,10 @@
 class monitoring::server {
   include monitoring
-  include httpd
-  realize (
-    Httpd::Vhost['grafana.dray.be'],
-  )
+
+  vhost { 'grafana':
+    url      => 'grafana.dray.be',
+    upstream => 'localhost:3000',
+  }
 
   ensure_packages(['grafana', 'influxdb08'])
 
