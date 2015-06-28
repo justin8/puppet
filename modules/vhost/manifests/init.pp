@@ -4,7 +4,6 @@ define vhost($url,
              $autoindex = 'off',
 ) {
   include nginx
-  #include monitoring::nginx # Create this!
   include vhost::setup
   #  include php?
   $vhost_private_keys = hiera('vhost_private_keys')

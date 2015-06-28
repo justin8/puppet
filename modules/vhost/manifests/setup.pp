@@ -1,4 +1,6 @@
 class vhost::setup {
+  include monitoring::nginx
+
   file {
     '/etc/ssl/private':
       ensure  => directory,
