@@ -2,7 +2,7 @@ class jenkins::master {
   include incron
 
   vhost { 'jenkins':
-    url => 'jenkins.dray.be',
+    url      => 'jenkins.dray.be',
     upstream => 'localhost:7090',
   }
 
