@@ -22,7 +22,7 @@ class puppetmaster {
   }
 
   file {
-    '/usr/local/bin/update-puppet':
+    '/usr/local/sbin/update-puppet':
       ensure => file,
       mode   => '0775',
       source => 'puppet:///modules/puppetmaster/update-puppet';
@@ -39,7 +39,7 @@ class puppetmaster {
   }
 
   cron { 'update-puppet':
-    command  => '/usr/local/bin/update-puppet',
+    command  => '/usr/local/sbin/update-puppet',
     user     => 'root',
     minute   => '*/5',
     hour     => '*',
