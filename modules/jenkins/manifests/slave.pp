@@ -10,7 +10,7 @@ class jenkins::slave {
   }
 
   cron { 'abs':
-    command  => 'abs',
+    command  => 'abs &> /dev/null',
     minute   => '0',
     hour     => '1',
     month    => '*',
