@@ -30,24 +30,6 @@ node 'abachi.dray.be' {
   }
 }
 
-node /^araucaria.*$/ {
-  include os_default
-  include httpd
-  include httpd::basic
-  include jenkins::slave
-  include os_default::desktop
-}
-
-node 'cocobolo.dray.be' {
-  include os_default
-  include repo
-}
-
-node 'huon.dray.be' {
-  include os_default
-  include jenkins::slave
-}
-
 node 'hemlock.dray.be' {
   include os_default
   include mediaserver::downloader
@@ -75,13 +57,10 @@ node 'sugi.dray.be' {
 
 node 'wkmil0393.mil.wotifgroup.com' {
   include os_default
-  include httpd
-  include httpd::basic
   include os_default::desktop
 }
 
 node 'zingana.dray.be' {
   include os_default
-#  include httpd::blog
   include repo
 }
