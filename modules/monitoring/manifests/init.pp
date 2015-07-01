@@ -32,7 +32,8 @@ class monitoring {
      'MemoryCollector',
      'VMStatCollector',
      'LoadAverageCollector',
-     'NtpdCollector';
+     'NtpdCollector',
+     'PuppetAgentCollector';
 
    'NetworkCollector':
      options => {'interfaces' => 'eth, bond, ens, enx, enp, eno'};
