@@ -22,7 +22,11 @@ node 'abachi.dray.be' {
   include mediaserver::manager
   include puppetmaster
   include repo
-  include btsync::system
+
+  class { 'btsync::system':
+    user  => 'downloads',
+    group => 'downloads',
+  }
 
   vhost { 'abachi':
     url       => 'abachi.dray.be',
