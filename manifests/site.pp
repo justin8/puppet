@@ -33,6 +33,12 @@ node 'abachi.dray.be' {
     www_root  => '/srv/http',
     autoindex => 'on',
   }
+
+  nginx::resouce::location { 'www-root':
+    location             => '/',
+    auth_basic           => 'restricted',
+    auth_basic_user_file => '/srv/htpasswd',
+  }
 }
 
 node 'hemlock.dray.be' {
