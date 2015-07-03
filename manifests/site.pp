@@ -34,7 +34,7 @@ node 'abachi.dray.be' {
     autoindex => 'on',
   }
 
-  nginx::resouce::location { 'www-root':
+  nginx::resource::location { 'www-root':
     location             => '/',
     auth_basic           => 'restricted',
     auth_basic_user_file => '/srv/htpasswd',
