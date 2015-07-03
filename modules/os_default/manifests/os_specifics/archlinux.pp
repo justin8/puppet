@@ -1,6 +1,6 @@
 class os_default::os_specifics::archlinux {
 
-  ensure_packages(['dnsutils', 'nss-mdns', 'pkgfile', 'pkgstats', 'the_silver_searcher'])
+  ensure_packages(['bind-tools', 'nss-mdns', 'pkgfile', 'pkgstats', 'the_silver_searcher'])
 
   # Name resolution
   package { 'avahi': before => Service['avahi-daemon'] }
