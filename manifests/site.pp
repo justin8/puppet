@@ -32,11 +32,6 @@ node 'abachi.dray.be' {
     url       => 'abachi.dray.be',
     www_root  => '/srv/http',
     autoindex => 'on',
-  }
-
-  nginx::resource::location { 'www-root':
-    location             => '/',
-    auth_basic           => 'restricted',
     auth_basic_user_file => '/srv/htpasswd',
   }
 }

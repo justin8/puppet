@@ -2,10 +2,17 @@ define vhost($url,
              $upstream = undef,
              $www_root = undef,
              $autoindex = 'off',
+             $auth_basic_user_file = undef,
 ) {
   include vhost::setup
   #  include php?
   $vhost_private_keys = hiera('vhost_private_keys')
+
+  if $auth_basic_user_file != undef {
+    $auth_basic = "Restricted. ${url}"
+  } else{
+    $auth_basic = undef
+  }
 
   file { "/etc/ssl/private/nginx/${url}.pem":
     content => $vhost_private_keys[$url],
@@ -32,21 +39,25 @@ define vhost($url,
     }
 
     nginx::resource::vhost { $url:
-      proxy => "http://${title}",
-      ssl   => true,
-      ssl_cert => "/etc/ssl/certs/nginx/${url}.crt",
-      ssl_key  => "/etc/ssl/private/nginx/${url}.pem",
+      proxy                => "http://${title}",
+      auth_basic           => $auth_basic,
+      auth_basic_user_file => $auth_basic_user_file,
+      ssl                  => true,
+      ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
+      ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
     }
   }
 
   # Webserver config
   if $www_root {
     nginx::resource::vhost { $url:
-      www_root  => $www_root,
-      autoindex => $autoindex,
-      ssl       => true,
-      ssl_cert  => "/etc/ssl/certs/nginx/${url}.crt",
-      ssl_key   => "/etc/ssl/private/nginx/${url}.pem",
+      www_root             => $www_root,
+      auth_basic           => $auth_basic,
+      auth_basic_user_file => $auth_basic_user_file,
+      autoindex            => $autoindex,
+      ssl                  => true,
+      ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
+      ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
     }
   }
 }
