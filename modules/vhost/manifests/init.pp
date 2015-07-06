@@ -16,6 +16,8 @@ define vhost($url,
   }
 
   $vhost_private_keys = hiera('vhost_private_keys')
+  $private_key = $vhost_private_keys[$url]
+  validate_re($private_key, '^---.*$')
 
   if $auth_basic_user_file != undef {
     $auth_basic = "Restricted. ${url}"
@@ -24,7 +26,7 @@ define vhost($url,
   }
 
   file { "/etc/ssl/private/nginx/${url}.pem":
-    content => $vhost_private_keys[$url],
+    content => $private_key,
     notify  => Service['nginx'],
   }
 
@@ -44,10 +46,11 @@ define vhost($url,
   if $sync {
     $btsync_keys = hiera('btsync_keys')
     btsync::folder { $www_root:
-      secret => $btsync_keys[$title],
-      owner  => 'http',
-      group  => 'http',
-      notify => Service['nginx'],
+      secret  => $btsync_keys[$title],
+      owner   => 'http',
+      group   => 'http',
+      notify  => Service['nginx'],
+      require => nginx::resource::vhost[$url],
     }
   }
 
