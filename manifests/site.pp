@@ -34,6 +34,12 @@ node 'abachi.dray.be' {
     autoindex => 'on',
     auth_basic_user_file => '/srv/htpasswd',
   }
+
+  vhost { 'public':
+    url      => 'public.dray.be',
+    www_root => '/srv/public',
+    sync     => true,
+  }
 }
 
 node 'hemlock.dray.be' {
