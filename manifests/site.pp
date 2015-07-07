@@ -34,6 +34,12 @@ node 'abachi.dray.be' {
     autoindex => 'on',
     auth_basic_user_file => '/srv/htpasswd',
   }
+
+  vhost { 'public':
+    url      => 'public.dray.be',
+    www_root => '/srv/public',
+    sync     => true,
+  }
 }
 
 node 'hemlock.dray.be' {
@@ -56,17 +62,7 @@ node /^.*mediacenter.*/ {
   include mediacenter
 }
 
-node 'sugi.dray.be' {
-  include os_default
-  include jenkins::slave
-}
-
 node 'wkmil0393.mil.wotifgroup.com' {
   include os_default
   include os_default::desktop
-}
-
-node 'zingana.dray.be' {
-  include os_default
-  include repo
 }
