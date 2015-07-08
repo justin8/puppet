@@ -62,6 +62,11 @@ node /^.*mediacenter.*/ {
   include mediacenter
 }
 
+node /^dalemc.*/ {
+  include os_default
+  include openvpn
+}
+
 node 'wkmil0393.mil.wotifgroup.com' {
   include os_default
   include os_default::desktop
