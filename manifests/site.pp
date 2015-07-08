@@ -1,5 +1,5 @@
 Exec {
-  path => '/usr/bin',
+  path => $::path,
 }
 
 Vcsrepo {
