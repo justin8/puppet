@@ -1,5 +1,5 @@
 Exec {
-  path => '/usr/bin',
+  path => $::path,
 }
 
 Vcsrepo {
@@ -60,6 +60,11 @@ node 'cypress.dray.be' {
 node /^.*mediacenter.*/ {
   include os_default
   include mediacenter
+}
+
+node /^dalemc.*/ {
+  include os_default
+  include openvpn
 }
 
 node 'wkmil0393.mil.wotifgroup.com' {

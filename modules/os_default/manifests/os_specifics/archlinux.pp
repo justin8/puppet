@@ -8,7 +8,7 @@ class os_default::os_specifics::archlinux {
   if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
 
   exec { 'append local domain':
-    command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf',
+    command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf; resolvconf -u',
     unless  => 'grep -q "search_domains" /etc/resolvconf.conf',
   }
 
