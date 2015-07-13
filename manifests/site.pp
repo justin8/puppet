@@ -52,7 +52,7 @@ node 'ironwood.dray.be' {
   include os_default::desktop
 }
 
-node 'cypress.dray.be' {
+node /^cypress.*/ {
   include os_default
   include openvpn
 }
