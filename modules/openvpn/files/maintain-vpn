@@ -1,6 +1,8 @@
 #!/bin/bash
 
-if ! ip route | grep tap0 | grep -q 192.168.1.0
+# TODO: Remove. Testing using ping to router instead of route configuration
+#if ! ip route | grep tap0 | grep -q 192.168.1.0
+if ! ping -c1 -W4 192.168.1.1 > /dev/null
 then
 	systemctl restart openvpn@dray.be
 fi
