@@ -8,6 +8,7 @@ class os_default::os_specifics::archlinux {
   if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
 
   exec { 'append local domain':
+    path    => '/usr/bin',
     command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf',
     unless  => 'grep -q "search_domains" /etc/resolvconf.conf',
   }
@@ -37,6 +38,7 @@ class os_default::os_specifics::archlinux {
   if $architecture == 'x86_64' {
     exec {
       'configure-repo':
+        path    => '/usr/bin',
         unless  => 'pacman -Q dray-repo > /dev/null 2>&1',
         command => 'curl -s "https://repo.dray.be/dray-repo-latest" > /tmp/dray-repo.pkg.tar.xz && pacman --noconfirm -U /tmp/dray-repo.pkg.tar.xz';
     }
@@ -48,6 +50,7 @@ class os_default::os_specifics::archlinux {
 
     exec {
       'enable-multilib':
+        path    => '/usr/bin',
         unless  => 'grep -q "^\[multilib\]" /etc/pacman.conf',
         command => 'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf';
     }

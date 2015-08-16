@@ -21,6 +21,7 @@ class os_default::misc {
   }
 
   exec { 'locale-gen':
+    path        => '/usr/bin',
     command     => '/usr/bin/locale-gen',
     subscribe   => File['/etc/locale.gen'],
     refreshonly => true,
