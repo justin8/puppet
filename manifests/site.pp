@@ -55,7 +55,16 @@ node 'ironwood.dray.be' {
 node /^cypress.*/ {
   include os_default
   include openvpn
-  include repo
+
+  class { 'repo':
+    readonly => true,
+  }
+
+  vhost { 'public':
+    url      => 'public.dray.be',
+    www_root => '/srv/public',
+    sync     => true,
+  }
 }
 
 node /^.*mediacenter.*/ {
