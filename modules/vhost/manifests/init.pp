@@ -8,6 +8,14 @@ define vhost($url,
   include vhost::setup
   #  include php?
 
+  if $operatingsystem == 'Archlinux' {
+    $owner = 'http'
+    $group = 'http'
+  } elsif $operatingsystem == 'Ubuntu' {
+    $owner = 'www-data'
+    $group = 'www-data'
+  }
+
   validate_bool($sync)
   validate_re($autoindex, '^(on|off)$')
 
@@ -47,8 +55,8 @@ define vhost($url,
     $btsync_keys = hiera('btsync_keys')
     btsync::folder { $www_root:
       secret  => $btsync_keys[$title],
-      owner   => 'http',
-      group   => 'http',
+      owner   => $owner,
+      group   => $owner,
       notify  => Service['nginx'],
       require => nginx::resource::vhost[$url],
     }
