@@ -41,8 +41,7 @@ class openvpn {
 
     file { "/etc/systemd/system/openvpn@.service":
       source => 'puppet:///modules/openvpn/openvpn@.service',
-      notify => Exec['systemd-daemon-reload'],
-      notify => Exec['maintain-vpn']
+      notify => Exec['systemd-daemon-reload', 'maintain-vpn'],
     }
 
     file { "/usr/local/sbin/maintain-vpn":
