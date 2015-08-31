@@ -55,6 +55,7 @@ node 'ironwood.dray.be' {
 node /^cypress.*/ {
   include os_default
   include openvpn
+  include repo
 }
 
 node /^.*mediacenter.*/ {
