@@ -58,7 +58,7 @@ class openvpn {
     cron { 'maintain-vpn':
       command  => '/usr/local/sbin/maintain-vpn',
       user     => 'root',
-      minute   => '*/5',
+      minute   => '*',
       hour     => '*',
       weekday  => '*',
       monthday => '*',
