@@ -1,6 +1,13 @@
 class repo( $readonly = false) {
   include incron
   $btsync_keys = hiera('btsync_keys')
+
+  if $readonly == true {
+    $key = $btsync_keys['repo_ro']
+  } else {
+    $key = $btsync_keys['repo']
+  }
+
   if $operatingsystem == 'Ubuntu' {
     $owner = 'www-data'
     $group = 'www-data'
@@ -19,7 +26,7 @@ class repo( $readonly = false) {
 
   btsync::folder {
     '/srv/repo':
-      secret      => $btsync_keys['repo'],
+      secret      => $key,
       owner       => $owner,
       group       => $group,
       use_upnp    => $open_network,
