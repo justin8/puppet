@@ -35,20 +35,6 @@ class repo( $readonly = false) {
       notify      => Service['nginx'];
   }
 
-  file {
-    '/srv/repo/dray.be.db':
-      ensure => link,
-      owner  => $owner,
-      group  => $group,
-      target => '/srv/repo/dray.be.db.tar.gz';
-
-    '/srv/repo/dray.be.files':
-      ensure => link,
-      owner  => $owner,
-      group  => $group,
-      target => '/srv/repo/dray.be.files.tar.gz';
-  }
-
   if $readonly == False {
     ensure_packages(['pkgcacheclean'])
 
