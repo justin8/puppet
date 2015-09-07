@@ -32,7 +32,6 @@ class monitoring {
      'MemoryCollector',
      'VMStatCollector',
      'LoadAverageCollector',
-     'NtpdCollector',
      'PuppetAgentCollector']: ;
 
    'NetworkCollector':
