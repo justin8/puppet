@@ -1,11 +1,11 @@
 class os_default::os_specifics::archlinux {
 
-  ensure_packages(['bind-tools', 'nss-mdns', 'pkgfile', 'pkgstats', 'the_silver_searcher'])
+  ensure_packages(['apacman', 'bind-tools', 'nss-mdns', 'pkgfile', 'pkgstats'])
 
   # Name resolution
   package { 'avahi': before => Service['avahi-daemon'] }
 
-  if $architecture == 'x86_64' { ensure_packages(['aura-bin']) }
+  if $architecture == 'x86_64' { ensure_packages(['the_silver_searcher']) }
 
   exec { 'append local domain':
     path    => '/usr/bin',
