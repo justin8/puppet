@@ -48,6 +48,6 @@ class jenkins::slave {
 
     '/etc/sudoers.d/jenkins':
       mode    => '0440',
-      source  => 'puppet://modules/jenkins/sudoers.d-jenkins';
+      source  => 'puppet:///modules/jenkins/sudoers.d-jenkins';
   }
 }
