@@ -1,4 +1,5 @@
 class jenkins::slave {
+  require docker
 
   ensure_packages(['jre8-openjdk-headless', 'abs', 'devtools'])
 
