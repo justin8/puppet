@@ -31,11 +31,15 @@ class os_default {
     target  => '/usr/share/zoneinfo/Australia/Brisbane',
   }
 
-
   file {
     '/root/.smbcreds':
       mode   => '0600',
       source => 'puppet:///modules/os_default/smbcreds';
   }
 
+  if kernelrelease =~ /grsec/ {
+    sysctl { 'kernel.grsecurity.enforce_symlinksifowner':
+      value => '0';
+    }
+  }
 }

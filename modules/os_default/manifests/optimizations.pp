@@ -12,8 +12,6 @@ class os_default::optimizations {
     'vm.dirty_bytes': value => '50331648';
     # Prioritize inode/dentry cache over block cache
     'vm.vfs_cache_pressure': value => '50';
-    # Allow following symlinks to files not owned by current user if using grsecurity
-    'kernel.grsecurity.enforce_symlinksifowner': value => '0';
   }
 
 }
