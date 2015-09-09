@@ -49,6 +49,20 @@ class mediaserver::manager {
       ];
   }
 
+  exec { 'sonarr-refresh':
+    command     => '/usr/bin/systemd-tmpfiles --create',
+    refreshonly => true,
+    before      => Service['sonarr'],
+    subscribe   => File['/etc/tmpfiles.d/sonarr.conf'];
+  }
+
+  exec { 'couchpotato-refresh':
+    command     => '/usr/bin/systemd-tmpfiles --create',
+    refreshonly => true,
+    before      => Service['couchpotato'],
+    subscribe   => File['/etc/tmpfiles.d/couchpotato.conf'];
+  }
+
   file {
     [
       '/etc/systemd/system/couchpotato.service.d',
@@ -63,6 +77,12 @@ class mediaserver::manager {
       '/etc/systemd/system/sonarr.service.d/downloads.conf',
     ]:
       source => 'puppet:///modules/mediaserver/downloads.conf';
+
+    '/etc/tmpfiles.d/couchpotato.conf':
+      source => 'puppet:///modules/mediaserver/couchpotato.tmpfiles';
+
+    '/etc/tmpfiles.d/sonarr.conf':
+      source => 'puppet:///modules/mediaserver/sonarr.tmpfiles';
   }
 
 }

@@ -50,6 +50,16 @@ class mediaserver::downloader {
     '/usr/local/sbin/vpn-checker':
       mode   => '755',
       source => 'puppet:///modules/mediaserver/vpn-checker';
+
+    '/etc/tmpfiles.d/sabnzbd.conf':
+      source => 'puppet:///modules/mediaserver/sabnzbd.tmpfiles';
+  }
+
+  exec { 'sabnzbd-refresh':
+    command     => '/usr/bin/systemd-tmpfiles --create',
+    refreshonly => true,
+    before      => Service['sabnzbd'],
+    subscribe   => File['/etc/tmpfiles.d/sabnzbd.conf'];
   }
 
 }
