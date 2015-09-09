@@ -6,12 +6,15 @@ class jenkins::master {
     upstream => 'localhost:7090',
   }
 
-  ensure_packages(['jenkins'])
+  package { 'jenkins':
+    ensure => installed;
+  }
 
   service {
     'jenkins':
-      ensure => running,
-      enable => true;
+      ensure  => running,
+      enable  => true,
+      require => Package['jenkins']
   }
 
   file {

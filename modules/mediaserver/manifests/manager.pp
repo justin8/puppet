@@ -18,27 +18,35 @@ class mediaserver::manager {
   }
 
 
-  ensure_packages([
-    'couchpotato',
-    'plex-media-server',
-    'sonarr-develop',
-    ])
+  package {
+    ['couchpotato', 'plex-media-server', 'sonarr-develop']:
+      ensure => installed;
+  }
 
   service {
     'couchpotato':
       ensure  => running,
       enable  => true,
-      require => File['/etc/systemd/system/couchpotato.service.d/downloads.conf'];
+      require => [
+        File['/etc/systemd/system/couchpotato.service.d/downloads.conf'],
+        Package['couchpotato'],
+      };
 
     'plexmediaserver':
       ensure  => running,
       enable  => true,
-      require => File['/etc/systemd/system/plexmediaserver.service.d/downloads.conf'];
+      require => [
+        File['/etc/systemd/system/plexmediaserver.service.d/downloads.conf'],
+        Package['plex-media-server'],
+      };
 
     'sonarr':
       ensure  => running,
       enable  => true,
-      require => File['/etc/systemd/system/sonarr.service.d/downloads.conf'];
+      require => [
+        File['/etc/systemd/system/sonarr.service.d/downloads.conf'],
+        Package['sonarr'],
+      };
   }
 
   file {
