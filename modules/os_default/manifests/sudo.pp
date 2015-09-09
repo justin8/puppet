@@ -1,6 +1,10 @@
 class os_default::sudo {
   ensure_packages(['sudo'])
 
+  group { 'wheel':
+    ensure => present,
+  }
+
   file { '/etc/sudoers.d':
     ensure  => directory,
     recurse => true,
