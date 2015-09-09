@@ -35,7 +35,7 @@ class repo( $readonly = false) {
       notify      => Service['nginx'];
   }
 
-  if $readonly == False {
+  if $readonly == false {
     ensure_packages(['pkgcacheclean'])
 
     incron { 'update-repo':
