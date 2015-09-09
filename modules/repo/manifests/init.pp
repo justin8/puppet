@@ -31,7 +31,6 @@ class repo( $readonly = false) {
       group       => $group,
       use_upnp    => $open_network,
       use_dht     => $open_network,
-      ignore_list => [ 'dray.be.*' ],
       notify      => Service['nginx'];
   }
 
