@@ -45,5 +45,9 @@ class jenkins::slave {
       group   => 'jenkins',
       source  => 'puppet:///modules/jenkins/authorized_keys',
       require => File['/var/lib/jenkins/.ssh'];
+
+    '/etc/sudoers.d/jenkins':
+      mode    => '0440',
+      source  => 'puppet://modules/jenkins/sudoers.d-jenkins';
   }
 }
