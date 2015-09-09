@@ -9,7 +9,7 @@ class os_default {
   include os_default::sudo
   include systemd
 
-  ensure_packages(['ethtool', 'git', 'haveged', 'htop', 'iftop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
+  ensure_packages(['ethtool', 'git', 'haveged', 'htop', 'iftop', 'iotop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
 
   service {
     'avahi-daemon':
