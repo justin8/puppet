@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
 
-rsync -v /srv/repo/*pkg.tar* /var/cache/pacman/pkg/
+# Speedup seemed to near 0 without either doing -a, -c or --size-only. Checksum is still accurate, size may not be for some changes.
+rsync -vc /srv/repo/*pkg.tar* /var/cache/pacman/pkg/
