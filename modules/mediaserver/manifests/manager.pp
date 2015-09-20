@@ -4,6 +4,10 @@ class mediaserver::manager {
       url      => 'couchpotato.dray.be',
       upstream => 'localhost:5050';
 
+    'emby':
+      url      => 'emby.dray.be',
+      upstream => 'localhost:8096';
+
     'sab':
       url      => 'sab.dray.be',
       upstream => 'hemlock:8080';
@@ -19,7 +23,7 @@ class mediaserver::manager {
 
 
   package {
-    ['couchpotato', 'plex-media-server', 'sonarr-develop']:
+    ['couchpotato', 'emby-server', 'plex-media-server', 'sonarr-develop']:
       ensure => installed;
   }
 
@@ -31,6 +35,11 @@ class mediaserver::manager {
         File['/etc/systemd/system/couchpotato.service.d/downloads.conf'],
         Package['couchpotato'],
       ];
+
+    'emby-server':
+      ensure  => running,
+      enable  => true,
+      require => Package['emby-server'];
 
     'plexmediaserver':
       ensure  => running,
