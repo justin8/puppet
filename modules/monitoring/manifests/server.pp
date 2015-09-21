@@ -8,17 +8,17 @@ class monitoring::server {
 
   ensure_packages(['grafana', 'influxdb08'])
 
-  #  service {
-  #    'influxdb':
-  #      ensure => running,
-  #      enable => true,
-  #      require => Package['influxdb08'];
-  #
-  #    'grafana':
-  #      ensure => running,
-  #      enable => true,
-  #      require => Package['grafana'];
-  #  }
+    service {
+      'influxdb':
+        ensure => running,
+        enable => true,
+        require => Package['influxdb08'];
+  
+      'grafana':
+        ensure => running,
+        enable => true,
+        require => Package['grafana'];
+    }
 
   file { '/etc/grafana/grafana.ini':
     ensure  => file,
