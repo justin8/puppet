@@ -10,7 +10,7 @@ class os_default {
 
   require os_default::os_specifics
 
-  ensure_packages(['ethtool', 'git', 'haveged', 'htop', 'iftop', 'iotop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
+  ensure_packages(['colordiff', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'iotop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
 
   service {
     'avahi-daemon':
