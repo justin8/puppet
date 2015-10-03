@@ -8,7 +8,8 @@ class os_default::os_specifics::archlinux {
 
   exec { 'append local domain':
     path    => '/usr/bin',
-    command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf; resolvconf -u',
+    #command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf; resolvconf -u',
+    command => 'printf "\n\nsearch_domains=\'local dray.be\'\n" >> /etc/resolvconf.conf',
     unless  => 'grep -q "search_domains" /etc/resolvconf.conf',
   }
 
