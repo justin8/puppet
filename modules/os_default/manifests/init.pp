@@ -26,11 +26,6 @@ class os_default {
       enable => true;
   }
 
-  file { '/etc/localtime':
-    ensure  => link,
-    target  => '/usr/share/zoneinfo/Australia/Brisbane',
-  }
-
   file {
     '/root/.smbcreds':
       mode   => '0600',
