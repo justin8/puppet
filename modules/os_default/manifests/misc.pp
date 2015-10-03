@@ -1,10 +1,5 @@
 class os_default::misc {
   file {
-    '/usr/local/bin/colourdiff':
-      ensure  => file,
-      mode    => '0775',
-      source  => 'puppet:///modules/os_default/colourdiff';
-
     '/usr/local/bin/snap':
       ensure  => file,
       mode    => '0775',

@@ -4,10 +4,11 @@ class os_default {
   include os_default::cron
   include os_default::misc
   include os_default::optimizations
-  include os_default::os_specifics
   include os_default::ssh
   include os_default::sudo
   include systemd
+
+  require os_default::os_specifics
 
   ensure_packages(['ethtool', 'git', 'haveged', 'htop', 'iftop', 'iotop', 'mlocate', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
 
