@@ -1,6 +1,9 @@
 class vhost::setup {
-  include nginx
   include monitoring::nginx
+
+  class { 'nginx':
+    vhost_purge => true,
+  }
 
   file {
     '/etc/ssl/private':
