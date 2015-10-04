@@ -6,13 +6,13 @@ class monitoring::server {
     upstream => 'localhost:3000',
   }
 
-  ensure_packages(['grafana', 'influxdb08'])
+  ensure_packages(['grafana', 'influxdb'])
 
     service {
       'influxdb':
         ensure => running,
         enable => true,
-        require => Package['influxdb08'];
+        require => Package['influxdb'];
   
       'grafana':
         ensure => running,
@@ -32,7 +32,7 @@ class monitoring::server {
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/monitoring/influxdb.conf',
-    require => Package['influxdb08'],
+    require => Package['influxdb'],
     notify  => Service['influxdb']
   }
 

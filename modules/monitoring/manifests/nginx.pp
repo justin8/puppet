@@ -2,11 +2,7 @@ class monitoring::nginx {
   include monitoring
   include nginx
 
-  diamond::collector { 'NginxCollector':
-    options => {
-      'req_port' => '4321',
-    }
-  }
+  $nginx_telegraf = true
 
   nginx::resource::vhost { 'localhost-status':
     listen_ip => '127.0.0.1',

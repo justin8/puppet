@@ -58,7 +58,7 @@ define vhost($url,
       owner   => $owner,
       group   => $owner,
       notify  => Service['nginx'],
-      require => nginx::resource::vhost[$url],
+      require => Nginx::Resource::Vhost[$url],
     }
   }
 
