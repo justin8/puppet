@@ -41,6 +41,7 @@ class monitoring {
     ensure  => present,
     mode    => '0644',
     content => template('monitoring/telegraf.conf.erb'),
+    require => Package['telegraf'],
   }
 
   service { 'telegraf':
