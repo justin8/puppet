@@ -1,2 +1,1 @@
 jenkins ALL = (root) NOPASSWD: /var/lib/jenkins/jobs/docker_archlinux/workspace/update-arch-image
-jenkins ALL = (root) NOPASSWD: /var/lib/jenkins/jobs/Arch-ISO/workspace/update-arch-iso.sh
