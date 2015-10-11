@@ -38,14 +38,4 @@ class puppetmaster {
       mode    => '0400';
   }
 
-  cron { 'update-puppet':
-    command  => '/usr/local/sbin/update-puppet',
-    user     => 'root',
-    minute   => '*/5',
-    hour     => '*',
-    month    => '*',
-    monthday => '*',
-    weekday  => '*',
-  }
-
 }
