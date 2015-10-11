@@ -10,6 +10,12 @@ File {
   backup => false,
 }
 
+if $operatingsystemrelease == '15.04' {
+  Service {
+    provider => 'systemd',
+  }
+}
+
 node 'default' {
   include os_default
 }
