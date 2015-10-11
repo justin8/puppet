@@ -62,6 +62,13 @@ node /^cypress.*/ {
   include os_default
   include openvpn
 
+  include ghost
+  ghost::instance { 'blog':
+    url          => 'www.dray.be',
+    version      => '0.7.1',
+    service_type => 'systemd',
+  }
+
   class { 'repo':
     readonly => true,
   }
@@ -70,6 +77,11 @@ node /^cypress.*/ {
     url      => 'public.dray.be',
     www_root => '/srv/public',
     sync     => true,
+  }
+
+  vhost { 'www':
+    url      => 'www.dray.be',
+    upstream => 'localhost:2368',
   }
 }
 
