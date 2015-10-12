@@ -62,11 +62,20 @@ node /^cypress.*/ {
   include os_default
   include openvpn
 
+  $mail_options = {
+    service => 'Mailgun',
+    auth => {
+      user => 'postmaster@mg.dray.be',
+      pass => hiera('blog_pass'),
+    }
+  }
   include ghost
   ghost::instance { 'blog':
     url          => 'www.dray.be',
     version      => '0.7.1',
     service_type => 'systemd',
+    transport    => 'SMTP',
+    mail_options => $mail_options,
   }
 
   class { 'repo':
