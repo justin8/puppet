@@ -76,6 +76,10 @@ define vhost($url,
       ssl                  => true,
       ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
       ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
+      location_cfg_append  => {
+        'proxy_set_header Host'                 => '$http_host',
+        'proxy_set_header X-Real-IP'            => '$remote_addr',
+      }
     }
   }
 

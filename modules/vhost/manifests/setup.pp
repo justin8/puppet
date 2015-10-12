@@ -2,7 +2,10 @@ class vhost::setup {
   include monitoring::nginx
 
   class { 'nginx':
-    vhost_purge => true,
+    vhost_purge      => true,
+    spdy             => true,
+    worker_processes => 'auto',
+    multi_accept     => true,
   }
 
   file {
