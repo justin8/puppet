@@ -21,10 +21,6 @@ class os_default {
       ensure => running,
       enable => true,
       require => Package['haveged'];
-
-    'puppet':
-      ensure => running,
-      enable => true;
   }
 
   file {
