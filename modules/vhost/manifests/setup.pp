@@ -3,9 +3,9 @@ class vhost::setup {
 
   class { 'nginx':
     vhost_purge      => true,
-    spdy             => true,
+    spdy             => 'true',
     worker_processes => 'auto',
-    multi_accept     => true,
+    multi_accept     => 'true',
   }
 
   file {
