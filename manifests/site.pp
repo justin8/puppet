@@ -70,8 +70,13 @@ node /^cypress.*/ {
     }
   }
   include ghost
+  include nodejs
+  vhost { 'www':
+    url      => 'www.dray.be',
+    upstream => 'localhost:2368',
+  }
   ghost::instance { 'blog':
-    url          => 'www.dray.be',
+    url          => '127.0.0.1',
     version      => '0.7.1',
     service_type => 'systemd',
     transport    => 'SMTP',
@@ -86,11 +91,6 @@ node /^cypress.*/ {
     url      => 'public.dray.be',
     www_root => '/srv/public',
     sync     => true,
-  }
-
-  vhost { 'www':
-    url      => 'www.dray.be',
-    upstream => 'localhost:2368',
   }
 }
 
