@@ -76,7 +76,7 @@ node /^cypress.*/ {
     upstream => 'localhost:2368',
   }
   ghost::instance { 'blog':
-    url          => '127.0.0.1',
+    url          => 'http://127.0.0.1',
     version      => '0.7.1',
     service_type => 'systemd',
     transport    => 'SMTP',
