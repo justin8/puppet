@@ -56,6 +56,21 @@ class os_default::mail {
     match => '^local_recipient_maps',
   }
 
+  file_line { 'smtp_generic_maps':
+    line  => 'smtp_generic_maps = hash:/etc/postfix/generic',
+    match => '^smtp_generic_maps',
+  }
+
+  file { '/etc/postfix/generic':
+    content => "@${hostname}.localdomain ${hostname}@dray.be",
+    notify  => Exec['postmap-generic'],
+  }
+
+  exec { 'postmap-generic':
+    command     => 'postmap /etc/postfix/generic',
+    refreshonly => true,
+  }
+
   file_line { 'inet_interfaces':
     line  => 'inet_interfaces = 127.0.0.1',
     match => '^inet_interfaces',
