@@ -46,6 +46,16 @@ class os_default::mail {
     match => '^smtp_sasl_security_options',
   }
 
+  file_line { 'luser_relay':
+    line  => "luser_relay = '$hostname@dray.be'",
+    match => '^luser_relay',
+  }
+
+  file_line { 'local_recipient_maps':
+    line  => 'local_recipient_maps = ',
+    match => '^local_recipient_maps',
+  }
+
   file_line { 'inet_interfaces':
     line  => 'inet_interfaces = 127.0.0.1',
     match => '^inet_interfaces',
