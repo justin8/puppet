@@ -2,6 +2,7 @@ class os_default {
   include ::ntp
   include ::monitoring
   include os_default::cron
+  include os_default::mail
   include os_default::misc
   include os_default::optimizations
   include os_default::ssh
