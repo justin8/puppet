@@ -3,17 +3,26 @@ class os_default::mail {
   # none of the major postfix modules support Arch and it was
   # too much effort to port them for this little bit of config
 
+  # Using unencrypted port 25 because ubuntu failed to compile
+  # in TLS support by default. wtf Ubuntu?
+
   ensure_packages(['postfix'])
 
   $smtp_sasl_password_maps_data = hiera('smtp_sasl_password_maps')
 
+  service { 'postfix':
+    ensure => running,
+    enable => true,
+  }
+
   File_line {
     path    => '/etc/postfix/main.cf',
     require => Package['postfix'],
+    notify  => Service['postfix'],
   }
 
   file_line { 'relayhost':
-    line  => 'relayhost = [smtp.mailgun.org]:465',
+    line  => 'relayhost = [smtp.mailgun.org]:25',
     match => '^relayhost',
   }
 
@@ -32,13 +41,8 @@ class os_default::mail {
     match => '^smtp_sasl_security_options',
   }
 
-  file_line { 'smtp_tls_wrappermode':
-    line  => 'smtp_tls_wrappermode = yes',
-    match => '^smtp_tls_wrappermode',
-  }
-
-  file_line { 'smtp_tls_security_level':
-    line  => 'smtp_tls_security_level = encrypt',
-    match => '^smtp_tls_security_level',
+  file_line { 'inet_interfaces':
+    line  => 'inet_interfaces = 127.0.0.1',
+    match => '^inet_interfaces',
   }
 }
