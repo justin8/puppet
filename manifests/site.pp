@@ -18,10 +18,12 @@ if $operatingsystemrelease == '15.04' {
 
 node 'default' {
   include os_default
+  include os_default::mail
 }
 
 node 'abachi.dray.be' {
   include os_default
+  include os_default::mail
   include monitoring::server
   include jenkins::master
   include jenkins::slave
@@ -50,16 +52,19 @@ node 'abachi.dray.be' {
 
 node 'hemlock.dray.be' {
   include os_default
+  include os_default::mail
   include mediaserver::downloader
 }
 
 node 'ironwood.dray.be' {
   include os_default
+  include os_default::mail
   include os_default::desktop
 }
 
 node /^cypress.*/ {
   include os_default
+  include os_default::mail
   include openvpn
 
   $mail_options = {
@@ -96,15 +101,11 @@ node /^cypress.*/ {
 
 node /^.*mediacenter.*/ {
   include os_default
+  include os_default::mail
   include mediacenter
 }
 
 node /^dalemc.*/ {
   include os_default
   include openvpn
-}
-
-node 'wkmil0393.mil.wotifgroup.com' {
-  include os_default
-  include os_default::desktop
 }
