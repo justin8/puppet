@@ -5,6 +5,11 @@ class os_default::mail {
 
   # Using unencrypted port 25 because ubuntu failed to compile
   # in TLS support by default. wtf Ubuntu?
+  case $operatingsystem {
+    'Archlinux': { $aliases = '/etc/postfix/aliases' }
+    'Ubuntu': { $aliases = '/etc/aliases' }
+    default: { fail('Unsupported OS') }
+  }
 
   ensure_packages(['postfix'])
 
@@ -44,5 +49,16 @@ class os_default::mail {
   file_line { 'inet_interfaces':
     line  => 'inet_interfaces = 127.0.0.1',
     match => '^inet_interfaces',
+  }
+
+  file_line { 'aliases':
+    path   => $aliases,
+    line   => "root: ${hostname}@dray.be",
+    match  => '^root:',
+    notify => Exec['newaliases'],
+  }
+
+  exec { 'newaliases':
+    refreshonly => true,
   }
 }
