@@ -48,6 +48,12 @@ node 'abachi.dray.be' {
     www_root => '/srv/public',
     sync     => true,
   }
+
+  vhost { 'ark':
+    url => 'ark.dray.be',
+    www_root => '/srv/ark',
+    https => false,
+  }
 }
 
 node 'hemlock.dray.be' {
