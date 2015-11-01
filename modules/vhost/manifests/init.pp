@@ -24,24 +24,26 @@ define vhost($url,
     fail('sync can only be used with www_root specified')
   }
 
-  $vhost_private_keys = hiera('vhost_private_keys')
-  $private_key = $vhost_private_keys[$url]
-  validate_re($private_key, '^---.*$')
+  if $https {
+    $vhost_private_keys = hiera('vhost_private_keys')
+    $private_key = $vhost_private_keys[$url]
+    validate_re($private_key, '^---.*$')
+
+    file { "/etc/ssl/private/nginx/${url}.pem":
+      content => $private_key,
+      notify  => Service['nginx'],
+    }
+
+    file { "/etc/ssl/certs/nginx/${url}.crt":
+      source => "puppet:///modules/vhost/certs/${url}.crt",
+      notify => Service['nginx'],
+    }
+  }
 
   if $auth_basic_user_file != undef {
     $auth_basic = "Restricted. ${url}"
   } else{
     $auth_basic = undef
-  }
-
-  file { "/etc/ssl/private/nginx/${url}.pem":
-    content => $private_key,
-    notify  => Service['nginx'],
-  }
-
-  file { "/etc/ssl/certs/nginx/${url}.crt":
-    source => "puppet:///modules/vhost/certs/${url}.crt",
-    notify => Service['nginx'],
   }
 
   if ! $upstream and ! $www_root {
