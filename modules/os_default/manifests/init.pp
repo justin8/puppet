@@ -12,6 +12,10 @@ class os_default {
 
   ensure_packages(['colordiff', 'ethtool', 'git', 'haveged', 'htop', 'iftop', 'iotop', 'mtr', 'ncdu', 'net-tools', 'nethogs', 'rsync'])
 
+  class { 'ntp':
+    disable_monitor => true,
+  }
+
   service {
     'avahi-daemon':
       ensure => running,
