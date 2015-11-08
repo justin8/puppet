@@ -36,10 +36,10 @@ class mediaserver::manager {
         Package['couchpotato'],
       ];
 
-    'emby-server':
-      ensure  => running,
-      enable  => true,
-      require => Package['emby-server'];
+    #'emby-server':
+    #  ensure  => running,
+    #  enable  => true,
+    #  require => Package['emby-server'];
 
     'plexmediaserver':
       ensure  => running,
