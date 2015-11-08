@@ -1,5 +1,4 @@
 class os_default {
-  include ::ntp
   include ::monitoring
   include os_default::cron
   include os_default::misc
