@@ -4,15 +4,15 @@ if ip route | head -n1 | grep -q 192.168.1.1
 then
 	# VPN is not connected; kill services and restart VPN. Services will be restarted on next run if it is working.
 	warn=0
-	systemctl status sabnzb &>/dev/null && warn=1
+	systemctl status nzbget &>/dev/null && warn=1
 	systemctl status transmission &>/dev/null && warn=1
 	# TODO: Warning won't happen if vpn fails to restart multiple times. Probably ok?
-	[[ $warn -eq 1 ]] && echo "VPN has disconnected. Stopping sabnzbd/transmission & restarting openvpn"
-	systemctl stop sabnzbd
+	[[ $warn -eq 1 ]] && echo "VPN has disconnected. Stopping nzbget/transmission & restarting openvpn"
+	systemctl stop nzbget
 	systemctl stop transmission
 	systemctl restart openvpn@ghostpath.service
 else
 	# VPN is connected; check services and restart them if necessary
-	systemctl status sabnzbd &>/dev/null || (systemctl restart sabnzbd && echo "Restarted sabnzbd")
+	systemctl status nzbget &>/dev/null || (systemctl restart nzbget && echo "Restarted nzbget")
 	systemctl status transmission &>/dev/null || (systemctl restart transmission && echo "Restarted transmission")
 fi
