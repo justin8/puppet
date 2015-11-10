@@ -40,10 +40,10 @@ class mediaserver::downloader {
 
     '/etc/systemd/system/transmission.service.d/downloads.conf':
       source => 'puppet:///modules/mediaserver/downloads.conf';
-      
+
     '/etc/systemd/system/nzbget.service':
       source => 'puppet:///modules/mediaserver/nzbget.service';
-    
+
     '/etc/nzbget.conf':
       content => template('mediaserver/nzbget.conf.erb');
 
@@ -56,9 +56,6 @@ class mediaserver::downloader {
     '/usr/local/sbin/vpn-checker':
       mode   => '755',
       source => 'puppet:///modules/mediaserver/vpn-checker';
-
-    '/etc/tmpfiles.d/nzbget.conf':
-      source => 'puppet:///modules/mediaserver/nzbget.tmpfiles';
   }
 
 }
