@@ -1,9 +1,15 @@
 class mediaserver::downloader {
 
+  $server1 = hiera('usenet_server_1')
+  $port1 = hiera('usenet_port_1')
+  $user1 = hiera('usenet_user_1')
+  $password1 = hiera('usenet_password_1')
+  $nzbget_password = hiera('nzbget_password')
+
   ensure_packages([
+    'nzbget',
     'openvpn',
     'python2-pyopenssl',
-    'sabnzbd',
     'transmission-cli',
     ])
 
@@ -13,7 +19,7 @@ class mediaserver::downloader {
       enable  => true,
       require => File['/etc/openvpn/ghostpath.conf', '/etc/openvpn/ghostpath-auth'];
 
-    ['transmission', 'sabnzbd']:
+    ['transmission', 'nzbget']:
       enable => false;
   }
 
@@ -29,17 +35,17 @@ class mediaserver::downloader {
   }
 
   file {
-    [
-      '/etc/systemd/system/sabnzbd.service.d',
-      '/etc/systemd/system/transmission.service.d'
-    ]:
+    '/etc/systemd/system/transmission.service.d':
       ensure => directory;
 
-    [
-      '/etc/systemd/system/sabnzbd.service.d/downloads.conf',
-      '/etc/systemd/system/transmission.service.d/downloads.conf'
-    ]:
+    '/etc/systemd/system/transmission.service.d/downloads.conf':
       source => 'puppet:///modules/mediaserver/downloads.conf';
+      
+    '/etc/systemd/system/nzbget.service':
+      source => 'puppet:///modules/mediaserver/nzbget.service';
+    
+    '/etc/nzbget.conf':
+      content => template('mediaserver/nzbget.conf.erb');
 
     '/etc/openvpn/ghostpath.conf':
       source => 'puppet:///modules/mediaserver/ghostpath.conf';
@@ -51,15 +57,8 @@ class mediaserver::downloader {
       mode   => '755',
       source => 'puppet:///modules/mediaserver/vpn-checker';
 
-    '/etc/tmpfiles.d/sabnzbd.conf':
-      source => 'puppet:///modules/mediaserver/sabnzbd.tmpfiles';
-  }
-
-  exec { 'sabnzbd-refresh':
-    command     => '/usr/bin/systemd-tmpfiles --create',
-    refreshonly => true,
-    before      => Service['sabnzbd'],
-    subscribe   => File['/etc/tmpfiles.d/sabnzbd.conf'];
+    '/etc/tmpfiles.d/nzbget.conf':
+      source => 'puppet:///modules/mediaserver/nzbget.tmpfiles';
   }
 
 }

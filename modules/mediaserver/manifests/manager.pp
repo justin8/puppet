@@ -8,6 +8,10 @@ class mediaserver::manager {
       url      => 'emby.dray.be',
       upstream => 'localhost:8096';
 
+    'nzbget':
+      url      => 'usenet.dray.be',
+      upstream => 'hemlock:6789';
+
     'sab':
       url      => 'sab.dray.be',
       upstream => 'hemlock:8080';

@@ -1,0 +1,10 @@
+[Unit]
+Description=NZBGet
+After=network-online.target
+
+[Service]
+User=downloads
+ExecStart=/usr/bin/nzbget -c /etc/nzbget.conf -s
+
+[Install]
+WantedBy=multi-user.target
