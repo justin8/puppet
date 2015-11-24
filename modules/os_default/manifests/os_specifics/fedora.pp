@@ -1,5 +1,5 @@
 class os_default::os_specifics::fedora {
-  if $operatingsystem == 'Fedora' { Service { provider => 'systemd' } }
+  Service { provider => 'systemd' }
 
   case $operatingsystemmajrelease {
     '22': {

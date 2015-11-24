@@ -1,8 +1,8 @@
 class os_default::os_specifics {
-  case $operatingsystem {
+  case $osfamily {
     'Archlinux': { include os_default::os_specifics::archlinux }
     'Fedora': { include os_default::os_specifics::fedora }
-    'Ubuntu': { include os_default::os_specifics::ubuntu }
+    'Debian': { include os_default::os_specifics::ubuntu }
     default: { fail('Unsupported OS') }
   }
 }

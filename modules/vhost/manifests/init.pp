@@ -9,10 +9,10 @@ define vhost($url,
   include vhost::setup
   #  include php?
 
-  if $operatingsystem == 'Archlinux' {
+  if $osfamily == 'Archlinux' {
     $owner = 'http'
     $group = 'http'
-  } elsif $operatingsystem == 'Ubuntu' {
+  } elsif $osfamily == 'Debian' {
     $owner = 'www-data'
     $group = 'www-data'
   }

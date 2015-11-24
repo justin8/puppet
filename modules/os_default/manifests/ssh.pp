@@ -1,11 +1,11 @@
 class os_default::ssh {
 
-  case $operatingsystem {
+  case $osfamily {
     'Archlinux': {
       ensure_packages(['openssh'])
       $ssh_service = 'sshd'
     }
-    'Ubuntu': {
+    'Debian': {
       ensure_packages(['openssh-server'])
       $ssh_service = 'ssh'
     }

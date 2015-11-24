@@ -10,7 +10,13 @@ File {
   backup => false,
 }
 
-if $operatingsystemrelease == '15.04' {
+if $operatingsystemrelease >= '15.04' and $operatingsystem == 'Ubuntu' {
+  Service {
+    provider => 'systemd',
+  }
+}
+
+if $operatingsystemmajrelease >= '8' and $operatingsystem == 'Debian' {
   Service {
     provider => 'systemd',
   }
@@ -114,4 +120,16 @@ node /^.*mediacenter.*/ {
 node /^dalemc.*/ {
   include os_default
   include openvpn
+}
+
+node /^monitor.*/ {
+  include os_default
+  include openvpn
+  include monitoring::server
+
+  vhost { 'public':
+    url      => 'public.dray.be',
+    www_root => '/srv/public',
+    sync     => true,
+  }
 }

@@ -1,5 +1,4 @@
-class os_default::os_specifics::ubuntu {
-  if versioncmp($operatingsystemmajrelease, '15.04') >= 0 { Service { provider => 'systemd' } }
+class os_default::os_specifics::debian {
 
   ensure_packages(['dnsutils', 'libnss-mdns', 'silversearcher-ag'])
   package { 'avahi-daemon': before => Service['avahi-daemon'] }

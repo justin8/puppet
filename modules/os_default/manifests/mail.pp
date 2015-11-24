@@ -5,9 +5,9 @@ class os_default::mail {
 
   # Using unencrypted port 25 because ubuntu failed to compile
   # in TLS support by default. wtf Ubuntu?
-  case $operatingsystem {
+  case $osfamily {
     'Archlinux': { $aliases = '/etc/postfix/aliases' }
-    'Ubuntu': { $aliases = '/etc/aliases' }
+    'Debian': { $aliases = '/etc/aliases' }
     default: { fail('Unsupported OS') }
   }
 

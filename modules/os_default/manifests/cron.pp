@@ -1,5 +1,5 @@
 class os_default::cron {
-  case $::operatingsystem {
+  case $::osfamily {
     'Archlinux': {
       $cron_package = 'cronie'
       $cron_service = 'cronie'
@@ -8,7 +8,7 @@ class os_default::cron {
       $cron_package = 'cronie'
       $cron_service = 'crond'
     }
-    'Ubuntu': {
+    'Debian': {
       $cron_package = 'cron'
       $cron_service = 'cron'
     }
