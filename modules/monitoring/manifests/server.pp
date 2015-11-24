@@ -1,4 +1,5 @@
-class monitoring::server {
+class monitoring::server inherits monitoring::params {
+  include systemd
   include monitoring
 
   vhost { 'grafana':
@@ -8,19 +9,31 @@ class monitoring::server {
 
   ensure_packages(['grafana', 'influxdb'])
 
-    service {
-      'influxdb':
-        ensure => running,
-        enable => true,
-        require => Package['influxdb'];
-  
-      'grafana':
-        ensure => running,
-        enable => true,
-        require => Package['grafana'];
-    }
+  file {
+    '/etc/systemd/system/influxdb.service':
+      content => template('monitoring/influxdb.service.erb'),
+      notify  => Exec['systemd-daemon-reload'],
+      require => Package['influxdb'];
 
-  file { '/etc/grafana/grafana.ini':
+    '/etc/systemd/system/grafana.service':
+      content => template('monitoring/grafana.service.erb'),
+      notify  => Exec['systemd-daemon-reload'],
+      require => Package['grafana'];
+  }
+
+  service {
+    'influxdb':
+      ensure => running,
+      enable => true,
+      require => File['/etc/systemd/system/influxdb.service'];
+
+    'grafana':
+      ensure => running,
+      enable => true,
+      require => File['/etc/systemd/system/grafana.service'];
+  }
+
+  file { $grafana_config:
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/monitoring/grafana.ini',
@@ -28,7 +41,7 @@ class monitoring::server {
     notify  => Service['grafana']
   }
 
-  file { '/etc/influxdb.conf':
+  file { $influxdb_config:
     ensure  => file,
     mode    => '0644',
     source  => 'puppet:///modules/monitoring/influxdb.conf',
