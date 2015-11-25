@@ -10,7 +10,13 @@ File {
   backup => false,
 }
 
-if $operatingsystemrelease >= '15.04' and $operatingsystem == 'Ubuntu' {
+if $operatingsystemmajrelease == '15.10' and $operatingsystem == 'Ubuntu' {
+  Service {
+    provider => 'systemd',
+  }
+}
+
+if $operatingsystemmajrelease == '15.04' and $operatingsystem == 'Ubuntu' {
   Service {
     provider => 'systemd',
   }
