@@ -25,12 +25,14 @@ class monitoring::server inherits monitoring::params {
     'influxdb':
       ensure => running,
       enable => true,
-      require => File['/etc/systemd/system/influxdb.service'];
+      require => [File['/etc/systemd/system/influxdb.service'],
+                  Exec['systemd-daemon-reload']];
 
     'grafana':
       ensure => running,
       enable => true,
-      require => File['/etc/systemd/system/grafana.service'];
+      require => [File['/etc/systemd/system/grafana.service'],
+                  Exec['systemd-daemon-reload']];
   }
 
   file { $grafana_config:
