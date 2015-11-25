@@ -6,7 +6,7 @@ After=network.target
 User=grafana
 Group=grafana
 WorkingDirectory=/usr/share/grafana
-ExecStart=/usr/sbin/grafana-server --config=<%= @grafana_service %>
+ExecStart=/usr/sbin/grafana-server --config=<%= @grafana_config %>
 LimitNOFILE=10000
 TimeoutStopSec=20
 SuccessExitStatus=0 2
