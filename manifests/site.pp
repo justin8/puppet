@@ -36,7 +36,6 @@ node 'default' {
 node 'abachi.dray.be' {
   include os_default
   include os_default::mail
-  include monitoring::server
   include jenkins::master
   include jenkins::slave
   include mediaserver::manager
