@@ -1,6 +1,4 @@
 class monitoring::package {
-  include apt
-
   $distro = downcase($operatingsystem)
 
   case $osfamily {
