@@ -130,7 +130,7 @@ node /^dalemc.*/ {
 node /^monitor.*/ {
   include os_default
   include openvpn
-  include monitoring::server
+  #include monitoring::server
 
   vhost { 'public':
     url      => 'public.dray.be',

@@ -1,5 +1,5 @@
 class os_default {
-  include ::monitoring
+  #include ::monitoring
   include os_default::cron
   include os_default::misc
   include os_default::optimizations
