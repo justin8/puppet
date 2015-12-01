@@ -16,7 +16,7 @@ class os_default::os_specifics::archlinux {
   # Package manager config
 
   cron { 'create-package-list':
-    command  => 'pacman -Q > /etc/package-list',
+    command  => 'pacman -Qe > /etc/package-list',
     user     => 'root',
     minute   => '0',
     hour     => '0',
