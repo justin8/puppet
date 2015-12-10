@@ -79,7 +79,7 @@ node 'ironwood.dray.be' {
   include os_default::desktop
 }
 
-node /^cypress.*/ {
+node /^(cypress|hickory).*/ {
   include os_default
   include os_default::mail
   include openvpn
