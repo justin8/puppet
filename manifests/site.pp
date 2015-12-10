@@ -84,6 +84,15 @@ node /^(cypress|hickory).*/ {
   include os_default::mail
   include openvpn
 
+  vhost { 'www':
+    url      => 'www.dray.be',
+    upstream => 'localhost:2368',
+  }
+
+  class { 'ghost':
+    include_nodejs => true,
+  }
+
   $mail_options = {
     service => 'Mailgun',
     auth => {
@@ -91,12 +100,7 @@ node /^(cypress|hickory).*/ {
       pass => hiera('blog_pass'),
     }
   }
-  include ghost
-  include nodejs
-  vhost { 'www':
-    url      => 'www.dray.be',
-    upstream => 'localhost:2368',
-  }
+
   ghost::instance { 'blog':
     url          => 'http://www.dray.be',
     version      => '0.7.1',
