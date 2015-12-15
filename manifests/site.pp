@@ -83,6 +83,7 @@ node /^(cypress|hickory).*/ {
   include os_default
   include os_default::mail
   include openvpn
+  include btsync::system
 
   vhost { 'www':
     url      => 'www.dray.be',
