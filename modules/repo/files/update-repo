@@ -41,7 +41,7 @@ read_package_name() {
 		exit 1
 	fi
 
-	pacman -Qp "$package" | cut -d' ' -f1
+	pacman -Qqp "$package"
 }
 
 clean_old_versions() {
