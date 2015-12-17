@@ -20,11 +20,14 @@ clock() { echo -n "[$(date +%H:%M:%S)]"; }
 
 update_repo() {
 	# Input: (file|file-glob)
-	files=$1
+	local files=$1
+	local temp
+	
 	if [[ -z $files ]]; then
 		echo "$(clock) update_repo called without valid input. Aborting"
 		exit 1
 	fi
+	
 	temp=$(mktemp -d)
 	cp "${REPO_PATH}/${REPO_NAME}"* "$temp"
 	echo "$(clock) Updating repo with file[s]: $files"
@@ -35,7 +38,7 @@ update_repo() {
 
 read_package_name() {
 	# Input: filename
-	package=$1
+	local package=$1
 	if [[ -z $package ]] || [[ ! -f $package ]]; then
 		echo "read_package_name called without a valid argument. Aborting"
 		exit 1
@@ -46,14 +49,18 @@ read_package_name() {
 
 clean_old_versions() {
 	# Input: package-name
-	name=$1
+	local name=$1
+	local delete_list
+	local cleanlist
+	local clean_package
+	local curname
+	
 	if [[ -z $name ]]; then
 		echo "$(clock) clean_old_versions called without enough arguments. Aborting"
 		exit 1
 	fi
 
 	echo "$(clock) Checking for old versions of package '$name'"
-	cleanlist=""
 	for clean_package in "$REPO_PATH/$name"*.pkg.tar*; do
 		curname=$(read_package_name "$clean_package")
 		if [[ $curname == "$name" ]]; then
@@ -87,7 +94,9 @@ full_repo_update() {
 
 single_package_repo_update() {
 	# Input: path-to-package
-	update_package=$1
+	local update_package=$1
+	local package_name
+
 	echo "$(clock) Adding package '${update_package##*/}' to repo"
 
 	package_name="$(read_package_name "$update_package")"
