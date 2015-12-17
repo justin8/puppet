@@ -44,7 +44,7 @@ read_package_name() {
 	pacman -Qp "$package" | cut -d' ' -f1
 }
 
-clean_old_versionsi() {
+clean_old_versions() {
 	# Input: package-name
 	name=$1
 	if [[ -z $name ]]; then
