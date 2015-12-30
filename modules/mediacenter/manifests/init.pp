@@ -20,7 +20,7 @@ class mediacenter( $user='htpc' ) {
     'file-roller',
     'chromium',
     'chromium-pepper-flash',
-    'gdm',
+    'gdm-plymouth',
     'gnome',
     'gnome-shell-extensions',
     'gvfs',
@@ -43,7 +43,7 @@ class mediacenter( $user='htpc' ) {
       ensure  => running,
       enable  => true;
 
-    'gdm':
+    'gdm-plymouth':
       ensure  => running,
       enable  => true,
       require => [ File['/etc/gdm/custom.conf'], File["${home_path}/.config"] ];
