@@ -39,7 +39,7 @@ class repo( $readonly = false) {
 
     incron { 'update-repo':
       user    => 'root',
-      command => '/usr/local/sbin/update-repo $@/$#',
+      command => '/usr/local/sbin/update-repo $@/$# && /usr/local/sbin/fix-package-cache &> /dev/null',
       path    => '/srv/repo',
       mask    => ['IN_CLOSE_WRITE', 'IN_MOVED_TO'],
     }
@@ -60,10 +60,15 @@ class repo( $readonly = false) {
       rotate_every => 'day',
     }
 
-    file {'/usr/local/sbin/update-repo':
-      ensure => file,
-      mode   => '0755',
-      source => 'puppet:///modules/repo/update-repo';
+    file {
+      '/usr/local/sbin/update-repo':
+        ensure => file,
+        mode   => '0755',
+        source => 'puppet:///modules/repo/update-repo';
+        
+      '/usr/local/sbin/fix-package-cache':
+        ensure => file,
+        source => 'puppet:///modules/repo/fix-package-cache';
     }
   }
 }

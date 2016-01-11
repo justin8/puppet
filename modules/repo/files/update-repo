@@ -18,14 +18,16 @@ usage() {
 
 clock() { echo -n "[$(date +%H:%M:%S)]"; }
 
-function update_repo {
+update_repo() {
 	# Input: (file|file-glob)
-	files=$1
-	if [[ -z $files ]]
-	then
+	local files=$1
+	local temp
+	
+	if [[ -z $files ]]; then
 		echo "$(clock) update_repo called without valid input. Aborting"
 		exit 1
 	fi
+	
 	temp=$(mktemp -d)
 	cp "${REPO_PATH}/${REPO_NAME}"* "$temp"
 	echo "$(clock) Updating repo with file[s]: $files"
@@ -34,69 +36,67 @@ function update_repo {
 	mv "${temp}/"* "${REPO_PATH}"
 }
 
-function read_package_name {
+read_package_name() {
 	# Input: filename
-	package=$1
-	if [[ -z $package ]] || [[ ! -f $package ]]
-	then
+	local package=$1
+	if [[ -z $package ]] || [[ ! -f $package ]]; then
 		echo "read_package_name called without a valid argument. Aborting"
 		exit 1
 	fi
 
-	pacman -Qp "$package" | cut -d' ' -f1
+	pacman -Qqp "$package"
 }
 
-function clean_old_versions {
+clean_old_versions() {
 	# Input: package-name
-	name=$1
-	if [[ -z $name ]]
-	then
+	local name=$1
+	local delete_list
+	local cleanlist
+	local clean_package
+	local curname
+	
+	if [[ -z $name ]]; then
 		echo "$(clock) clean_old_versions called without enough arguments. Aborting"
 		exit 1
 	fi
 
 	echo "$(clock) Checking for old versions of package '$name'"
-	cleanlist=""
-	for clean_package in "$REPO_PATH/$name"*.pkg.tar*
-	do
+	for clean_package in "$REPO_PATH/$name"*.pkg.tar*; do
 		curname=$(read_package_name "$clean_package")
-		if [[ $curname == "$name" ]]
-		then
+		if [[ $curname == "$name" ]]; then
 			cleanlist="$cleanlist $clean_package"
 		fi
 	done
 
 	delete_list=$(echo "$cleanlist" | tr ' ' '\n' | xargs ls -l --time-style=+%s | sort -k 6 | awk '{ print $7 }' | head -n -1)
-	for clean_package in $delete_list
-	do
-		if [[ -f $clean_package ]]
-		then
+	for clean_package in $delete_list; do
+		if [[ -f $clean_package ]]; then
 			echo "$(clock) Deleting old version of ${name}: ${clean_package}..."
 			rm -rf "$clean_package"
 		fi
 	done
 }
 
-function full_repo_update {
+full_repo_update() {
 	echo "$(clock) Performing full update on repo"
 
-	for package in "$REPO_PATH"/*.pkg.tar*
-	do
+	for package in "$REPO_PATH"/*.pkg.tar*; do
 		packagelist="$packagelist $(read_package_name "$package")"
 	done
 	packagelist=$(echo "$packagelist" | tr ' ' '\n' | uniq)
 
-	for package_name in $packagelist
-	do
+	for package_name in $packagelist; do
 		clean_old_versions "$package_name"
 	done
 
 	update_repo "*.pkg.tar*"
 }
 
-function single_package_repo_update {
+single_package_repo_update() {
 	# Input: path-to-package
-	update_package=$1
+	local update_package=$1
+	local package_name
+
 	echo "$(clock) Adding package '${update_package##*/}' to repo"
 
 	package_name="$(read_package_name "$update_package")"
@@ -109,8 +109,7 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
-while getopts ":hv" OPTION
-do
+while getopts ":hv" OPTION; do
 	case $OPTION in
 		h)
 			usage; exit 0;;
@@ -129,13 +128,13 @@ fi
 
 exec 200>"$LOCK"
 
-if flock -xw 30 200
-then
+if flock -xw 30 200; then
 	# Check for a package path, otherwise fall back to a full scan
-	if [[ -f /$1 ]]
-	then
-		if echo "$1" | grep 'pkg.tar' | grep -vqE '!sync'
-		then
+	if echo "$1" | grep -qP '\.(sync|bts)'; then
+		# A btsync folder update. Ignore.
+		exit 0
+	elif [[ -f /$1 ]]; then
+		if echo "$1" | grep 'pkg.tar' | grep -vqP '(!sync|.bts$)'; then
 			echo "--------------------------------------------------------------------------------" >> "$LOG"
 			# Full path to package
 			single_package_repo_update "$1"
@@ -143,13 +142,8 @@ then
 			# Skip this as it is a file that is not a package
 			exit 0
 		fi
-	elif echo "$1" | grep -q '/'
-	then
+	elif echo "$1" | grep -q '/'; then
 		# Probably a file (or path), which doesn't exist/ is not a pkg. ignore.
-		exit 0
-	elif echo "$1" | grep -q '\.sync'
-	then
-		# A btsync folder update. Ignore.
 		exit 0
 	else
 		echo "--------------------------------------------------------------------------------" >> "$LOG"
