@@ -3,11 +3,11 @@ class puppetmaster {
     'puppet3':
       ensure => installed;
 
-    [ 'hiera-eyaml',
-      'highline',
-      'trollop']:
-      ensure   => installed,
-      provider => 'gem';
+#    [ 'hiera-eyaml',
+#      'highline',
+#      'trollop']:
+#      ensure   => installed,
+#      provider => 'gem';
   }
 
   service { 'puppetmaster':
