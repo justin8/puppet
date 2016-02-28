@@ -104,7 +104,7 @@ node /^(cypress|hickory).*/ {
 
   ghost::instance { 'blog':
     url          => 'http://www.dray.be',
-    version      => '0.7.1',
+    version      => '0.7.8',
     service_type => 'systemd',
     transport    => 'SMTP',
     mail_options => $mail_options,
