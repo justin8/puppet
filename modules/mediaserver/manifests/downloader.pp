@@ -1,31 +1,13 @@
 class mediaserver::downloader {
 
-  $server1 = hiera('usenet_server_1')
-  $port1 = hiera('usenet_port_1')
-  $user1 = hiera('usenet_user_1')
-  $password1 = hiera('usenet_password_1')
-  $nzbget_password = hiera('nzbget_password')
-
   ensure_packages([
-    'nzbget',
-    'openvpn',
-    'python2-pyopenssl',
-    'transmission-cli',
+    'docker',
+    'docker-compose',
     ])
 
-  service {
-    'openvpn@ghostpath':
-      ensure  => running,
-      enable  => true,
-      require => File['/etc/openvpn/ghostpath.conf', '/etc/openvpn/ghostpath-auth'];
-
-    ['transmission', 'nzbget']:
-      enable => false;
-  }
-
   cron {
-    'vpn-checker':
-      command  => '/usr/local/sbin/vpn-checker',
+    'mediaserver-checker':
+      command  => '/usr/local/mediaserver/mediaserver-checker',
       user     => 'root',
       minute   => '*/5',
       hour     => '*',
@@ -35,27 +17,33 @@ class mediaserver::downloader {
   }
 
   file {
-    '/etc/systemd/system/transmission.service.d':
+    '/usr/local/mediaserver':
       ensure => directory;
 
-    '/etc/systemd/system/transmission.service.d/downloads.conf':
-      source => 'puppet:///modules/mediaserver/downloads.conf';
+    '/usr/local/mediaserver/transmission':
+      ensure => directory;
 
-    '/etc/systemd/system/nzbget.service':
-      source => 'puppet:///modules/mediaserver/nzbget.service';
+    '/usr/local/mediaserver/openvpn':
+      ensure => directory;
 
-    '/etc/nzbget.conf':
-      content => template('mediaserver/nzbget.conf.erb');
+    '/usr/local/mediaserver/docker-compose.yml':
+      source => 'puppet:///modules/mediaserver/docker-compose.yml';
 
-    '/etc/openvpn/ghostpath.conf':
-      source => 'puppet:///modules/mediaserver/ghostpath.conf';
+    '/usr/local/mediaserver/openvpn/openvpn.conf':
+      source => 'puppet:///modules/mediaserver/openvpn.conf';
 
-    '/etc/openvpn/ghostpath-auth':
-      content => hiera('ghostpath_auth');
+    '/usr/local/mediaserver/openvpn/ca.crt':
+      source => 'puppet:///modules/mediaserver/ca.crt';
 
-    '/usr/local/sbin/vpn-checker':
+    '/usr/local/mediaserver/openvpn/crl.pem':
+      source => 'puppet:///modules/mediaserver/crl.pem';
+
+    '/usr/local/mediaserver/openvpn/auth':
+      content => hiera('openvpn_auth');
+
+    '/usr/local/mediaserver/mediaserver-checker':
       mode   => '755',
-      source => 'puppet:///modules/mediaserver/vpn-checker';
+      source => 'puppet:///modules/mediaserver/mediaserver-checker';
   }
 
 }

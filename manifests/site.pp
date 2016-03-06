@@ -39,6 +39,7 @@ node 'abachi.dray.be' {
   include jenkins::master
   include jenkins::slave
   include mediaserver::manager
+  include mediaserver::downloader
   include puppetmaster
   include repo
 
@@ -70,7 +71,6 @@ node 'abachi.dray.be' {
 node 'hemlock.dray.be' {
   include os_default
   include os_default::mail
-  include mediaserver::downloader
 }
 
 node 'ironwood.dray.be' {
