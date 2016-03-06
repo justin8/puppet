@@ -1,5 +1,5 @@
 class vhost::setup {
-  include monitoring::nginx
+  #include monitoring::nginx
 
   class { 'nginx':
     vhost_purge      => true,
