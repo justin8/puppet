@@ -8,6 +8,7 @@ services:
             - vpn
         volumes:
             - /usr/local/mediaserver/transmission:/config:rw
+            - /storage/server-files/downloads:/storage/server-files/downloads:rw
     vpn:
         image: justin8/openvpn-client
         privileged: true
@@ -15,4 +16,4 @@ services:
         ports:
             - "9091:9091"
         volumes:
-            - /usr/local/mediaserver/vpn:/config:ro
+            - /usr/local/mediaserver/openvpn:/config:ro
