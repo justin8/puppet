@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-if [[ $(docker-compose ps | grep Up | wc -l) -eq 2 ]]; then
+if [[ $(docker-compose ps | grep Up | wc -l) -ne 2 ]]; then
 	echo "A container has exited. Restarting download stack."
 	docker-compose down
 	docker-compose up -d
