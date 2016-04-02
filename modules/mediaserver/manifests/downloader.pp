@@ -16,6 +16,17 @@ class mediaserver::downloader {
       weekday  => '*';
   }
 
+  cron {
+    'mediaserver-restart':
+      command => '/usr/local/mediaserver/mediaserver-restart',
+      user     => 'root',
+      minute   => '0',
+      hour     => '4',
+      month    => '*',
+      monthday => '*',
+      weekday  => '*';
+  }
+
   file {
     '/usr/local/mediaserver':
       ensure => directory;
@@ -44,6 +55,10 @@ class mediaserver::downloader {
     '/usr/local/mediaserver/mediaserver-checker':
       mode   => '755',
       source => 'puppet:///modules/mediaserver/mediaserver-checker';
+
+    '/usr/local/mediaserver/mediaserver-restart':
+      mode   => '755',
+      source => 'puppet:///modules/mediaserver/mediaserver-restart';
   }
 
 }
