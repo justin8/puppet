@@ -37,6 +37,3 @@
 [submodule "modules/concat"]
 	path = modules/concat
 	url = https://github.com/puppetlabs/puppetlabs-concat.git
-[submodule "modules/wget"]
-	path = modules/wget
-	url = https://github.com/maestrodev/puppet-wget.git
