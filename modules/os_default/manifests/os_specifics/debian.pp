@@ -1,6 +1,6 @@
 class os_default::os_specifics::debian {
 
-  ensure_packages(['dnsutils', 'libnss-mdns', 'silversearcher-ag'])
+  ensure_packages(['dnsutils', 'libnss-mdns', 'locales', 'silversearcher-ag'])
   package { 'avahi-daemon': before => Service['avahi-daemon'] }
   package { 'nscd': before => Service['nscd'] }
 
