@@ -1,7 +1,8 @@
 class blog {
   include btsync::system
   include openvpn
-  include btsync::system
+
+  $gdrive_key = hiera('gdrive_key')
 
   vhost { 'www':
     url      => 'www.dray.be',
@@ -28,4 +29,9 @@ class blog {
     mail_options => $mail_options,
   }
 
+  file { '/etc/cron.daily/backup-blog':
+    ensure  => file,
+    mode    => '0755',
+    content => content('blog/backup-blog.erb'),
+  }
 }
