@@ -84,31 +84,7 @@ node /^(hickory|tamarack).*/ {
   include os_default::mail
   include openvpn
   include btsync::system
-
-  vhost { 'www':
-    url      => 'www.dray.be',
-    upstream => 'localhost:2368',
-  }
-
-  class { 'ghost':
-    include_nodejs => true,
-  }
-
-  $mail_options = {
-    service => 'Mailgun',
-    auth => {
-      user => 'postmaster@mg.dray.be',
-      pass => hiera('blog_pass'),
-    }
-  }
-
-  ghost::instance { 'blog':
-    url          => 'http://www.dray.be',
-    version      => '0.7.8',
-    service_type => 'systemd',
-    transport    => 'SMTP',
-    mail_options => $mail_options,
-  }
+  include blog
 
   class { 'repo':
     readonly => true,
@@ -125,21 +101,4 @@ node /^.*mediacenter.*/ {
   include os_default
   include os_default::mail
   include mediacenter
-}
-
-node /^dalemc.*/ {
-  include os_default
-  include openvpn
-}
-
-node /^monitor.*/ {
-  include os_default
-  include openvpn
-  #include monitoring::server
-
-  vhost { 'public':
-    url      => 'public.dray.be',
-    www_root => '/srv/public',
-    sync     => true,
-  }
 }
