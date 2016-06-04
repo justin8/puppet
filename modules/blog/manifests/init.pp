@@ -1,4 +1,4 @@
-class os_default {
+class blog {
   include btsync::system
   include openvpn
   include btsync::system
