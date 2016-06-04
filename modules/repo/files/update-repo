@@ -47,32 +47,38 @@ read_package_name() {
 	pacman -Qqp "$package"
 }
 
+get_all_versions() {
+	local name=$1
+	local clean_list
+	local clean_package
+	for clean_package in "$REPO_PATH/$name"*.pkg.tar*; do
+		curname=$(read_package_name "$clean_package")
+		if [[ $curname == "$name" ]]; then
+			clean_list="$clean_list $clean_package"
+		fi
+	done
+	echo "$clean_list"
+}
+
 clean_old_versions() {
 	# Input: package-name
 	local name=$1
 	local delete_list
-	local cleanlist
-	local clean_package
+	local delete_package
 	local curname
 	
+	echo "$(clock) Checking for old versions of package '$name'"
+
 	if [[ -z $name ]]; then
 		echo "$(clock) clean_old_versions called without enough arguments. Aborting"
 		exit 1
 	fi
 
-	echo "$(clock) Checking for old versions of package '$name'"
-	for clean_package in "$REPO_PATH/$name"*.pkg.tar*; do
-		curname=$(read_package_name "$clean_package")
-		if [[ $curname == "$name" ]]; then
-			cleanlist="$cleanlist $clean_package"
-		fi
-	done
-
-	delete_list=$(echo "$cleanlist" | tr ' ' '\n' | xargs ls -l --time-style=+%s | sort -k 6 | awk '{ print $7 }' | head -n -1)
-	for clean_package in $delete_list; do
-		if [[ -f $clean_package ]]; then
-			echo "$(clock) Deleting old version of ${name}: ${clean_package}..."
-			rm -rf "$clean_package"
+	delete_list=$(get_all_versions "$name" | tr ' ' '\n' | xargs ls -l --time-style=+%s | sort -k 6 | awk '{ print $7 }' | head -n -1)
+	for delete_package in $delete_list; do
+		if [[ -f $delete_package ]]; then
+			echo "$(clock) Deleting old version of ${name}: ${delete_package}..."
+			rm -rf "$delete_package"
 		fi
 	done
 }
