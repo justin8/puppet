@@ -32,6 +32,6 @@ class blog {
   file { '/etc/cron.daily/backup-blog':
     ensure  => file,
     mode    => '0755',
-    content => template('blog/backup-blog.erb'),
+    source  => 'puppet:///modules/blog/backup-blog.erb',
   }
 }
