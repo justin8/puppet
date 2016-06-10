@@ -18,7 +18,7 @@ class mediaserver::downloader {
 
   cron {
     'mediaserver-restart':
-      command => '/usr/local/mediaserver/mediaserver-restart',
+      command => '/usr/local/mediaserver/mediaserver-restart &>/dev/null',
       user     => 'root',
       minute   => '0',
       hour     => '4',
