@@ -2,7 +2,7 @@ class os_default::os_specifics::archlinux {
 
   require os_default::os_specifics::archlinux_packages
 
-  ensure_packages(['apacman', 'avahi', 'bind-tools', 'nss-mdns', 'pkgfile', 'pkgstats'])
+  ensure_packages(['avahi', 'bind-tools', 'nss-mdns', 'pacaur', 'pkgfile', 'pkgstats'])
 
   if $architecture == 'x86_64' { ensure_packages(['the_silver_searcher']) }
 
