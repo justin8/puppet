@@ -10,6 +10,18 @@ File {
   backup => false,
 }
 
+if $operatingsystemmajrelease == '16.10' and $operatingsystem == 'Ubuntu' {
+  Service {
+    provider => 'systemd',
+  }
+}
+
+if $operatingsystemmajrelease == '16.04' and $operatingsystem == 'Ubuntu' {
+  Service {
+    provider => 'systemd',
+  }
+}
+
 if $operatingsystemmajrelease == '15.10' and $operatingsystem == 'Ubuntu' {
   Service {
     provider => 'systemd',
@@ -68,11 +80,6 @@ node 'abachi.dray.be' {
   }
 }
 
-node 'hemlock.dray.be' {
-  include os_default
-  include os_default::mail
-}
-
 node 'ironwood.dray.be' {
   include os_default
   include os_default::mail
@@ -95,10 +102,4 @@ node /^(hickory|tamarack).*/ {
     www_root => '/srv/public',
     sync     => true,
   }
-}
-
-node /^.*mediacenter.*/ {
-  include os_default
-  include os_default::mail
-  include mediacenter
 }
