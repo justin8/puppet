@@ -1,5 +1,8 @@
 class mediaserver::downloader {
 
+  $vpn_username = hiera('vpn_username')
+  $vpn_password = hiera('vpn_password')
+
   ensure_packages([
     'docker',
     'docker-compose',
@@ -38,7 +41,7 @@ class mediaserver::downloader {
       ensure => directory;
 
     '/usr/local/mediaserver/docker-compose.yml':
-      source => 'puppet:///modules/mediaserver/docker-compose.yml';
+      content => template('mediaserver/docker-compose.yml.erb');
 
     '/usr/local/mediaserver/openvpn/openvpn.conf':
       source => 'puppet:///modules/mediaserver/openvpn.conf';

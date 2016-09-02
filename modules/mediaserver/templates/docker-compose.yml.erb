@@ -2,7 +2,7 @@ version: '2'
 
 services:
     transmission:
-        image: justin8/transmission
+        image: linuxserver/transmission
         network_mode: "service:vpn"
         depends_on:
             - vpn
@@ -10,10 +10,15 @@ services:
             - /usr/local/mediaserver/transmission:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
     vpn:
-        image: justin8/openvpn-client
+        image: colinhebert/pia-openvpn
         privileged: true
         restart: always
+        dns:
+            - 8.8.8.8
+            - 8.8.4.4
+        environment:
+            - 'REGION=AU Sydney'
+            - 'USERNAME=<%= @vpn_username %>'
+            - 'PASSWORD=<%= @vpn_password %>'
         ports:
             - "9091:9091"
-        volumes:
-            - /usr/local/mediaserver/openvpn:/config:ro
