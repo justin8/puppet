@@ -13,9 +13,10 @@ services:
         image: colinhebert/pia-openvpn
         privileged: true
         restart: always
-        dns:
-            - 8.8.8.8
-            - 8.8.4.4
+        entrypoint:
+            - sh
+            - -c
+            - echo 'nameserver 8.8.8.8' > /etc/resolv.conf; openvpn.sh
         environment:
             - 'REGION=AU Sydney'
             - 'USERNAME=<%= @vpn_username %>'
