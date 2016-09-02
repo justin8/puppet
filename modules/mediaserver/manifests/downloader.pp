@@ -52,9 +52,6 @@ class mediaserver::downloader {
     '/usr/local/mediaserver/openvpn/crl.pem':
       source => 'puppet:///modules/mediaserver/crl.pem';
 
-    '/usr/local/mediaserver/openvpn/auth':
-      content => hiera('openvpn_auth');
-
     '/usr/local/mediaserver/mediaserver-checker':
       mode   => '755',
       source => 'puppet:///modules/mediaserver/mediaserver-checker';
