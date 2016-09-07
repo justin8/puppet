@@ -4,6 +4,9 @@ services:
     transmission:
         image: linuxserver/transmission
         network_mode: "service:vpn"
+        environment:
+          - 'PGUID=1001'
+          - 'PUID=1001'
         depends_on:
             - vpn
         volumes:
