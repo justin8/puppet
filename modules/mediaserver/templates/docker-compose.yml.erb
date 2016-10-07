@@ -1,17 +1,6 @@
 version: '2'
 
 services:
-    transmission:
-        image: linuxserver/transmission
-        network_mode: "service:vpn"
-        environment:
-          - 'PGUID=1001'
-          - 'PUID=1001'
-        depends_on:
-            - vpn
-        volumes:
-            - /usr/local/mediaserver/transmission:/config:rw
-            - /storage/server-files/downloads:/storage/server-files/downloads:rw
     vpn:
         image: colinhebert/pia-openvpn
         privileged: true
@@ -26,3 +15,38 @@ services:
             - 'PASSWORD=<%= @vpn_password %>'
         ports:
             - "9091:9091"
+    transmission:
+        image: linuxserver/transmission
+        network_mode: "service:vpn"
+        environment:
+          - 'PGUID=1001'
+          - 'PUID=1001'
+        depends_on:
+            - vpn
+        volumes:
+            - /usr/local/mediaserver/transmission:/config:rw
+            - /storage/server-files/downloads:/storage/server-files/downloads:rw
+    sonarr:
+        image: linuxserver/sonarr
+        environment:
+          - 'PGUID=1001'
+          - 'PUID=1001'
+        ports:
+            - "8989:8989"
+        volumes:
+            - /usr/local/mediaserver/sonarr:/config:rw
+            - /storage/server-files/downloads:/storage/server-files/downloads:rw
+            - /storage/shares/tv:/storage/shares/tv:rw
+            - /storage/shares/documentaries/Series:/storage/shares/documentaries/Series:rw
+    couchpotato:
+        image: linuxserver/couchpotato
+        environment:
+          - 'PGUID=1001'
+          - 'PUID=1001'
+        ports:
+            - "5050:5050"
+        volumes:
+            - /usr/local/mediaserver/couchpotato:/config:rw
+            - /storage/server-files/downloads:/storage/server-files/downloads:rw
+            - /storage/shares/movies:/storage/shares/movies:rw
+            - /storage/shares/documentaries/Moviess:/storage/shares/documentaries/Movies:rw

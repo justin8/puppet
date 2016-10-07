@@ -1,13 +1,57 @@
-class mediaserver::downloader {
+class mediaserver::manager {
+  vhost {
+    'couchpotato':
+      url      => 'couchpotato.dray.be',
+      upstream => 'localhost:5050';
+
+    'emby':
+      url      => 'emby.dray.be',
+      upstream => 'localhost:8096';
+
+    'sonarr':
+      url      => 'sonarr.dray.be',
+      upstream => 'localhost:8989';
+
+    'transmission':
+      url      => 'transmission.dray.be',
+      upstream => 'localhost:9091';
+  }
 
   $vpn_username = hiera('vpn_username')
   $vpn_password = hiera('vpn_password')
 
-  ensure_packages([
+  ensure_packages ([
     'docker',
     'docker-compose',
-    ])
+    'emby-server',
+    'plex-media-server',
+  ])
 
+  # Plex/Emby
+  service {
+    #'emby-server':
+    #  ensure  => running,
+    #  enable  => true,
+    #  require => Package['emby-server'];
+
+    'plexmediaserver':
+      ensure  => running,
+      enable  => true,
+      require => [
+        File['/etc/systemd/system/plexmediaserver.service.d/downloads.conf'],
+        Package['plex-media-server'],
+      ];
+  }
+
+  file {
+    '/etc/systemd/system/plexmediaserver.service.d':
+      ensure => directory;
+
+    '/etc/systemd/system/plexmediaserver.service.d/downloads.conf':
+      source => 'puppet:///modules/mediaserver/downloads.conf';
+  }
+
+  # Dockerized apps
   cron {
     'mediaserver-checker':
       command  => '/usr/local/mediaserver/mediaserver-checker',
@@ -31,13 +75,13 @@ class mediaserver::downloader {
   }
 
   file {
-    '/usr/local/mediaserver':
-      ensure => directory;
-
-    '/usr/local/mediaserver/transmission':
-      ensure => directory;
-
-    '/usr/local/mediaserver/openvpn':
+    [
+      '/usr/local/mediaserver',
+      '/usr/local/mediaserver/openvpn',
+      '/usr/local/mediaserver/transmission',
+      '/usr/local/mediaserver/sonarr',
+      '/usr/local/mediaserver/couchpotato',
+    ]:
       ensure => directory;
 
     '/usr/local/mediaserver/docker-compose.yml':

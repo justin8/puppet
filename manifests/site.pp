@@ -50,8 +50,7 @@ node 'abachi.dray.be' {
   include os_default::mail
   include jenkins::master
   include jenkins::slave
-  include mediaserver::manager
-  include mediaserver::downloader
+  include mediaserver
   include puppetmaster
   include repo
 
