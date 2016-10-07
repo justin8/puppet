@@ -1,4 +1,4 @@
-class mediaserver::manager {
+class mediaserver {
   vhost {
     'couchpotato':
       url      => 'couchpotato.dray.be',
