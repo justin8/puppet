@@ -2,8 +2,10 @@
 
 cd "$(dirname "$0")"
 
-if [[ $(docker-compose ps 2>&1 | grep Up | wc -l) -ne 2 ]]; then
+expected_process_count=$(grep '^    .[a-zA-Z]*:$' -c docker-compose.yml)
+process_count=$(docker-compose ps|grep Up -c)
+
+if [[ $process_count -ne $expected_process_count ]]; then
 	echo "A container has exited. Restarting download stack."
-	docker-compose down &>/dev/null
-	docker-compose up -d &>/dev/null
+	mediaserver-restart
 fi
