@@ -7,5 +7,5 @@ process_count=$(docker-compose ps 2>&1|grep Up -c)
 
 if [[ $process_count -ne $expected_process_count ]]; then
 	echo "A container has exited. Restarting download stack."
-	mediaserver-restart
+	./mediaserver-restart
 fi
