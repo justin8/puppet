@@ -19,7 +19,7 @@ services:
         image: linuxserver/transmission
         network_mode: "service:vpn"
         environment:
-          - 'PGUID=1001'
+          - 'PGID=1001'
           - 'PUID=1001'
         depends_on:
             - vpn
@@ -29,7 +29,7 @@ services:
     sonarr:
         image: linuxserver/sonarr
         environment:
-          - 'PGUID=1001'
+          - 'PGID=1001'
           - 'PUID=1001'
         ports:
             - "8989:8989"
@@ -42,7 +42,7 @@ services:
     couchpotato:
         image: linuxserver/couchpotato
         environment:
-          - 'PGUID=1001'
+          - 'PGID=1001'
           - 'PUID=1001'
         ports:
             - "5050:5050"
