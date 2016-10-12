@@ -38,6 +38,7 @@ services:
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
             - /storage/shares/tv:/storage/shares/tv:rw
             - /storage/shares/documentaries/Series:/storage/shares/documentaries/Series:rw
+            - /storage/shares/anime:/storage/shares/anime:rw
     couchpotato:
         image: linuxserver/couchpotato
         environment:
