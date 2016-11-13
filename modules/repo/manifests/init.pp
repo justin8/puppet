@@ -1,12 +1,5 @@
 class repo( $readonly = false) {
   include incron
-  $btsync_keys = hiera('btsync_keys')
-
-  if $readonly == true {
-    $key = $btsync_keys['repo_ro']
-  } else {
-    $key = $btsync_keys['repo']
-  }
 
   if $operatingsystem == 'Ubuntu' {
     $owner = 'www-data'
@@ -24,14 +17,10 @@ class repo( $readonly = false) {
     autoindex => 'on',
   }
 
-  btsync::folder {
-    '/srv/repo':
-      secret      => $key,
-      owner       => $owner,
-      group       => $group,
-      use_upnp    => $open_network,
-      use_dht     => $open_network,
-      notify      => Service['nginx'];
+  s3sync {
+    "repo":
+      path => '/srv/repo',
+      bucket => 's3://jdray-arch-repo-s3bucket-bbzflpsz907n',
   }
 
   if $readonly == false {
