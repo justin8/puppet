@@ -21,6 +21,7 @@ class repo( $readonly = false) {
     "arch-repo":
       path => '/srv/repo',
       bucket => 's3://repo.dray.be',
+      poll => true,
   }
 
   if $readonly == false {
