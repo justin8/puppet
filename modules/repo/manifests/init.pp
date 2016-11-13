@@ -20,7 +20,7 @@ class repo( $readonly = false) {
   s3sync {
     "arch-repo":
       path => '/srv/repo',
-      bucket => 's3://jdray-arch-repo',
+      bucket => 's3://repo.dray.be',
   }
 
   if $readonly == false {
