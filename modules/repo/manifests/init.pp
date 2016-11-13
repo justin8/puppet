@@ -18,7 +18,7 @@ class repo( $readonly = false) {
   }
 
   s3sync {
-    "repo":
+    "arch-repo":
       path => '/srv/repo',
       bucket => 's3://jdray-arch-repo-s3bucket-bbzflpsz907n',
   }
