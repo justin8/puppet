@@ -69,7 +69,6 @@ node 'abachi.dray.be' {
   vhost { 'public':
     url      => 'public.dray.be',
     www_root => '/srv/public',
-    sync     => true,
   }
 
   vhost { 'ark':
