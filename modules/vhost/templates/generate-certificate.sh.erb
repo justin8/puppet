@@ -30,10 +30,12 @@ if [[ -e renewal/${NAME}-0001.conf ]]; then
 
 	sed -i 's/-0001//g' renewal/${NAME}.conf
 
-	for link in ls live/${NAME}/*; do
+	for link in $(find live/${NAME} -type l); do
+		link=$(ls -l $link)
+		source="$(echo "$link" | awk '{print $9}')"
 		destination="$(echo "$link" | awk '{print $11}')"
 		destination="${destination/-0001/}"
-		ln -sf "$destination"
+		ln -sf "$destination" "$source"
 	done
 fi
 
