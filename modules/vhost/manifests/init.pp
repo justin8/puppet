@@ -3,7 +3,6 @@ define vhost($url,
              $www_root = undef,
              $autoindex = 'off',
              $auth_basic_user_file = undef,
-             $https = true,
              $sync = false,
 ) {
   include vhost::setup
@@ -22,22 +21,6 @@ define vhost($url,
 
   if www_root == undef and sync == True {
     fail('sync can only be used with www_root specified')
-  }
-
-  if $https {
-    $vhost_private_keys = hiera('vhost_private_keys')
-    $private_key = $vhost_private_keys[$url]
-    validate_re($private_key, '^---.*$')
-
-    file { "/etc/ssl/private/nginx/${url}.pem":
-      content => $private_key,
-      notify  => Service['nginx'],
-    }
-
-    file { "/etc/ssl/certs/nginx/${url}.crt":
-      source => "puppet:///modules/vhost/certs/${url}.crt",
-      notify => Service['nginx'],
-    }
   }
 
   if $auth_basic_user_file != undef {
@@ -65,6 +48,20 @@ define vhost($url,
     }
   }
 
+  vhost::lets_encrypt { $url:
+    require => Nginx::Resource::Upstream[$url],
+  }
+
+  file { "/etc/letsencrypt/live/$url":
+    ensure => directory
+  }
+
+  exec { "copy-dummy-certs":
+    command => "rsync -r /srv/letsencrypt/dummycerts/ /etc/letsencrypt/live/$url/",
+    unless => "test -e /etc/letsencrypt/live/$url/fullchain.pem",
+    before => Nginx::Resource::Vhost[$url],
+  }
+
   # Proxy config
   if $upstream {
     nginx::resource::upstream { $title:
@@ -75,10 +72,10 @@ define vhost($url,
       proxy                => "http://${title}",
       auth_basic           => $auth_basic,
       auth_basic_user_file => $auth_basic_user_file,
-      rewrite_to_https     => $https,
-      ssl                  => $https,
-      ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
-      ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
+      rewrite_to_https     => true,
+      ssl                  => true,
+      ssl_cert             => "/etc/letsencrypt/live/${url}/fullchain.pem",
+      ssl_key              => "/etc/letsencrypt/live/${url}/privkey.pem",
       location_cfg_append  => {
         'proxy_set_header Host'                 => '$http_host',
         'proxy_set_header X-Real-IP'            => '$remote_addr',
@@ -93,8 +90,8 @@ define vhost($url,
       auth_basic           => $auth_basic,
       auth_basic_user_file => $auth_basic_user_file,
       autoindex            => $autoindex,
-      rewrite_to_https     => $https,
-      ssl                  => $https,
+      rewrite_to_https     => true,
+      ssl                  => true,
       ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
       ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
     }
