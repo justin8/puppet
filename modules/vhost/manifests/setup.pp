@@ -18,10 +18,20 @@ class vhost::setup {
       ensure => directory;
   }
 
-  file {'/srv/letsencrypt/dummcerts/':
+  file { '/srv/letsencrypt/dummycerts/':
     ensure => directory,
     recurse => true,
     source => 'puppet:///modules/vhost/dummycerts',
+  }
+
+  cron { "renew-certs":
+    command => "/usr/bin/certbot renew",
+    user    => 'root',
+    minute   => '0',
+    hour     => '4',
+    weekday  => '*',
+    monthday => '1',
+    month    => '*',
   }
 
 }

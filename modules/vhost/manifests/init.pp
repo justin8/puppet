@@ -49,7 +49,7 @@ define vhost($url,
   }
 
   vhost::lets_encrypt { $url:
-    require => Nginx::Resource::Upstream[$url],
+    require => Nginx::Resource::Vhost[$url],
   }
 
   file { "/etc/letsencrypt/live/$url":
@@ -60,7 +60,11 @@ define vhost($url,
     command => "rsync -r /srv/letsencrypt/dummycerts/ /etc/letsencrypt/live/$url/",
     unless => "test -e /etc/letsencrypt/live/$url/fullchain.pem",
     before => Nginx::Resource::Vhost[$url],
+    notify => Service['nginx'],
   }
+
+  $ssl_cert = "/etc/letsencrypt/live/${url}/fullchain.pem"
+  $ssl_key = "/etc/letsencrypt/live/${url}/privkey.pem"
 
   # Proxy config
   if $upstream {
@@ -74,12 +78,19 @@ define vhost($url,
       auth_basic_user_file => $auth_basic_user_file,
       rewrite_to_https     => true,
       ssl                  => true,
-      ssl_cert             => "/etc/letsencrypt/live/${url}/fullchain.pem",
-      ssl_key              => "/etc/letsencrypt/live/${url}/privkey.pem",
+      ssl_cert             => $ssl_cert,
+      ssl_key              => $ssl_key,
       location_cfg_append  => {
         'proxy_set_header Host'                 => '$http_host',
         'proxy_set_header X-Real-IP'            => '$remote_addr',
-      }
+      },
+      location_raw_append  => "
+  }
+
+  location /.well-known {
+    alias /srv/letsencrypt/${url}/.well-known;
+    auth_basic          off;
+",
     }
   }
 
@@ -92,8 +103,15 @@ define vhost($url,
       autoindex            => $autoindex,
       rewrite_to_https     => true,
       ssl                  => true,
-      ssl_cert             => "/etc/ssl/certs/nginx/${url}.crt",
-      ssl_key              => "/etc/ssl/private/nginx/${url}.pem",
+      ssl_cert             => $ssl_cert,
+      ssl_key              => $ssl_key,
+      location_raw_append  => "
+  }
+
+  location /.well-known {
+    alias /srv/letsencrypt/${url}/.well-known;
+    auth_basic          off;
+",
     }
   }
 }

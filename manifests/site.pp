@@ -65,17 +65,6 @@ node 'abachi.dray.be' {
     autoindex => 'on',
     auth_basic_user_file => '/srv/htpasswd',
   }
-
-  vhost { 'public':
-    url      => 'public.dray.be',
-    www_root => '/srv/public',
-  }
-
-  vhost { 'ark':
-    url => 'ark.dray.be',
-    www_root => '/srv/ark',
-    https => false,
-  }
 }
 
 node 'ironwood.dray.be' {

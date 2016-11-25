@@ -1,11 +1,11 @@
 define vhost::lets_encrypt() {
   include vhost::setup
 
-  # script to register/renew
-  file { "/srv/letsencrypt/${name}-renew-certificate.sh":
+  # script to register and generate a certificate
+  file { "/srv/letsencrypt/${name}-generate-certificate.sh":
     ensure  => present,
     mode    => '0744',
-    content => template('vhost/renew-certificate.sh.erb')
+    content => template('vhost/generate-certificate.sh.erb')
   }
 
   # config file for domain
@@ -29,24 +29,13 @@ define vhost::lets_encrypt() {
       content => "testfile";
   }
 
-  # run the script if the certificate doesn't exist
-  exec { "renew-${name}":
+  # run the script if the current certificate is the dummy certificate
+  exec { "generate-${name}":
     path    => '/usr/bin',
-    command => "/srv/letsencrypt/${name}-renew-certificate.sh",
-    require => [ File["/srv/letsencrypt/${name}-config.ini"], File["/srv/letsencrypt/${name}-renew-certificate.sh"] ],
-    unless  => "test -e /etc/letsencrypt/live/${name}/fullchain.pem",
-  }
-
-  # monthly cron job to run the script
-  cron { "${name}-renew-certificate.sh":
-    command => "/srv/letsencrypt/${name}-renew-certificate.sh",
-    user    => 'root',
-    minute   => '0',
-    hour     => '4',
-    weekday  => '*',
-    monthday => '1',
-    month    => '*',
-    require  => Exec["renew-${name}"],
+    command => "/srv/letsencrypt/${name}-generate-certificate.sh",
+    require => [ File["/srv/letsencrypt/${name}-config.ini"], File["/srv/letsencrypt/${name}-generate-certificate.sh"], Service["nginx"] ],
+    #onlyif  => "test b1a17d1a619ba4695c51bf6d481f42f6 = `md5sum /etc/letsencrypt/live/${name}/fullchain.pem |  awk '{print \$1}'`",
+    onlyif => "test -e /asdfsa/fsfdasf/"
   }
 
 }
