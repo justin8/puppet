@@ -29,7 +29,12 @@ if [[ -e renewal/${NAME}-0001.conf ]]; then
 	mv archive/${NAME}-0001 archive/${NAME}
 
 	sed -i 's/-0001//g' renewal/${NAME}.conf
-fi
 
+	for link in ls live/${NAME}/*; do
+		destination="$(echo "$link" | awk '{print $11}')"
+		destination="${destination/-0001/}"
+		ln -sf "$destination"
+	done
+fi
 
 systemctl reload nginx

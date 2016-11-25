@@ -34,8 +34,7 @@ define vhost::lets_encrypt() {
     path    => '/usr/bin',
     command => "/srv/letsencrypt/${name}-generate-certificate.sh",
     require => [ File["/srv/letsencrypt/${name}-config.ini"], File["/srv/letsencrypt/${name}-generate-certificate.sh"], Service["nginx"] ],
-    #onlyif  => "test b1a17d1a619ba4695c51bf6d481f42f6 = `md5sum /etc/letsencrypt/live/${name}/fullchain.pem |  awk '{print \$1}'`",
-    onlyif => "test -e /asdfsa/fsfdasf/"
+    onlyif  => "test b1a17d1a619ba4695c51bf6d481f42f6 = `md5sum /etc/letsencrypt/live/${name}/fullchain.pem |  awk '{print \$1}'`",
   }
 
 }
