@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+NAME="<%= @name %>"
+
+i=0
+while ! curl -o /dev/null $NAME/.well-known/testfile; do
+	sleep 5
+	((i++))
+	if [[ $i -ge 10 ]]; then
+		exit 1
+	fi
+done
+
+certbot certonly --config /srv/letsencrypt/${NAME}-config.ini -d ${NAME}
+
+# certbot creates a <%= @name %>-0001 folder if the original already exists, but it would require disparate nginx configs to do this any other way.
+# Let's fix this shit
+
+cd /etc/letsencrypt
+
+# Check if a second config has been made erroneously
+if [[ -e renewal/${NAME}-0001.conf ]]; then
+	# Remove any temporary credentials
+	rm -rf {archive,live}/${NAME}
+	rm -rf renewal/${NAME}.conf
+
+	mv renewal/${NAME}-0001.conf renewal/${NAME}.conf
+	mv live/${NAME}-0001 live/${NAME}
+	mv archive/${NAME}-0001 archive/${NAME}
+
+	sed -i 's/-0001//g' renewal/${NAME}.conf
+fi
+
+
+systemctl reload nginx

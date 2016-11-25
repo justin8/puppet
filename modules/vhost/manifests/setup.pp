@@ -8,37 +8,30 @@ class vhost::setup {
     multi_accept     => 'true',
   }
 
+  ensure_packages(['certbot'])
+
   file {
-    '/etc/ssl/private':
-      ensure  => directory,
-      recurse => true,
-      mode    => '0600';
+    '/srv/letsencrypt/':
+      ensure => directory;
 
-    '/etc/ssl/private/nginx':
-      ensure  => directory,
-      recurse => true,
-      purge   => true,
-      force   => true,
-      mode    => '0600';
-
-    '/etc/ssl/certs':
-      ensure  => directory,
-      recurse => true,
-      mode    => '0644';
-
-    '/etc/ssl/certs/nginx':
-      ensure  => directory,
-      recurse => true,
-      purge   => true,
-      force   => true,
-      mode    => '0644';
-
-    '/etc/ssl/certs/sub.class1.server.ca.pem':
-      ensure => present,
-      source => 'puppet:///modules/vhost/sub.class1.server.ca.pem';
-
-    '/etc/ssl/certs/ca.pem':
-      ensure => present,
-      source => 'puppet:///modules/vhost/ca.pem';
+    '/srv/letsencrypt/live':
+      ensure => directory;
   }
+
+  file { '/srv/letsencrypt/dummycerts/':
+    ensure => directory,
+    recurse => true,
+    source => 'puppet:///modules/vhost/dummycerts',
+  }
+
+  cron { "renew-certs":
+    command => "/usr/bin/certbot renew",
+    user    => 'root',
+    minute   => '0',
+    hour     => '4',
+    weekday  => '*',
+    monthday => '1',
+    month    => '*',
+  }
+
 }
