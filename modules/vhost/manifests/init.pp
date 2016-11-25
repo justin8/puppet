@@ -56,7 +56,7 @@ define vhost($url,
     ensure => directory
   }
 
-  exec { "copy-dummy-certs":
+  exec { "copy-dummy-certs-$url":
     command => "rsync -r /srv/letsencrypt/dummycerts/ /etc/letsencrypt/live/$url/",
     unless => "test -e /etc/letsencrypt/live/$url/fullchain.pem",
     before => Nginx::Resource::Vhost[$url],

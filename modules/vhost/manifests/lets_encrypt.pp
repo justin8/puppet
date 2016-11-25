@@ -46,6 +46,7 @@ define vhost::lets_encrypt() {
     weekday  => '*',
     monthday => '1',
     month    => '*',
+    require  => Exec["renew-${name}"],
   }
 
 }
