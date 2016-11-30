@@ -49,7 +49,7 @@ define vhost($url,
     }
   }
 
-  if $s3sync {
+  if $s3sync != false {
     s3sync {
       $www_root:
         path => $www_root,

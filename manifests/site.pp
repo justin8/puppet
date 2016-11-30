@@ -65,6 +65,12 @@ node 'abachi.dray.be' {
     autoindex => 'on',
     auth_basic_user_file => '/srv/htpasswd',
   }
+
+  s3sync { "public":
+    path => '/srv/public',
+    www_root => '/srv/public'
+    poll => true,
+  }
 }
 
 node 'ironwood.dray.be' {
@@ -84,9 +90,4 @@ node /^(hickory|tamarack).*/ {
     readonly => true,
   }
 
-  vhost { 'public':
-    url      => 'public.dray.be',
-    www_root => '/srv/public',
-    s3sync   => 's3://public.dray.be',
-  }
 }

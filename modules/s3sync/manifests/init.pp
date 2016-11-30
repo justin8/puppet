@@ -8,7 +8,7 @@ define s3sync($path,
 
   $command = "/usr/bin/aws s3 sync --follow-symlinks --delete \"${path}\" ${bucket}"
 
-  if $poll == True {
+  if $poll == true {
     cron { "update-${title}":
       user     => 'root',
       command  => $command,

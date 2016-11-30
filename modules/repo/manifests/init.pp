@@ -11,11 +11,11 @@ class repo( $readonly = false) {
 
   validate_bool($readonly)
 
-  vhost { 'repo':
-    url       => 'repo.dray.be',
-    www_root  => '/srv/repo',
-    autoindex => 'on',
-  }
+#  vhost { 'repo':
+#    url       => 'repo.dray.be',
+#    www_root  => '/srv/repo',
+#    autoindex => 'on',
+#  }
 
   s3sync {
     "arch-repo":
