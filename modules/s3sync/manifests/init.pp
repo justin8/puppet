@@ -11,7 +11,7 @@ define s3sync($path,
   if $poll == true {
     cron { "update-${title}":
       user     => 'root',
-      command  => $command,
+      command  => "${command} &>/dev/null",
       minute   => '*/10',
       hour     => '*',
       month    => '*',
