@@ -87,6 +87,6 @@ node /^(hickory|tamarack).*/ {
   vhost { 'public':
     url      => 'public.dray.be',
     www_root => '/srv/public',
-    sync     => true,
+    s3sync   => 's3://public.dray.be',
   }
 }

@@ -4,6 +4,7 @@ define vhost($url,
              $autoindex = 'off',
              $auth_basic_user_file = undef,
              $sync = false,
+             $s3sync = false, # Set s3sync to the bucket to sync to
 ) {
   include vhost::setup
   #  include php?
@@ -45,6 +46,15 @@ define vhost($url,
       group   => $owner,
       notify  => Service['nginx'],
       require => Nginx::Resource::Vhost[$url],
+    }
+  }
+
+  if $s3sync {
+    s3sync {
+      $www_root:
+        path => $www_root,
+        bucket => $s3sync,
+        poll => true,
     }
   }
 
