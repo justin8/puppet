@@ -5,13 +5,4 @@ class home {
     upstream => 'localhost:8123',
   }
 
-  ensure_packages ([
-    'home-assistant'
-  ])
-
-  service { 'home-assistant':
-    ensure  => running,
-    enable  => true,
-    require => Package['home-assistant'],
-  }
 }
