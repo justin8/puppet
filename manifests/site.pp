@@ -69,7 +69,7 @@ node 'abachi.dray.be' {
 
   s3sync { "public":
     path => '/srv/public',
-    www_root => '/srv/public'
+    bucket => 's3://public.dray.be',
     poll => true,
   }
 }
