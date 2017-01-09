@@ -52,20 +52,23 @@ class mediaserver {
   }
 
   # Dockerized apps
-  cron {
-    'mediaserver-checker':
-      command  => '/usr/local/mediaserver/mediaserver-checker',
-      user     => 'root',
-      minute   => '*/5',
-      hour     => '*',
-      month    => '*',
-      monthday => '*',
-      weekday  => '*';
+  file { '/etc/systemd/system/mediaserver.service':
+    ensure => present,
+    source => 'puppet:///modules/mediaserver/mediaserver.service',
+    notify  => Exec['systemd-daemon-reload'],
+  }
+
+  service { 'mediaserver':
+    ensure => running,
+    enable => true,
+    require => File['/etc/systemd/system/mediaserver.service',
+                    '/usr/lib/mediaserver/docker-compose.yml',
+                    '/usr/lib/mediaserver/mediaserver'],
   }
 
   cron {
     'mediaserver-restart':
-      command => '/usr/local/mediaserver/mediaserver-restart &>/dev/null',
+      command => 'systemctl restart mediaserver',
       user     => 'root',
       minute   => '0',
       hour     => '4',
@@ -76,33 +79,35 @@ class mediaserver {
 
   file {
     [
-      '/usr/local/mediaserver',
-      '/usr/local/mediaserver/openvpn',
-      '/usr/local/mediaserver/transmission',
-      '/usr/local/mediaserver/sonarr',
-      '/usr/local/mediaserver/couchpotato',
+      '/var/lib/mediaserver',
+      '/var/lib/mediaserver/openvpn',
+      '/var/lib/mediaserver/transmission',
+      '/var/lib/mediaserver/sonarr',
+      '/var/lib/mediaserver/couchpotato',
+      '/usr/lib/mediaserver',
     ]:
       ensure => directory;
 
-    '/usr/local/mediaserver/docker-compose.yml':
-      content => template('mediaserver/docker-compose.yml.erb');
+    '/usr/lib/mediaserver/docker-compose.yml':
+      content => template('mediaserver/docker-compose.yml.erb'),
+      notify => Service['mediaserver'];
 
-    '/usr/local/mediaserver/openvpn/openvpn.conf':
-      source => 'puppet:///modules/mediaserver/openvpn.conf';
-
-    '/usr/local/mediaserver/openvpn/ca.crt':
-      source => 'puppet:///modules/mediaserver/ca.crt';
-
-    '/usr/local/mediaserver/openvpn/crl.pem':
-      source => 'puppet:///modules/mediaserver/crl.pem';
-
-    '/usr/local/mediaserver/mediaserver-checker':
+    '/usr/lib/mediaserver/mediaserver':
       mode   => '755',
-      source => 'puppet:///modules/mediaserver/mediaserver-checker';
+      source => 'puppet:///modules/mediaserver/mediaserver',
+      notify => Service['mediaserver'];
 
-    '/usr/local/mediaserver/mediaserver-restart':
-      mode   => '755',
-      source => 'puppet:///modules/mediaserver/mediaserver-restart';
+    '/var/lib/mediaserver/openvpn/openvpn.conf':
+      source => 'puppet:///modules/mediaserver/openvpn.conf',
+      notify => Service['mediaserver'];
+
+    '/var/lib/mediaserver/openvpn/ca.crt':
+      source => 'puppet:///modules/mediaserver/ca.crt',
+      notify => Service['mediaserver'];
+
+    '/var/lib/mediaserver/openvpn/crl.pem':
+      source => 'puppet:///modules/mediaserver/crl.pem',
+      notify => Service['mediaserver'];
   }
 
 }

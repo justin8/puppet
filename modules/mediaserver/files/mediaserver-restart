@@ -1,9 +1,0 @@
-#!/bin/bash
-
-cd "$(dirname "$0")"
-
-docker-compose down
-# nginx is holding open handles to the containers zfs volumes somehow
-systemctl restart nginx
-docker-compose down
-docker-compose up -d

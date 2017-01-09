@@ -3,8 +3,8 @@ version: '2'
 services:
     vpn:
         image: colinhebert/pia-openvpn
-        privileged: true
         restart: always
+        privileged: true
         entrypoint:
             - sh
             - -c
@@ -17,6 +17,7 @@ services:
             - "9091:9091"
     transmission:
         image: linuxserver/transmission
+        restart: always
         network_mode: "service:vpn"
         environment:
           - 'PGID=1001'
@@ -28,6 +29,7 @@ services:
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
     sonarr:
         image: linuxserver/sonarr
+        restart: always
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
@@ -41,6 +43,7 @@ services:
             - /storage/shares/anime:/storage/shares/anime:rw
     couchpotato:
         image: linuxserver/couchpotato
+        restart: always
         environment:
           - 'PGID=1001'
           - 'PUID=1001'

@@ -1,0 +1,12 @@
+[Unit]
+Description=Mediaserver download service
+After=network.target docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/mediaserver/mediaserver up
+ExecStop=/usr/lib/mediaserver/mediaserver down
+
+[Install]
+WantedBy=multi-user.target
+

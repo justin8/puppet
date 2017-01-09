@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+cd "$(dirname "$(readlink -f "$0")")"
+
+if [[ $1 == down ]]; then
+	docker-compose "$@"
+	systemctl restart nginx
+fi
+
+docker-compose "$@"
