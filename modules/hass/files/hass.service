@@ -1,0 +1,12 @@
+[Unit]
+Description=Home automation services
+After=network.target docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/hass/hass up
+ExecStop=/usr/lib/hass/hass down
+
+[Install]
+WantedBy=multi-user.target
+

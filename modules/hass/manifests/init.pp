@@ -1,0 +1,30 @@
+class hass {
+
+  vhost { 'hass':
+    url      => 'hass.dray.be',
+    upstream => 'localhost:8123',
+    auth_basic_user_file => '/srv/htpasswd',
+  }
+
+  vhost { 'ha-bridge':
+    url => 'ha-bridge.dray.be',
+    upstream => 'localhost:8124',
+    auth_basic_user_file => '/srv/htpasswd',
+  }
+
+  file { ['/var/lib/hass', '/var/lib/ha-bridge']:
+    ensure => directory
+  }
+
+  file { '/usr/lib/hass':
+    ensure => directory,
+    recurse => true,
+    source => "puppet:///modules/hass/hass",
+  }
+
+  file { '/etc/systemd/system/hass.service':
+    ensure => present,
+    source => 'puppet:///modules/hass/hass.service',
+  }
+
+}

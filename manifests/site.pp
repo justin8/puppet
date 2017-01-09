@@ -53,7 +53,7 @@ node 'abachi.dray.be' {
   include mediaserver
   include puppetmaster
   include repo
-  include home
+  include hass
 
   class { 'btsync::system':
     user  => 'downloads',

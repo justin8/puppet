@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+    homeassistant:
+        image: homeassistant/home-assistant
+        network_mode: host
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/lib/hass:/config:rw
+    ha-bridge:
+        image: aptalca/home-automation-bridge
+        network_mode: host
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - /var/lib/ha-bridge:/config:rw
+        environment:
+            - SERVERPORT=8124
+
