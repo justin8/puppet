@@ -25,6 +25,12 @@ class hass {
   file { '/etc/systemd/system/hass.service':
     ensure => present,
     source => 'puppet:///modules/hass/hass.service',
+    notify  => Exec['systemd-daemon-reload'],
   }
 
+  service { 'hass':
+    ensure => running,
+    enable => true,
+    require => File['/etc/systemd/system/hass.service'],
+  }
 }
