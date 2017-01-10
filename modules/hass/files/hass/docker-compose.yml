@@ -16,5 +16,5 @@ services:
             - /etc/localtime:/etc/localtime:ro
             - /var/lib/ha-bridge:/config:rw
         environment:
+            - SERVERIP=192.168.1.15
             - SERVERPORT=8124
-
