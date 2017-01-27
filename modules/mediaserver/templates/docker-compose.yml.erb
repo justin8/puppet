@@ -25,7 +25,7 @@ services:
         depends_on:
             - vpn
         volumes:
-            - /usr/local/mediaserver/transmission:/config:rw
+            - /var/lib/mediaserver/transmission:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
     sonarr:
         image: linuxserver/sonarr
@@ -36,7 +36,7 @@ services:
         ports:
             - "8989:8989"
         volumes:
-            - /usr/local/mediaserver/sonarr:/config:rw
+            - /var/lib/mediaserver/sonarr:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
             - /storage/shares/tv:/storage/shares/tv:rw
             - /storage/shares/documentaries/Series:/storage/shares/documentaries/Series:rw
@@ -50,7 +50,7 @@ services:
         ports:
             - "5050:5050"
         volumes:
-            - /usr/local/mediaserver/couchpotato:/config:rw
+            - /var/lib/mediaserver/couchpotato:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
             - /storage/shares/movies:/storage/shares/movies:rw
             - /storage/shares/documentaries/Moviess:/storage/shares/documentaries/Movies:rw
