@@ -15,6 +15,8 @@ services:
             - 'PASSWORD=<%= @vpn_password %>'
         ports:
             - "9091:9091"
+            - "8989:8989"
+            - "5050:5050"
     transmission:
         image: linuxserver/transmission
         restart: always
@@ -30,11 +32,10 @@ services:
     sonarr:
         image: linuxserver/sonarr
         restart: always
+        network_mode: "service:vpn"
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
-        ports:
-            - "8989:8989"
         volumes:
             - /var/lib/mediaserver/sonarr:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
@@ -44,11 +45,10 @@ services:
     couchpotato:
         image: linuxserver/couchpotato
         restart: always
+        network_mode: "service:vpn"
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
-        ports:
-            - "5050:5050"
         volumes:
             - /var/lib/mediaserver/couchpotato:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
