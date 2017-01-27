@@ -80,7 +80,6 @@ class mediaserver {
   file {
     [
       '/var/lib/mediaserver',
-      '/var/lib/mediaserver/openvpn',
       '/var/lib/mediaserver/transmission',
       '/var/lib/mediaserver/sonarr',
       '/var/lib/mediaserver/couchpotato',
