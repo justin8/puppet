@@ -97,17 +97,10 @@ class mediaserver {
       source => 'puppet:///modules/mediaserver/mediaserver',
       notify => Service['mediaserver'];
 
-    '/var/lib/mediaserver/openvpn/openvpn.conf':
-      source => 'puppet:///modules/mediaserver/openvpn.conf',
-      notify => Service['mediaserver'];
-
-    '/var/lib/mediaserver/openvpn/ca.crt':
-      source => 'puppet:///modules/mediaserver/ca.crt',
-      notify => Service['mediaserver'];
-
-    '/var/lib/mediaserver/openvpn/crl.pem':
-      source => 'puppet:///modules/mediaserver/crl.pem',
-      notify => Service['mediaserver'];
+    '/var/lib/mediaserver/openvpn':
+      source  => 'puppet:///modules/mediaserver/openvpn',
+      recurse =>  true,
+      notify  => Service['mediaserver'];
   }
 
 }
