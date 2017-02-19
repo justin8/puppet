@@ -91,8 +91,11 @@ define vhost($url,
       ssl_cert             => $ssl_cert,
       ssl_key              => $ssl_key,
       location_cfg_append  => {
-        'proxy_set_header Host'                 => '$http_host',
-        'proxy_set_header X-Real-IP'            => '$remote_addr',
+        'proxy_http_version'          =>  '1.1',
+        'proxy_set_header Host'       => '$http_host',
+        'proxy_set_header X-Real-IP'  => '$remote_addr',
+        'proxy_set_header Upgrade'    => '$http_upgrade',
+        'proxy_set_header Connection' => '$connection_upgrade',
       },
       location_raw_append  => "
   }

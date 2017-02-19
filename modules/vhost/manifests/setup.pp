@@ -34,4 +34,13 @@ class vhost::setup {
     month    => '*',
   }
 
+  nginx::resource::map { "connection_upgrade":
+    ensure => present,
+    default => 'upgrade',
+    string => '$http_upgrade',
+    mappings => {
+      "''" => 'close'
+    },
+  }
+
 }
