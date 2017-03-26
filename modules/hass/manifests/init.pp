@@ -24,7 +24,7 @@ class hass {
 
   file { '/usr/local/sbin/update-home-assistant-config':
     ensure => present,
-    source => 'puppet://moduels/hass/update-home-assistant-config'
+    source => 'puppet://moduels/hass/update-home-assistant-config',
     mode   => '0755'
   }
 
