@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exec > /dev/null 2>&1
-
 for repo in /etc/puppet /etc/hieradata
 do
 	git -C $repo checkout master
