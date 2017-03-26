@@ -22,6 +22,12 @@ class hass {
     source => "puppet:///modules/hass/hass",
   }
 
+  file { '/usr/local/sbin/update-home-assistant-config':
+    ensure => present,
+    source => 'puppet://moduels/hass/update-home-assistant-config'
+    mode   => '0755'
+  }
+
   file { '/etc/systemd/system/hass.service':
     ensure => present,
     source => 'puppet:///modules/hass/hass.service',
