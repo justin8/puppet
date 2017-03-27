@@ -8,6 +8,10 @@ class mediaserver {
       url      => 'emby.dray.be',
       upstream => 'localhost:8096';
 
+    'jackett':
+      url      => 'jackett.dray.be',
+      upstream => 'localhost:9117';
+
     'sonarr':
       url      => 'sonarr.dray.be',
       upstream => 'localhost:8989';
