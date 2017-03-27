@@ -54,3 +54,12 @@ services:
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
             - /storage/shares/movies:/storage/shares/movies:rw
             - /storage/shares/documentaries/Moviess:/storage/shares/documentaries/Movies:rw
+    jackett:
+        image: linuxserver/jackett
+        restart: always
+        network_mode: "service:vpn"
+        environment:
+          - 'PGID=1001'
+          - 'PUID=1001'
+        volumes:
+          - /var/lib/mediaserver/jackett:/config:rw
