@@ -53,7 +53,6 @@ node 'abachi.dray.be' {
   include mediaserver
   include puppetmaster
   include repo
-  include hass
 
   class { 'btsync::system':
     user  => 'downloads',
@@ -65,6 +64,12 @@ node 'abachi.dray.be' {
     www_root  => '/srv/http',
     autoindex => 'on',
     auth_basic_user_file => '/srv/htpasswd',
+  }
+
+  vhost { 'hass':
+    url                  => 'hass.dray.be',
+    upstream             => '192.168.1.150:8123',
+    auth_basic_user_file =>  '/srv/htpasswd',
   }
 
   s3sync { "public":
