@@ -6,12 +6,6 @@ class hass {
     auth_basic_user_file => '/srv/htpasswd',
   }
 
-  vhost { 'ha-bridge':
-    url => 'ha-bridge.dray.be',
-    upstream => 'localhost:8124',
-    auth_basic_user_file => '/srv/htpasswd',
-  }
-
   file { ['/var/lib/hass', '/var/lib/ha-bridge']:
     ensure => directory
   }
