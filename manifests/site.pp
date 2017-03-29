@@ -69,7 +69,6 @@ node 'abachi.dray.be' {
   vhost { 'hass':
     url                  => 'hass.dray.be',
     upstream             => '192.168.1.177:8123',
-    auth_basic_user_file =>  '/srv/htpasswd',
   }
 
   s3sync { "public":
