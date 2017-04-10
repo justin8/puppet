@@ -109,7 +109,7 @@ class mediaserver {
       source => 'puppet:///modules/mediaserver/mediaserver',
       notify => Service['mediaserver'];
 
-    '/usr/lib/check-mediaserver':
+    '/usr/lib/mediaserver/check-mediaserver':
       mode   => '755',
       source => 'puppet:///modules/mediaserver/check-mediaserver';
 
