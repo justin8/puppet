@@ -66,8 +66,7 @@ class mediaserver {
     ensure => running,
     enable => true,
     require => File['/etc/systemd/system/mediaserver.service',
-                    '/usr/lib/mediaserver/docker-compose.yml',
-                    '/usr/lib/mediaserver/mediaserver'],
+                    '/usr/lib/mediaserver/docker-compose.yml'],
   }
 
   cron {
