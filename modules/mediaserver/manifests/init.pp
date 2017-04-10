@@ -96,22 +96,17 @@ class mediaserver {
       '/var/lib/mediaserver/transmission',
       '/var/lib/mediaserver/sonarr',
       '/var/lib/mediaserver/couchpotato',
-      '/usr/lib/mediaserver',
     ]:
       ensure => directory;
+
+    '/usr/lib/mediaserver':
+      ensure  => directory,
+      source  => 'puppet:///modules/mediaserver/mediaserver',
+      recurse => true;
 
     '/usr/lib/mediaserver/docker-compose.yml':
       content => template('mediaserver/docker-compose.yml.erb'),
       notify => Service['mediaserver'];
-
-    '/usr/lib/mediaserver/mediaserver':
-      mode   => '755',
-      source => 'puppet:///modules/mediaserver/mediaserver',
-      notify => Service['mediaserver'];
-
-    '/usr/lib/mediaserver/check-mediaserver':
-      mode   => '755',
-      source => 'puppet:///modules/mediaserver/check-mediaserver';
 
     '/var/lib/mediaserver/openvpn':
       source  => 'puppet:///modules/mediaserver/openvpn',
