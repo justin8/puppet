@@ -19,7 +19,7 @@ services:
             - "5050:5050"
             - "9117:9117"
     transmission:
-        build: transmission
+        image: linuxserver/transmission
         restart: always
         network_mode: "service:vpn"
         environment:
