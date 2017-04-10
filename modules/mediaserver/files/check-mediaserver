@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 ports=(8989 5050 9117)
 
 for port in "${ports[@]}"; do
