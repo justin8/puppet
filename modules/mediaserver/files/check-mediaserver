@@ -1,0 +1,8 @@
+#!/bin/bash -xe
+ports=(8989 5050 9117)
+
+for port in "${ports[@]}"; do
+	if [[ $(curl --write-out '%{http_code}' --silent --output /dev/null -L "localhost:$port") -ne 200 ]]; then
+		systemctl restart mediaserver &>/dev/null
+	fi
+done

@@ -72,10 +72,19 @@ class mediaserver {
 
   cron {
     'mediaserver-restart':
-      command => 'systemctl restart mediaserver',
+      command  => 'systemctl restart mediaserver',
       user     => 'root',
       minute   => '0',
       hour     => '4',
+      month    => '*',
+      monthday => '*',
+      weekday  => '*';
+
+    'check-mediaserver':
+      command  =>  '/usr/lib/mediaserver/check-mediaserver',
+      user     => 'root',
+      minute   => '*/10',
+      hour     => '*',
       month    => '*',
       monthday => '*',
       weekday  => '*';
@@ -99,6 +108,10 @@ class mediaserver {
       mode   => '755',
       source => 'puppet:///modules/mediaserver/mediaserver',
       notify => Service['mediaserver'];
+
+    '/usr/lib/check-mediaserver':
+      mode   => '755',
+      source => 'puppet:///modules/mediaserver/check-mediaserver';
 
     '/var/lib/mediaserver/openvpn':
       source  => 'puppet:///modules/mediaserver/openvpn',
