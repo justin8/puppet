@@ -37,6 +37,9 @@ services:
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
+        depends_on:
+          - vpn
+          - jackett
         volumes:
             - /var/lib/mediaserver/sonarr:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
@@ -50,6 +53,9 @@ services:
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
+        depends_on:
+          - vpn
+          - jackett
         volumes:
             - /var/lib/mediaserver/couchpotato:/config:rw
             - /storage/server-files/downloads:/storage/server-files/downloads:rw
@@ -62,5 +68,7 @@ services:
         environment:
           - 'PGID=1001'
           - 'PUID=1001'
+        depends_on:
+          - vpn
         volumes:
           - /var/lib/mediaserver/jackett:/config:rw
