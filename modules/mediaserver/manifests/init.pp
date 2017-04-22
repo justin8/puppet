@@ -106,11 +106,6 @@ class mediaserver {
     '/usr/lib/mediaserver/docker-compose.yml':
       content => template('mediaserver/docker-compose.yml.erb'),
       notify => Service['mediaserver'];
-
-    '/var/lib/mediaserver/openvpn':
-      source  => 'puppet:///modules/mediaserver/openvpn',
-      recurse =>  true,
-      notify  => Service['mediaserver'];
   }
 
 }
