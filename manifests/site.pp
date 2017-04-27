@@ -48,16 +48,8 @@ node 'default' {
 node 'abachi.dray.be' {
   include os_default
   include os_default::mail
-  include jenkins::master
-  include jenkins::slave
   include mediaserver
   include puppetmaster
-  include repo
-
-  class { 'btsync::system':
-    user  => 'downloads',
-    group => 'downloads',
-  }
 
   vhost { 'abachi':
     url       => 'abachi.dray.be',
@@ -70,29 +62,6 @@ node 'abachi.dray.be' {
     url                  => 'hass.dray.be',
     upstream             => '192.168.1.177:8123',
   }
-
-  s3sync { "public":
-    path => '/srv/public',
-    bucket => 's3://public.dray.be',
-    poll => true,
-  }
 }
-
-node 'ironwood.dray.be' {
-  include os_default
-  include os_default::mail
-  include os_default::desktop
-}
-
-node /^(hickory|tamarack).*/ {
-  include os_default
-  include os_default::mail
-  include openvpn
-  include btsync::system
-  include blog
-
-  class { 'repo':
-    readonly => true,
-  }
 
 }
