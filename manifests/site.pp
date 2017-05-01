@@ -63,5 +63,3 @@ node 'abachi.dray.be' {
     upstream             => '192.168.1.177:8123',
   }
 }
-
-}
